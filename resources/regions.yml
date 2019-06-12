@@ -1,0 +1,4 @@
+regions:
+  default:
+    gamemode: 0
+    inventory: default

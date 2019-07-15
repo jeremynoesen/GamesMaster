@@ -39,7 +39,6 @@ public class GUIInteract implements Listener {
     private final SlimeLauncher slimeLauncher = new SlimeLauncher();
     private final GUIItem guiItem = new GUIItem();
     private final GUIInventory guiInv = new GUIInventory();
-    private final Message msg = new Message();
     private final GUIConvert guim = new GUIConvert();
     private final GrapplingHook grapplingHook = new GrapplingHook();
     private final FizzyLiftingDrink fizzyLiftingDrink = new FizzyLiftingDrink();
@@ -73,7 +72,7 @@ public class GUIInteract implements Listener {
                         p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 2, 2);
                     } else {
                         p.playSound(p.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 2, 2);
-                        p.sendMessage(msg.ERROR_NO_GAMES);
+                        p.sendMessage(Message.ERROR_NO_GAMES);
                     }
                 }
                 if(e.getCurrentItem().equals(guiItem.cosmeticUI())) {
@@ -140,7 +139,7 @@ public class GUIInteract implements Listener {
                         e.setCancelled(true);
                         p.closeInventory();
                         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 0);
-                        p.sendMessage(msg.ERROR_ARENA_DISABLED);
+                        p.sendMessage(Message.ERROR_ARENA_DISABLED);
                     }
                 }
 
@@ -169,7 +168,7 @@ public class GUIInteract implements Listener {
                             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 2);
                         } else {
                             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 0);
-                            p.sendMessage(msg.ERROR_GAME_NOT_SETUP);
+                            p.sendMessage(Message.ERROR_GAME_NOT_SETUP);
                         }
                     }*/
 

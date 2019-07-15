@@ -19,7 +19,6 @@ public class UseGadget implements Listener {
     private final PaintballGun paintballGun = new PaintballGun();
     private final SlimeLauncher slimeLauncher = new SlimeLauncher();
     private final GUIInventory guiInv = new GUIInventory();
-    private final Message msg = new Message();
     private final FizzyLiftingDrink fizzyLiftingDrink = new FizzyLiftingDrink();
     private final GUIItem guiitem = new GUIItem();
     private final Stormbreaker stormbreaker = new Stormbreaker();
@@ -70,7 +69,7 @@ public class UseGadget implements Listener {
                         p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 2, 2);
                     } else {
                         p.playSound(p.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 2, 2);
-                        p.sendMessage(msg.ERROR_NO_GAMES);
+                        p.sendMessage(Message.ERROR_NO_GAMES);
                     }
                 }
             } else if (a == Action.LEFT_CLICK_BLOCK || a == Action.LEFT_CLICK_AIR) {
@@ -87,7 +86,7 @@ public class UseGadget implements Listener {
                         p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 2, 2);
                     } else {
                         p.playSound(p.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 2, 2);
-                        p.sendMessage(msg.ERROR_NO_GAMES);
+                        p.sendMessage(Message.ERROR_NO_GAMES);
                     }
                 }
                 if (p.getInventory().getItemInMainHand().equals(stormbreaker.stormbreaker())) {

@@ -1,48 +1,64 @@
 package me.Jeremaster101.GamesMaster.Command;
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.logging.Level;
 
 public class CommandConfig {
 
     private static File commandConfigFile;
     private static YamlConfiguration config;
 
-    private static void copy(InputStream in, File file) {
+    public static void reloadConfig() {
+        if (commandConfigFile == null) {
+            commandConfigFile = new File(GamesMaster.plugin.getDataFolder(), "commands.yml");
+            config = YamlConfiguration.loadConfiguration(commandConfigFile);
+        }
         try {
-            OutputStream out = new FileOutputStream(file);
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
-            }
-            out.close();
-            in.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            config.load(commandConfigFile);
+        } catch (IOException | InvalidConfigurationException ignored) {
         }
-    }
 
-    public static void initialize() {
-        commandConfigFile = new File(GamesMaster.plugin.getDataFolder(), "commands.yml");
-        if(!commandConfigFile.exists()) {
-            copy(GamesMaster.plugin.getResource("commands.yml"), commandConfigFile);
-        }
-        config = YamlConfiguration.loadConfiguration(commandConfigFile);
-    }
-
-    public static void saveConfig() {
-        try {
-            config.save(commandConfigFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Reader defConfigStream = new InputStreamReader(GamesMaster.plugin.getResource("commands.yml"),
+                StandardCharsets.UTF_8);
+        YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
+        config.setDefaults(defConfig);
+        config.options().copyDefaults(true);
+        saveConfig();
     }
 
     public static YamlConfiguration getConfig() {
+        if (config == null) {
+            reloadConfig();
+        }
         return config;
+    }
+
+    public static void saveConfig() {
+        if (config == null || commandConfigFile == null) {
+            return;
+        }
+        try {
+            getConfig().save(commandConfigFile);
+        } catch (IOException ex) {
+            GamesMaster.plugin.getLogger().log(Level.SEVERE, "Could not save config to " + commandConfigFile, ex);
+        }
+    }
+
+    public static void saveDefaultConfig() {
+        if (commandConfigFile == null) {
+            commandConfigFile = new File(GamesMaster.plugin.getDataFolder(), "commands.yml");
+        }
+        if (!commandConfigFile.exists()) {
+            GamesMaster.plugin.saveResource("commands.yml", false);
+        }
     }
 
 }

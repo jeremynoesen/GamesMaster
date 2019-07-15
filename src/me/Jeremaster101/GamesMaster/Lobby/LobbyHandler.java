@@ -25,7 +25,6 @@ public class LobbyHandler {
     }
 
     public boolean isInLobby(Player player) {
-
         Location l = player.getLocation();
 
         try {

@@ -13,19 +13,16 @@ import java.util.List;
 
 public class InventoryCreation {
 
-
-    private final Message msg = new Message();
-
     public void addInventories(String inv, Player player) {
         List<String> invs = InventoryConfig.getConfig().getStringList("inventories");
         if (invs == null || !invs.contains(inv)) {
             assert invs != null;
             invs.add(inv);
-            player.sendMessage(msg.SUCCESS_INV_ADDED.replace("$INV$", inv));
+            player.sendMessage(Message.SUCCESS_INV_ADDED.replace("$INV$", inv));
             InventoryConfig.getConfig().set("inventories", invs);
             InventoryConfig.saveConfig();
         } else {
-            player.sendMessage(msg.ERROR_INV_EXISTS);
+            player.sendMessage(Message.ERROR_INV_EXISTS);
         }
     }
 
@@ -33,10 +30,10 @@ public class InventoryCreation {
         List<String> invs = InventoryConfig.getConfig().getStringList("inventories");
         if (invs != null && invs.contains(inv)) {
             if(inv.equals("default")) {
-                player.sendMessage(msg.ERROR_DEFAULT_INV.replace("$ACTION$", "remove"));
+                player.sendMessage(Message.ERROR_DEFAULT_INV.replace("$ACTION$", "remove"));
                 return;
             }
-            player.sendMessage(msg.SUCCESS_INV_REMOVED.replace("$INV$", inv));
+            player.sendMessage(Message.SUCCESS_INV_REMOVED.replace("$INV$", inv));
             invs.remove(inv);
             InventoryConfig.getConfig().set("inventories", invs);
             InventoryConfig.saveConfig();
@@ -67,7 +64,7 @@ public class InventoryCreation {
                 }
             }
         } else {
-            player.sendMessage(msg.ERROR_UNKNOWN_INV);
+            player.sendMessage(Message.ERROR_UNKNOWN_INV);
         }
     }
 }

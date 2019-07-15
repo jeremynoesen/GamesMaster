@@ -23,9 +23,9 @@ public class RegionHandler {
 
     private final InventoryHandler ih = new InventoryHandler();
     private final LobbyHandler lh = new LobbyHandler();
-    private final Message msg = new Message();
 
     void fixGamemode(Player p) {
+
         File playerInvConfigFile = new File(GamesMaster.plugin.getDataFolder() + File.separator + "playerdata",
                 p.getUniqueId().toString() + ".yml");
         YamlConfiguration cur = YamlConfiguration.loadConfiguration(playerInvConfigFile);
@@ -48,6 +48,7 @@ public class RegionHandler {
     }
 
     public boolean isInRegion(Location l, String rg) {
+
         try {
             double maxx = RegionConfig.getConfig().getDouble("regions." + rg + ".location.max.x");
             double maxy = RegionConfig.getConfig().getDouble("regions." + rg + ".location.max.y");
@@ -116,7 +117,7 @@ public class RegionHandler {
 
         try {
             if (region.equals("default")) {
-                player.sendMessage(msg.ERROR_DEFAULT_REGION.replace("$ACTION$", "select"));
+                player.sendMessage(Message.ERROR_DEFAULT_REGION.replace("$ACTION$", "select"));
                 return;
             }
 
@@ -132,9 +133,9 @@ public class RegionHandler {
             ls.getRegionSelector(weplayer.getWorld()).selectPrimary(max, null);
             ls.getRegionSelector(weplayer.getWorld()).selectSecondary(min, null);
 
-            player.sendMessage(msg.SUCCESS_REGION_SELECTED.replace("$REGION$", region));
+            player.sendMessage(Message.SUCCESS_REGION_SELECTED.replace("$REGION$", region));
         } catch (Exception e) {
-            player.sendMessage(msg.ERROR_UNKNOWN_REGION.replace("$REGION$", region));
+            player.sendMessage(Message.ERROR_UNKNOWN_REGION.replace("$REGION$", region));
         }
     }
 }

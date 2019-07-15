@@ -28,31 +28,26 @@ import java.io.File;
 public class GamesMaster extends JavaPlugin{
 
     public static GamesMaster plugin;
-    private final Permission adminPerms = new Permission("gamemaster.admin");
-    private final Permission mapPerms = new Permission("gamemaster.map");
-
-    private Message msg = null;
-
-    public static MessageConfig messageConfig = new MessageConfig();
+    private final Permission adminPerms = new Permission("gamesmaster.admin");
 
     public void onEnable() {
         plugin = this;
 
+        Message msg = new Message();
+
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        InventoryConfig.initialize();
-        RegionConfig.initialize();
-        LobbyConfig.initialize();
-        GameConfig.initialize();
-        ArenaConfig.initialize();
-        CommandConfig.initialize();
-        messageConfig.saveDefaultConfig();
-
-        msg = new Message();
-
+        LobbyConfig.saveDefaultConfig();
+        GameConfig.saveDefaultConfig();
+        ArenaConfig.saveDefaultConfig();
+        InventoryConfig.saveDefaultConfig();
+        RegionConfig.saveDefaultConfig();
+        CommandConfig.saveDefaultConfig();
+        MessageConfig.saveDefaultConfig();
 
         PluginManager pm = getServer().getPluginManager();
+
         pm.registerEvents(new Misc(), plugin);
         pm.registerEvents(new RegionListener(), plugin);
         pm.registerEvents(new GUIInteract(), plugin);
@@ -66,8 +61,9 @@ public class GamesMaster extends JavaPlugin{
         //pm.registerEvents(new AngryBird(), plugin);
         //pm.registerEvents(new FloatyBoat(), plugin);
         pm.registerEvents(new Stormbreaker(), plugin);
+
         pm.addPermission(adminPerms);
-        pm.addPermission(mapPerms);
+
         getCommand("gamesmaster").setExecutor(new CommandExec());
         getCommand("gamesmaster").setTabCompleter(new CommandTabComplete());
 

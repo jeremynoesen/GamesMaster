@@ -17,13 +17,13 @@ import java.io.File;
 
 public class CommandListener implements Listener {
 
-    private final Message msg = new Message();
     private final RegionHandler ah = new RegionHandler();
     private final LobbyInventory li = new LobbyInventory();
     private final LobbyHandler lh = new LobbyHandler();
 
     @EventHandler
     public void onCommandProcess(PlayerCommandPreprocessEvent e) {
+
         Player p = e.getPlayer();
         File playerInvConfigFile = new File(GamesMaster.plugin.getDataFolder() + File.separator + "playerdata",
                 p.getUniqueId().toString() + ".yml");
@@ -44,7 +44,7 @@ public class CommandListener implements Listener {
 
         if (e.getMessage().equals("/sp join") || e.getMessage().equals("/sw join") || e.getMessage().equals("/has join")) {
             e.setCancelled(true);
-            p.sendMessage(msg.ERROR_ARENA_DISABLED);
+            p.sendMessage(Message.ERROR_ARENA_DISABLED);
             return;
         }
 
@@ -55,14 +55,14 @@ public class CommandListener implements Listener {
                     if (ArenaConfig.getConfig().get("arenas." + s + "." + i + ".enabled").toString().equals("false")) {
                         if (e.getMessage().equals("/" + ArenaConfig.getConfig().get("arenas." + s + "." + i + ".join").toString())) {
                             e.setCancelled(true);
-                            p.sendMessage(msg.ERROR_ARENA_DISABLED);
+                            p.sendMessage(Message.ERROR_ARENA_DISABLED);
                             return;
                         }
                     } else if (!ah.isInRegion(p.getLocation(), "lobby")) {
                         if (e.getMessage().equals("/" + ArenaConfig.getConfig().get("arenas." + s + "." + i + ".join").toString())) {
                             if (lh.isGamesWorld(p.getWorld())) {
                                 e.setCancelled(true);
-                                p.sendMessage(msg.ERROR_NOT_IN_LOBBY);
+                                p.sendMessage(Message.ERROR_NOT_IN_LOBBY);
                                 return;
                             } else {
                                 e.setCancelled(true);
@@ -106,7 +106,7 @@ public class CommandListener implements Listener {
                 for (String word : e.getMessage().split(" ")) {
                     if (word.equals("/" + blockedcmd) && !p.isOp() && lh.isGamesWorld(p.getWorld())) {
                         e.setCancelled(true);
-                        p.sendMessage(msg.ERROR_CMD_BLOCKED);
+                        p.sendMessage(Message.ERROR_CMD_BLOCKED);
                         break;
                     }
                 }

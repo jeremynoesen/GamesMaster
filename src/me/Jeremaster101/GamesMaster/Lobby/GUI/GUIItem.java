@@ -16,8 +16,6 @@ import java.util.ArrayList;
 @SuppressWarnings("deprecation")
 public class GUIItem {
 
-    private final Message msg = new Message();
-
     public ItemStack cosmeticUI() {
         ItemStack s = new ItemStack(Material.ENDER_CHEST, 1);
         ItemMeta sm = s.getItemMeta();
@@ -516,7 +514,7 @@ public class GUIItem {
     public ItemStack game(String displayname, String icon, String description) {
         ItemStack s = new ItemStack(Material.getMaterial(icon.toUpperCase()));
         ItemMeta sm = s.getItemMeta();
-        sm.setDisplayName(msg.colorize(displayname));
+        sm.setDisplayName(Message.colorize(displayname));
         ArrayList<String> lore = new ArrayList<>();
         String wrapped = WordUtils.wrap(description, 24, "\n", true);
         lore.add("");

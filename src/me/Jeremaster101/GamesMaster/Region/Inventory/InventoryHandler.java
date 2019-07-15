@@ -17,7 +17,6 @@ import java.util.Collection;
 
 public class InventoryHandler {
 
-
     public void loadInv(Player p, String region) {
         File playerInvConfigFile = new File(GamesMaster.plugin.getDataFolder() + File.separator + "playerdata",
                 p.getUniqueId().toString() + ".yml");
@@ -25,7 +24,7 @@ public class InventoryHandler {
         org.bukkit.inventory.PlayerInventory inv = p.getInventory();
         String start = RegionConfig.getConfig().get("regions." + region + ".inventory").toString();
         GameMode mode = GameMode.valueOf((RegionConfig.getConfig()
-                .getString("regions." + region + ".gamemode")));
+                .getString("regions." + region + ".gamemode").toUpperCase()));
 
         if (region.equals("lobby")) {
             LobbyInventory lInv = new LobbyInventory();

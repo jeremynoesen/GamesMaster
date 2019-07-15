@@ -2,6 +2,7 @@ package me.Jeremaster101.GamesMaster.Lobby.Gadget;
 
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import org.bukkit.GameMode;
+import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,6 +27,7 @@ public class DoubleJump implements Listener {
                         .multiply(0.9).add(new Vector(0, 0.1, 0)).getY())));
                 p.getWorld().playSound(p.getLocation(), Sound.ENTITY_BLAZE_SHOOT, 1, 1);
                 p.setExp(0f);
+                p.getWorld().spawnParticle(Particle.END_ROD, p.getLocation(), 40, 0, 0, 0, 0.5);
             }
         }
     }

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandTabComplete implements TabCompleter {
+
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         ArrayList<String> tabList = new ArrayList<>();
@@ -135,6 +136,51 @@ public class CommandTabComplete implements TabCompleter {
                         if (args[1].startsWith("h")) tabList.add("help");
                         if (args[1].startsWith("l")) tabList.add("list");
                         if (args[1].startsWith("r")) tabList.add("remove");
+
+                    }
+
+                    if(args[0].equals("reload")) {
+                        if (args[1].equals("")) {
+                            tabList.add("all");
+                            tabList.add("arena");
+                            tabList.add("command");
+                            tabList.add("game");
+                            tabList.add("inventory");
+                            tabList.add("lobby");
+                            tabList.add("main");
+                            tabList.add("message");
+                            tabList.add("region");
+                        }
+
+                        if (args[1].startsWith("c")) tabList.add("command");
+                        if (args[1].startsWith("g")) tabList.add("game");
+                        if (args[1].startsWith("i")) tabList.add("inventory");
+                        if (args[1].startsWith("l")) tabList.add("lobby");
+                        if (args[1].startsWith("r")) tabList.add("region");
+
+                        if (args[1].startsWith("a")) {
+                            tabList.add("all");
+                            tabList.add("arena");
+
+                        }
+                        if (args[1].startsWith("al")) {
+                            tabList.remove("arena");
+                        }
+                        if (args[1].startsWith("ar")) {
+                            tabList.remove("all");
+                        }
+
+                        if (args[1].startsWith("m")) {
+                            tabList.add("main");
+                            tabList.add("message");
+
+                        }
+                        if (args[1].startsWith("ma")) {
+                            tabList.remove("message");
+                        }
+                        if (args[1].startsWith("me")) {
+                            tabList.remove("main");
+                        }
 
                     }
                 }

@@ -1,15 +1,19 @@
 package me.Jeremaster101.GamesMaster.Command;
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
+import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaConfig;
 import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaCreation;
 import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaHandler;
+import me.Jeremaster101.GamesMaster.Lobby.Game.GameConfig;
 import me.Jeremaster101.GamesMaster.Lobby.Game.GameCreation;
+import me.Jeremaster101.GamesMaster.Lobby.LobbyConfig;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyProtect;
 import me.Jeremaster101.GamesMaster.Message.Message;
 import me.Jeremaster101.GamesMaster.Message.MessageConfig;
 import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryConfig;
 import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryCreation;
+import me.Jeremaster101.GamesMaster.Region.RegionConfig;
 import me.Jeremaster101.GamesMaster.Region.RegionCreation;
 import me.Jeremaster101.GamesMaster.Region.RegionHandler;
 import org.bukkit.command.Command;
@@ -47,11 +51,11 @@ public class CommandExec implements CommandExecutor {
                                     } else if (args.length == 5) {
                                         rc.addRegion(player, args[2], args[3], args[4], null);
                                     } else if (args.length == 4) {
-                                        player.sendMessage(msg.ERROR_GAMEMODE);
+                                        player.sendMessage(Message.ERROR_GAMEMODE);
                                     } else if (args.length == 3) {
-                                        player.sendMessage(msg.ERROR_UNKNOWN_INV);
+                                        player.sendMessage(Message.ERROR_UNKNOWN_INV);
                                     } else {
-                                        player.sendMessage(msg.ERROR_NO_REGION_NAME);
+                                        player.sendMessage(Message.ERROR_NO_REGION_NAME);
                                     }
                                 } else if (args[1].equalsIgnoreCase("update")) {
 
@@ -60,23 +64,23 @@ public class CommandExec implements CommandExecutor {
                                             if (args.length == 4) {
                                                 rc.updateRegionBounds(player, args[3]);
                                             } else if (args.length == 3) {
-                                                player.sendMessage(msg.ERROR_NO_REGION_NAME);
+                                                player.sendMessage(Message.ERROR_NO_REGION_NAME);
                                             }
                                         } else if (args[2].equalsIgnoreCase("inventory")) {
                                             if (args.length == 5) {
                                                 rc.updateRegionInv(player, args[3], args[4]);
                                             } else if (args.length == 4) {
-                                                player.sendMessage(msg.ERROR_UNKNOWN_INV);
+                                                player.sendMessage(Message.ERROR_UNKNOWN_INV);
                                             } else if (args.length == 3) {
-                                                player.sendMessage(msg.ERROR_NO_REGION_NAME);
+                                                player.sendMessage(Message.ERROR_NO_REGION_NAME);
                                             }
                                         } else if (args[2].equalsIgnoreCase("gamemode")) {
                                             if (args.length == 5) {
                                                 rc.updateRegionMode(player, args[3], args[4]);
                                             } else if (args.length == 4) {
-                                                player.sendMessage(msg.ERROR_GAMEMODE);
+                                                player.sendMessage(Message.ERROR_GAMEMODE);
                                             } else if (args.length == 3) {
-                                                player.sendMessage(msg.ERROR_NO_REGION_NAME);
+                                                player.sendMessage(Message.ERROR_NO_REGION_NAME);
                                             }
                                         } else if (args[2].equalsIgnoreCase("leave")) {
                                             if (args.length >= 5) {
@@ -91,13 +95,13 @@ public class CommandExec implements CommandExecutor {
                                             } else if (args.length == 4) {
                                                 rc.updateRegionLeave(player, args[3], null);
                                             } else if (args.length == 3) {
-                                                player.sendMessage(msg.ERROR_NO_REGION_NAME);
+                                                player.sendMessage(Message.ERROR_NO_REGION_NAME);
                                             }
                                         } else if (args[2].equalsIgnoreCase("help")) {
                                             player.sendMessage(msg.HELP_REGION_UPDATE);
-                                        } else player.sendMessage(msg.ERROR_UNKNOWN_COMMAND);
+                                        } else player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                                     } else {
-                                        player.sendMessage(msg.ERROR_UNKNOWN_COMMAND);
+                                        player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                                     }
 
                                 } else if (args[1].equalsIgnoreCase("remove")) {
@@ -110,12 +114,12 @@ public class CommandExec implements CommandExecutor {
                                             if (!region.equals("default")) {
                                                 rc.removeRegion(player, region);
                                             } else
-                                                player.sendMessage(msg.ERROR_DEFAULT_REGION.replace("$ACTION$", "remove"));
+                                                player.sendMessage(Message.ERROR_DEFAULT_REGION.replace("$ACTION$", "remove"));
                                         } else
-                                            player.sendMessage(msg.ERROR_WORLD);
+                                            player.sendMessage(Message.ERROR_WORLD);
                                     }
                                 } else if (args[1].equalsIgnoreCase("list")) {
-                                    player.sendMessage(msg.LIST_REGIONS);
+                                    player.sendMessage(Message.LIST_REGIONS);
                                 } else if (args[1].equalsIgnoreCase("info")) {
                                     try {
                                         player.sendMessage(msg.regionInfo(args[2]));
@@ -124,7 +128,7 @@ public class CommandExec implements CommandExecutor {
                                             String region = rh.getRegion(player);
                                             player.sendMessage(msg.regionInfo(region));
                                         } else
-                                            player.sendMessage(msg.ERROR_WORLD);
+                                            player.sendMessage(Message.ERROR_WORLD);
                                     }
                                 } else if (args[1].equalsIgnoreCase("select")) {
                                     if (lh.isGamesWorld(player.getWorld())) {
@@ -134,17 +138,17 @@ public class CommandExec implements CommandExecutor {
                                         if (!region.equals("default")) {
                                             rh.selectRegion(player, region);
                                         } else
-                                            player.sendMessage(msg.ERROR_DEFAULT_REGION.replace("$ACTION$", "select"));
+                                            player.sendMessage(Message.ERROR_DEFAULT_REGION.replace("$ACTION$", "select"));
                                     } else
-                                        player.sendMessage(msg.ERROR_WORLD);
+                                        player.sendMessage(Message.ERROR_WORLD);
 
                                 } else if (args[1].equalsIgnoreCase("help")) {
                                     player.sendMessage(msg.HELP_REGION);
                                 } else {
-                                    player.sendMessage(msg.ERROR_UNKNOWN_COMMAND);
+                                    player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                                 }
                             } else {
-                                player.sendMessage(msg.ERROR_UNKNOWN_COMMAND);
+                                player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                             }
                         } else if (args[0].equalsIgnoreCase("inventory")) {
                             if (args.length > 1) {
@@ -152,23 +156,23 @@ public class CommandExec implements CommandExecutor {
                                     if (args.length >= 3) {
                                         ic.addInventories(args[2], player);
                                     } else {
-                                        player.sendMessage(msg.ERROR_UNKNOWN_INV);
+                                        player.sendMessage(Message.ERROR_UNKNOWN_INV);
                                     }
                                 } else if (args[1].equalsIgnoreCase("remove")) {
                                     if (args.length >= 3) {
                                         ic.deleteInventories(args[2], player);
                                     } else {
-                                        player.sendMessage(msg.ERROR_UNKNOWN_INV);
+                                        player.sendMessage(Message.ERROR_UNKNOWN_INV);
                                     }
                                 } else if (args[1].equalsIgnoreCase("list")) {
-                                    player.sendMessage(msg.LIST_INVS);
+                                    player.sendMessage(Message.LIST_INVS);
                                 } else if (args[1].equalsIgnoreCase("help")) {
                                     player.sendMessage(msg.HELP_INVENTORY);
                                 } else {
-                                    player.sendMessage(msg.ERROR_UNKNOWN_COMMAND);
+                                    player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                                 }
                             } else {
-                                player.sendMessage(msg.ERROR_UNKNOWN_COMMAND);
+                                player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                             }
                         } else if (args[0].equalsIgnoreCase("arena")) {
                             if (args.length > 1) {
@@ -178,17 +182,17 @@ public class CommandExec implements CommandExecutor {
                                     if (args.length >= 4) {
                                         ah.enableArena(player, args[2], args[3]);
                                     } else if (args.length == 3) {
-                                        player.sendMessage(msg.ERROR_NO_ARENA);
+                                        player.sendMessage(Message.ERROR_NO_ARENA);
                                     } else {
-                                        player.sendMessage(msg.ERROR_NO_GAME);
+                                        player.sendMessage(Message.ERROR_NO_GAME);
                                     }
                                 } else if (args[1].equalsIgnoreCase("disable")) {
                                     if (args.length >= 4) {
                                         ah.disableArena(player, args[2], args[3]);
                                     } else if (args.length == 3) {
-                                        player.sendMessage(msg.ERROR_NO_ARENA);
+                                        player.sendMessage(Message.ERROR_NO_ARENA);
                                     } else {
-                                        player.sendMessage(msg.ERROR_NO_GAME);
+                                        player.sendMessage(Message.ERROR_NO_GAME);
                                     }
                                 } else if (args[1].equalsIgnoreCase("add")) {
                                     if (args.length == 7) {
@@ -200,13 +204,13 @@ public class CommandExec implements CommandExecutor {
                                     } else if (args.length == 6) {
                                         ac.addArena(player, args[2], args[3], args[4], args[5], false);
                                     } else if (args.length == 5) {
-                                        player.sendMessage(msg.ERROR_NO_GAME_COMMAND);
+                                        player.sendMessage(Message.ERROR_NO_GAME_COMMAND);
                                     } else if (args.length == 4) {
-                                        player.sendMessage(msg.ERROR_NO_ARENA_NAME);
+                                        player.sendMessage(Message.ERROR_NO_ARENA_NAME);
                                     } else if (args.length == 3) {
-                                        player.sendMessage(msg.ERROR_NO_ARENA);
+                                        player.sendMessage(Message.ERROR_NO_ARENA);
                                     } else if (args.length == 2) {
-                                        player.sendMessage(msg.ERROR_NO_GAME);
+                                        player.sendMessage(Message.ERROR_NO_GAME);
                                     }
                                 } else if (args[1].equalsIgnoreCase("update")) { //todo separate into multiple commands
                                     if (args.length == 7) {
@@ -219,113 +223,142 @@ public class CommandExec implements CommandExecutor {
                                     } else if (args.length == 6) {
                                         ac.updateArena(player, args[2], args[3], args[4], args[5], false);
                                     } else if (args.length == 5) {
-                                        player.sendMessage(msg.ERROR_NO_GAME_COMMAND);
+                                        player.sendMessage(Message.ERROR_NO_GAME_COMMAND);
                                     } else if (args.length == 4) {
-                                        player.sendMessage(msg.ERROR_NO_ARENA_NAME);
+                                        player.sendMessage(Message.ERROR_NO_ARENA_NAME);
                                     } else if (args.length == 3) {
-                                        player.sendMessage(msg.ERROR_NO_ARENA);
+                                        player.sendMessage(Message.ERROR_NO_ARENA);
                                     } else if (args.length == 2) {
-                                        player.sendMessage(msg.ERROR_NO_GAME);
+                                        player.sendMessage(Message.ERROR_NO_GAME);
                                     }
                                 } else if (args[1].equalsIgnoreCase("remove")) {
                                     if (args.length >= 4) {
                                         ac.removeArena(player, args[2], args[3]);
                                     } else if (args.length == 3) {
-                                        player.sendMessage(msg.ERROR_NO_ARENA);
+                                        player.sendMessage(Message.ERROR_NO_ARENA);
                                     } else {
-                                        player.sendMessage(msg.ERROR_NO_GAME);
+                                        player.sendMessage(Message.ERROR_NO_GAME);
                                     }
                                 } else if (args[1].equalsIgnoreCase("info")) {
                                     if (args.length >= 4) {
                                         player.sendMessage(msg.arenaInfo(args[2], args[3]));
                                     } else if (args.length == 3) {
-                                        player.sendMessage(msg.ERROR_NO_ARENA);
+                                        player.sendMessage(Message.ERROR_NO_ARENA);
                                     } else {
-                                        player.sendMessage(msg.ERROR_NO_GAME);
+                                        player.sendMessage(Message.ERROR_NO_GAME);
                                     }
                                 } else if (args[1].equalsIgnoreCase("help")) {
                                     player.sendMessage(msg.HELP_ARENA);
                                 } else {
-                                    player.sendMessage(msg.ERROR_UNKNOWN_COMMAND);
+                                    player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                                 }
                             } else {
-                                player.sendMessage(msg.ERROR_UNKNOWN_COMMAND);
+                                player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                             }
                         } else if (args[0].equalsIgnoreCase("command")) {
                             if (args.length > 1) {
                                 if (args[1].equalsIgnoreCase("list")) {
-                                    player.sendMessage(msg.LIST_BLOCKED_CMDS);
+                                    player.sendMessage(Message.LIST_BLOCKED_CMDS);
                                 } else if (args[1].equalsIgnoreCase("block")) {
                                     if (args.length == 3) {
                                         ch.blockCmd(player, args[2]);
                                     } else {
-                                        player.sendMessage(msg.ERROR_NO_CMD_TO_BLOCK);
+                                        player.sendMessage(Message.ERROR_NO_CMD_TO_BLOCK);
                                     }
                                 } else if (args[1].equalsIgnoreCase("unblock")) {
                                     if (args.length == 3) {
                                         ch.unblockCmd(player, args[2]);
                                     } else {
-                                        player.sendMessage(msg.ERROR_NO_CMD_TO_BLOCK);
+                                        player.sendMessage(Message.ERROR_NO_CMD_TO_BLOCK);
                                     }
                                 } else if (args[1].equalsIgnoreCase("help")) {
                                     player.sendMessage(msg.HELP_COMMAND);
                                 } else {
-                                    player.sendMessage(msg.ERROR_UNKNOWN_COMMAND);
+                                    player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                                 }
                             } else {
-                                player.sendMessage(msg.ERROR_UNKNOWN_COMMAND);
+                                player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                             }
                         } else if (args[0].equalsIgnoreCase("pwifix")) { //todo separate into enable/disable commands
                             if (args.length == 1) {
-                                if (InventoryConfig.getConfig().getBoolean("pwi-gamemode-inv-fix")) {
-                                    InventoryConfig.getConfig().set("pwi-gamemode-inv-fix", false);
-                                    InventoryConfig.saveConfig();
-                                    player.sendMessage(msg.SUCCESS_PWI_FIX_DISABLED);
+                                if (GamesMaster.plugin.getConfig().getBoolean("pwi-gamemode-inv-fix")) {
+                                    GamesMaster.plugin.getConfig().set("pwi-gamemode-inv-fix", false);
+                                    GamesMaster.plugin.saveConfig();
+                                    player.sendMessage(Message.SUCCESS_PWI_FIX_DISABLED);
                                 } else {
-                                    InventoryConfig.getConfig().set("pwi-gamemode-inv-fix", true);
-                                    InventoryConfig.saveConfig();
-                                    player.sendMessage(msg.SUCCESS_PWI_FIX_ENABLED);
+                                    GamesMaster.plugin.getConfig().set("pwi-gamemode-inv-fix", true);
+                                    GamesMaster.plugin.saveConfig();
+                                    player.sendMessage(Message.SUCCESS_PWI_FIX_ENABLED);
                                 }
                             } else {
-                                player.sendMessage(msg.ERROR_UNKNOWN_COMMAND);
+                                player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                             }
                         } else if (args[0].equalsIgnoreCase("setlobby")) {
                             rc.addRegion(player, "lobby", "none", "0", null);
                         } else if (args[0].equalsIgnoreCase("reload")) {
                             if (args.length == 2) {
+
                                 if (args[1].equalsIgnoreCase("all")) {
 
+                                    GamesMaster.plugin.reloadConfig();
+
+                                    ArenaConfig.reloadConfig();
+                                    GameConfig.reloadConfig();
+                                    LobbyConfig.reloadConfig();
+                                    InventoryConfig.reloadConfig();
+                                    RegionConfig.reloadConfig();
+                                    CommandConfig.reloadConfig();
+                                    MessageConfig.reloadConfig();
+
+                                    lp.cleanLobby();
+
+                                    player.sendMessage(Message.SUCCESS_RELOADED_ALL);
+
                                 } else if (args[1].equalsIgnoreCase("arena")) {
+                                    ArenaConfig.reloadConfig();
+                                    player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "arena"));
 
                                 } else if (args[1].equalsIgnoreCase("game")) {
+                                    GameConfig.reloadConfig();
+                                    player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "game"));
 
                                 } else if (args[1].equalsIgnoreCase("lobby")) {
+                                    lp.cleanLobby();
+                                    LobbyConfig.reloadConfig();
+                                    player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "lobby"));
 
                                 } else if (args[1].equalsIgnoreCase("message")) {
+                                    MessageConfig.reloadConfig();
+                                    player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "message"));
 
                                 } else if (args[1].equalsIgnoreCase("inventory")) {
+                                    InventoryConfig.reloadConfig();
+                                    player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "inventory"));
 
                                 } else if (args[1].equalsIgnoreCase("region")) {
+                                    RegionConfig.reloadConfig();
+                                    player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "region"));
 
                                 } else if (args[1].equalsIgnoreCase("command")) {
+                                    CommandConfig.reloadConfig();
+                                    player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "command"));
 
                                 } else if (args[1].equalsIgnoreCase("main")) {
                                     GamesMaster.plugin.reloadConfig();
-                                }
+                                    player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "main"));
 
-                            }
-                            player.sendMessage(msg.SUCCESS_RELOADED);
-                            GamesMaster.plugin.reloadConfig();//todo reload other configs
-                            GamesMaster.messageConfig.reloadConfig();
-                            lp.cleanLobby();
+                                } else player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
+
+                            } else if (args.length == 1) player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
+
                         } else if (args[0].equalsIgnoreCase("setworld")) {
                             GamesMaster.plugin.getConfig().set("games-world", player.getWorld().getName());
-                            player.sendMessage(msg.SUCCESS_SET_WORLD.replace("$WORLD$", player.getWorld().getName()));
+                            player.sendMessage(Message.SUCCESS_SET_WORLD.replace("$WORLD$", player.getWorld().getName()));
                         } else {
-                            player.sendMessage(msg.ERROR_UNKNOWN_COMMAND);
+                            player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                         }
                     } else {
-                        player.sendMessage(msg.ERROR_UNKNOWN_COMMAND);
+                        player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                     }
                 }
             } else

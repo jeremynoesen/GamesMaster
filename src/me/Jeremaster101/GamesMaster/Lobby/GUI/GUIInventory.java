@@ -117,7 +117,8 @@ public class GUIInventory {
     public Inventory gamesUI() {
         List<ItemStack> games = new ArrayList<>();
 
-        if (GameConfig.getConfig().getConfigurationSection("games") != null)
+        if (GameConfig.getConfig().get("games") != null &&
+                GameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() > 0)
             for (String game : GameConfig.getConfig().getConfigurationSection("games").getKeys(false)) {
                 if (ArenaConfig.getConfig().get("arenas." + game) != null &&
                         ArenaConfig.getConfig().getConfigurationSection("arenas." + game).getKeys(false).size() > 0) {

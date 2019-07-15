@@ -20,7 +20,7 @@ public class InventoryFixer implements Listener { //this class is to combat PerW
     @EventHandler
     public void onModeChange(PlayerGameModeChangeEvent e) {
         Player p = e.getPlayer();
-        if (InventoryConfig.getConfig().getBoolean("pwi-gamemode-inv-fix")) {
+        if (GamesMaster.plugin.getConfig().getBoolean("pwi-gamemode-inv-fix")) {
             if (lh.isGamesWorld(p.getWorld())) {
                 ih.copyInv(p);
             }
@@ -29,7 +29,7 @@ public class InventoryFixer implements Listener { //this class is to combat PerW
 
     @EventHandler
     public void onLeaveGamesWorld(PlayerTeleportEvent e) {
-        if (InventoryConfig.getConfig().getBoolean("pwi-gamemode-inv-fix")) {
+        if (GamesMaster.plugin.getConfig().getBoolean("pwi-gamemode-inv-fix")) {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();

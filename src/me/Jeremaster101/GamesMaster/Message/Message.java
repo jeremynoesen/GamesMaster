@@ -8,14 +8,13 @@ import me.Jeremaster101.GamesMaster.Region.RegionConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Message {
-    
-    public String PREFIX = colorize(GamesMaster.messageConfig.getConfig().getString("PREFIX"));
+
+    public static String PREFIX = colorize(MessageConfig.getConfig().getString("PREFIX"));
     public String STARTUP = "\n\n" +
             ChatColor.DARK_GRAY + "███╗" + ChatColor.BLUE + " ██████╗ " + ChatColor.DARK_BLUE + "███╗   ███╗" + ChatColor.DARK_GRAY +
             "███╗" + ChatColor.WHITE + "  GamesMaster version " + GamesMaster.plugin.getDescription().getVersion() + " " +
@@ -33,75 +32,133 @@ public class Message {
             "███║" + ChatColor.WHITE + "  support discord group: https://discord.gg/WhmQYR\n" +
             ChatColor.DARK_GRAY + "╚══╝" + ChatColor.BLUE + " ╚═════╝ " + ChatColor.DARK_BLUE + "╚═╝     ╚═╝" + ChatColor.DARK_GRAY +
             "╚══╝" + ChatColor.WHITE + "  Thank you for choosing GamesMaster!\n";
-    public String ERROR_CMD_BLOCKED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_CMD_BLOCKED"));
-    public String ERROR_GAMEMODE = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_GAMEMODE"));
-    public String ERROR_WORLD = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_WORLD"));
-    public String ERROR_NULL_BOUNDS = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_NULL_BOUNDS"));
-    public String ERROR_ARENA_DISABLED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_ARENA_DISABLED"));
-    public String ERROR_NOT_IN_LOBBY = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_NOT_IN_LOBBY"));
-    public String ERROR_UNKNOWN_INV = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_UNKNOWN_INV"));
-    public String ERROR_INV_EXISTS = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_INV_EXISTS"));
-    public String ERROR_UNKNOWN_REGION = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_UNKNOWN_REGION"));
-    public String ERROR_DEFAULT_REGION = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_DEFAULT_REGION"));
-    public String ERROR_DEFAULT_INV = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_DEFAULT_INV"));
-    public String ERROR_GAME_LIST = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_GAME_LIST"));
-    public String ERROR_UNKNOWN_ARENA = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_UNKNOWN_ARENA"));
-    public String SUCCESS_REGION_SET = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_REGION_SET"));
-    public String SUCCESS_UPDATED_REGION_INV = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString(
+    public static String ERROR_CMD_BLOCKED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_CMD_BLOCKED"));
+    public static String ERROR_GAMEMODE = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_GAMEMODE"));
+    public static String ERROR_WORLD = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_WORLD"));
+    public static String ERROR_NULL_BOUNDS = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_NULL_BOUNDS"));
+    public static String ERROR_ARENA_DISABLED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_ARENA_DISABLED"));
+    public static String ERROR_NOT_IN_LOBBY = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_NOT_IN_LOBBY"));
+    public static String ERROR_UNKNOWN_INV = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_UNKNOWN_INV"));
+    public static String ERROR_INV_EXISTS = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_INV_EXISTS"));
+    public static String ERROR_UNKNOWN_REGION = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_UNKNOWN_REGION"));
+    public static String ERROR_DEFAULT_REGION = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_DEFAULT_REGION"));
+    public static String ERROR_DEFAULT_INV = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_DEFAULT_INV"));
+    public static String ERROR_GAME_LIST = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_GAME_LIST"));
+    public static String ERROR_UNKNOWN_ARENA = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_UNKNOWN_ARENA"));
+    public static String SUCCESS_REGION_SET = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_REGION_SET"));
+    public static String SUCCESS_UPDATED_REGION_INV = PREFIX + colorize(MessageConfig.getConfig().getString(
             "SUCCESS_UPDATED_REGION_INV"));
-    public String SUCCESS_UPDATED_REGION_BOUNDS = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString(
+    public static String SUCCESS_UPDATED_REGION_BOUNDS =
+            PREFIX + colorize(MessageConfig.getConfig().getString(
             "SUCCESS_UPDATED_REGION_BOUNDS"));
-    public String SUCCESS_UPDATED_REGION_MODE = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString(
+    public static String SUCCESS_UPDATED_REGION_MODE =
+            PREFIX + colorize(MessageConfig.getConfig().getString(
             "SUCCESS_UPDATED_REGION_MODE"));
-    public String SUCCESS_UPDATED_REGION_LEAVE = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString(
+    public static String SUCCESS_UPDATED_REGION_LEAVE =
+            PREFIX + colorize(MessageConfig.getConfig().getString(
             "SUCCESS_UPDATED_REGION_LEAVE"));
-    public String SUCCESS_REMOVED_REGION_LEAVE = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString(
+    public static String SUCCESS_REMOVED_REGION_LEAVE =
+            PREFIX + colorize(MessageConfig.getConfig().getString(
             "SUCCESS_REMOVED_REGION_LEAVE"));
-    public String SUCCESS_REGION_REMOVED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_REGION_REMOVED"));
-    public String SUCCESS_REGION_SELECTED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_REGION_SELECTED"));
-    public String SUCCESS_ARENA_ENABLED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_ARENA_ENABLED"));
-    public String SUCCESS_ARENA_DISABLED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_ARENA_DISABLED"));
-    public String SUCCESS_ARENA_ADDED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_ARENA_ADDED"));
-    public String SUCCESS_ARENA_REMOVED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_ARENA_REMOVED"));
-    public String SUCCESS_ARENA_UPDATED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_ARENA_UPDATED"));
-    public String SUCCESS_INV_ADDED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_INV_ADDED"));
-    public String SUCCESS_INV_REMOVED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_INV_REMOVED"));
-    public String ERROR_CMD_ALREADY_BLOCKED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_CMD_ALREADY_BLOCKED"));
-    public String ERROR_CMD_NOT_BLOCKED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_CMD_NOT_BLOCKED"));
-    public String SUCCESS_CMD_BLOCKED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_CMD_BLOCKED"));
-    public String SUCCESS_CMD_UNBLOCKED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_CMD_UNBLOCKED"));
-    public String SUCCESS_PWI_FIX_ENABLED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_PWI_FIX_ENABLED"));
-    public String SUCCESS_PWI_FIX_DISABLED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_PWI_FIX_DISABLED"));
-    public String ERROR_NO_REGION_NAME = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_NO_REGION_NAME"));
-    public String ERROR_NO_ARENA_NAME = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_NO_ARENA_NAME"));
-    public String ERROR_NO_GAME = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_NO_GAME"));
-    public String ERROR_NO_GAMES = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_NO_GAMES"));
-    public String ERROR_NO_ARENA = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_NO_ARENA"));
-    public String ERROR_NO_GAME_COMMAND = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_NO_GAME_COMMAND"));
-    public String ERROR_NO_CMD_TO_BLOCK = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_NO_CMD_TO_BLOCK"));
-    public String ERROR_UNKNOWN_COMMAND = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_UNKNOWN_COMMAND"));
-    public String SUCCESS_RELOADED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_RELOADED"));
-    public String SUCCESS_SET_WORLD = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_SET_WORLD"));
-    public String ERROR_GAME_NOT_SETUP = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_GAME_NOT_SETUP"));
-    public String ERROR_ARENA_MAX = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_ARENA_MAX"));
-    public String ERROR_REGION_EXISTS = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_REGION_EXISTS"));
-    public String ERROR_ARENA_EXISTS = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_ARENA_EXISTS"));
-    public String ERROR_GAME_EXISTS = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_GAME_EXISTS"));
-    public String ERROR_UNKNOWN_GAME = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_UNKNOWN_GAME"));
-    public String ERROR_UNKNOWN_MATERIAL = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("ERROR_UNKNOWN_MATERIAL"));
-    public String SUCCESS_GAME_REMOVED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_GAME_REMOVED"));
-    public String SUCCESS_GAME_ADDED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("SUCCESS_GAME_ADDED"));
-    public String ERROR_ARENA_ALREADY_ENABLED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString(
+    public static String SUCCESS_REGION_REMOVED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_REGION_REMOVED"));
+    public static String SUCCESS_REGION_SELECTED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_REGION_SELECTED"));
+    public static String SUCCESS_ARENA_ENABLED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_ARENA_ENABLED"));
+    public static String SUCCESS_ARENA_DISABLED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_ARENA_DISABLED"));
+    public static String SUCCESS_ARENA_ADDED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_ARENA_ADDED"));
+    public static String SUCCESS_ARENA_REMOVED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_ARENA_REMOVED"));
+    public static String SUCCESS_ARENA_UPDATED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_ARENA_UPDATED"));
+    public static String SUCCESS_INV_ADDED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_INV_ADDED"));
+    public static String SUCCESS_INV_REMOVED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_INV_REMOVED"));
+    public static String ERROR_CMD_ALREADY_BLOCKED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_CMD_ALREADY_BLOCKED"));
+    public static String ERROR_CMD_NOT_BLOCKED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_CMD_NOT_BLOCKED"));
+    public static String SUCCESS_CMD_BLOCKED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_CMD_BLOCKED"));
+    public static String SUCCESS_CMD_UNBLOCKED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_CMD_UNBLOCKED"));
+    public static String SUCCESS_PWI_FIX_ENABLED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_PWI_FIX_ENABLED"));
+    public static String SUCCESS_PWI_FIX_DISABLED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_PWI_FIX_DISABLED"));
+    public static String ERROR_NO_REGION_NAME = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_NO_REGION_NAME"));
+    public static String ERROR_NO_ARENA_NAME = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_NO_ARENA_NAME"));
+    public static String ERROR_NO_GAME = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_NO_GAME"));
+    public static String ERROR_NO_GAMES = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_NO_GAMES"));
+    public static String ERROR_NO_ARENA = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_NO_ARENA"));
+    public static String ERROR_NO_GAME_COMMAND = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_NO_GAME_COMMAND"));
+    public static String ERROR_NO_CMD_TO_BLOCK = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_NO_CMD_TO_BLOCK"));
+    public static String ERROR_UNKNOWN_COMMAND = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_UNKNOWN_COMMAND"));
+    public static String SUCCESS_RELOADED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_RELOADED"));
+    public static String SUCCESS_RELOADED_ALL = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_RELOADED_ALL"));
+    public static String SUCCESS_SET_WORLD = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_SET_WORLD"));
+    public static String ERROR_GAME_NOT_SETUP = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_GAME_NOT_SETUP"));
+    public static String ERROR_ARENA_MAX = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_ARENA_MAX"));
+    public static String ERROR_REGION_EXISTS = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_REGION_EXISTS"));
+    public static String ERROR_ARENA_EXISTS = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_ARENA_EXISTS"));
+    public static String ERROR_GAME_EXISTS = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_GAME_EXISTS"));
+    public static String ERROR_UNKNOWN_GAME = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_UNKNOWN_GAME"));
+    public static String ERROR_UNKNOWN_MATERIAL = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "ERROR_UNKNOWN_MATERIAL"));
+    public static String SUCCESS_GAME_REMOVED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_GAME_REMOVED"));
+    public static String SUCCESS_GAME_ADDED = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "SUCCESS_GAME_ADDED"));
+    public static String ERROR_ARENA_ALREADY_ENABLED =
+            PREFIX + colorize(MessageConfig.getConfig().getString(
             "ERROR_ARENA_ALREADY_ENABLED"));
-    public String ERROR_ARENA_ALREADY_DISABLED = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString(
+    public static String ERROR_ARENA_ALREADY_DISABLED =
+            PREFIX + colorize(MessageConfig.getConfig().getString(
             "ERROR_ARENA_ALREADY_DISABLED"));
-    public String LIST_BLOCKED_CMDS = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("LIST_BLOCKED_CMDS").replace(
+    public static String LIST_BLOCKED_CMDS = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "LIST_BLOCKED_CMDS").replace(
             "$CMDS$", CommandConfig.getConfig()
                     .getStringList("blocked-cmds").toString().replace("[", "").replace("]", "")));
-    public String LIST_REGIONS = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("LIST_REGIONS").replace("$REGS$",
+    public static String LIST_REGIONS = PREFIX + colorize(MessageConfig.getConfig().getString(
+            "LIST_REGIONS").replace("$REGS$",
             RegionConfig.getConfig()
                     .getConfigurationSection("regions").getKeys(false).toString().replace("[", "").replace("]", "")));
-    public String LIST_INVS = PREFIX + colorize(GamesMaster.messageConfig.getConfig().getString("LIST_INVS").replace(
+    public static String LIST_INVS =
+            PREFIX + colorize(MessageConfig.getConfig().getString("LIST_INVS").replace(
             "$INVS$", InventoryConfig.getConfig()
                     .getStringList("inventories").toString().replace("[", "").replace("]", "")));
     public String UI_CHICKENWARS = ChatColor.RED + "" + ChatColor.BOLD + "ChickenWars";
@@ -255,7 +312,7 @@ public class Message {
             ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "---------------------------------------\n"
     };
 
-    public String colorize(String msg) {
+    public static String colorize(String msg) {
         return ChatColor.translateAlternateColorCodes('&', msg);
     }
 
@@ -269,7 +326,7 @@ public class Message {
             }
         }
 
-        return colorize(GamesMaster.messageConfig.getConfig().getString("LIST_ARENAS").replace("$ARENAS$", list.toString().replace(
+        return colorize(MessageConfig.getConfig().getString("LIST_ARENAS").replace("$ARENAS$", list.toString().replace(
                 "[",
                 "").replace("]", "")));
     }

@@ -6,20 +6,18 @@ import org.bukkit.entity.Player;
 
 public class GameCreation {
 
-    Message msg = new Message();
-
     public void addGame(Player p, String game, String displayName, String icon, String description, String guiColor,
                         int priority) {
 
         if(GameConfig.getConfig().getConfigurationSection("games." + game) != null) {
-            p.sendMessage(msg.ERROR_GAME_EXISTS);
+            p.sendMessage(Message.ERROR_GAME_EXISTS);
             return;
         }
 
         try {
             Material.getMaterial(icon);
         } catch (Exception e) {
-            p.sendMessage(msg.ERROR_UNKNOWN_MATERIAL);
+            p.sendMessage(Message.ERROR_UNKNOWN_MATERIAL);
             return;
         }
 
@@ -30,7 +28,7 @@ public class GameCreation {
         GameConfig.getConfig().set("games." + game + ".enabled", true);
         GameConfig.getConfig().set("games." + game + ".priority", priority);
 
-        p.sendMessage(msg.SUCCESS_GAME_ADDED.replace("$GAME$", game));
+        p.sendMessage(Message.SUCCESS_GAME_ADDED.replace("$GAME$", game));
 
     }
 
@@ -38,10 +36,10 @@ public class GameCreation {
 
         if (GameConfig.getConfig().getConfigurationSection("games." + game) != null) {
             GameConfig.getConfig().set("games." + game, null);
-            p.sendMessage(msg.SUCCESS_GAME_REMOVED.replace("$GAME$", game));
+            p.sendMessage(Message.SUCCESS_GAME_REMOVED.replace("$GAME$", game));
             GameConfig.saveConfig();
         } else
-            p.sendMessage(msg.ERROR_UNKNOWN_GAME);
+            p.sendMessage(Message.ERROR_UNKNOWN_GAME);
 
     }
 }

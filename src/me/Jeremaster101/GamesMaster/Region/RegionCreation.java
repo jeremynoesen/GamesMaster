@@ -154,7 +154,7 @@ public class RegionCreation {
             return;
         }
 
-        List<String> invs = RegionConfig.getConfig().getStringList("inventories");
+        List<String> invs = InventoryConfig.getConfig().getStringList("inventories");
         if (invs == null || !invs.contains(inv)) {
             player.sendMessage(Message.ERROR_UNKNOWN_INV);
         } else {

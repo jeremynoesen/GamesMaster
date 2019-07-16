@@ -20,8 +20,6 @@ public class GUIInventory {
 
     private final GUIItem guiItem = new GUIItem();
     private final LobbyInventory lInv = new LobbyInventory();
-    private final GUIConvert guic = new GUIConvert();
-
     private final Firework firework = new Firework();
     private final PaintballGun paintballGun = new PaintballGun();
     private final SlimeLauncher slimeLauncher = new SlimeLauncher();

@@ -1,7 +1,6 @@
 package me.Jeremaster101.GamesMaster.Region;
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
@@ -16,12 +15,9 @@ public class RegionConfig {
     public static void reloadConfig() {
         if (regionConfigFile == null) {
             regionConfigFile = new File(GamesMaster.plugin.getDataFolder(), "regions.yml");
-            config = YamlConfiguration.loadConfiguration(regionConfigFile);
         }
-        try {
-            config.load(regionConfigFile);
-        } catch (IOException | InvalidConfigurationException ignored) {
-        }
+
+        config = YamlConfiguration.loadConfiguration(regionConfigFile);
 
         Reader defConfigStream = new InputStreamReader(GamesMaster.plugin.getResource("regions.yml"),
                 StandardCharsets.UTF_8);
@@ -55,6 +51,7 @@ public class RegionConfig {
         }
         if (!regionConfigFile.exists()) {
             GamesMaster.plugin.saveResource("regions.yml", false);
+            config = YamlConfiguration.loadConfiguration(regionConfigFile);
         }
     }
 

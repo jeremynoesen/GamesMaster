@@ -39,8 +39,7 @@ public class DoubleJump implements Listener {
             p.setFallDistance(0);
             if (p.isOnGround()) {
                 p.setAllowFlight(true);
-                if (p.getExp() == 0f)
-                    p.setExp(1.0f);
+                p.setExp(1.0f);
             }
         }
     }

@@ -1,7 +1,6 @@
 package me.Jeremaster101.GamesMaster.Lobby.Game;
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
@@ -16,12 +15,9 @@ public class GameConfig {
     public static void reloadConfig() {
         if (gameConfigFile == null) {
             gameConfigFile = new File(GamesMaster.plugin.getDataFolder(), "games.yml");
-            config = YamlConfiguration.loadConfiguration(gameConfigFile);
         }
-        try {
-            config.load(gameConfigFile);
-        } catch (IOException | InvalidConfigurationException ignored) {
-        }
+
+        config = YamlConfiguration.loadConfiguration(gameConfigFile);
 
         Reader defConfigStream = new InputStreamReader(GamesMaster.plugin.getResource("games.yml"),
                 StandardCharsets.UTF_8);
@@ -55,6 +51,7 @@ public class GameConfig {
         }
         if (!gameConfigFile.exists()) {
             GamesMaster.plugin.saveResource("games.yml", false);
+            config = YamlConfiguration.loadConfiguration(gameConfigFile);
         }
     }
 

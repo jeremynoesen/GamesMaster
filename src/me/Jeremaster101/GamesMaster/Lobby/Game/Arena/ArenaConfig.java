@@ -1,7 +1,6 @@
 package me.Jeremaster101.GamesMaster.Lobby.Game.Arena;
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
@@ -16,12 +15,9 @@ public class ArenaConfig {
     public static void reloadConfig() {
         if (arenaConfigFile == null) {
             arenaConfigFile = new File(GamesMaster.plugin.getDataFolder(), "arenas.yml");
-            config = YamlConfiguration.loadConfiguration(arenaConfigFile);
         }
-        try {
-            config.load(arenaConfigFile);
-        } catch (IOException | InvalidConfigurationException ignored) {
-        }
+
+        config = YamlConfiguration.loadConfiguration(arenaConfigFile);
 
         Reader defConfigStream = new InputStreamReader(GamesMaster.plugin.getResource("arenas.yml"),
                 StandardCharsets.UTF_8);
@@ -55,6 +51,7 @@ public class ArenaConfig {
         }
         if (!arenaConfigFile.exists()) {
             GamesMaster.plugin.saveResource("arenas.yml", false);
+            config = YamlConfiguration.loadConfiguration(arenaConfigFile);
         }
     }
 

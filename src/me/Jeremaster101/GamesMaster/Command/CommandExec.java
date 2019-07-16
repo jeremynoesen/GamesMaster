@@ -119,7 +119,9 @@ public class CommandExec implements CommandExecutor {
                                             player.sendMessage(Message.ERROR_WORLD);
                                     }
                                 } else if (args[1].equalsIgnoreCase("list")) {
-                                    player.sendMessage(Message.LIST_REGIONS);
+                                    player.sendMessage(Message.LIST_REGIONS.replace("$REGS$", RegionConfig.getConfig()
+                                            .getConfigurationSection("regions").getKeys(false).toString()
+                                            .replace("[", "").replace("]", "")));
                                 } else if (args[1].equalsIgnoreCase("info")) {
                                     try {
                                         player.sendMessage(msg.regionInfo(args[2]));
@@ -165,7 +167,8 @@ public class CommandExec implements CommandExecutor {
                                         player.sendMessage(Message.ERROR_UNKNOWN_INV);
                                     }
                                 } else if (args[1].equalsIgnoreCase("list")) {
-                                    player.sendMessage(Message.LIST_INVS);
+                                    player.sendMessage(Message.LIST_INVS.replace("$INVS$", InventoryConfig.getConfig()
+                                            .getStringList("inventories").toString().replace("[", "").replace("]", "")));
                                 } else if (args[1].equalsIgnoreCase("help")) {
                                     player.sendMessage(msg.HELP_INVENTORY);
                                 } else {
@@ -258,7 +261,8 @@ public class CommandExec implements CommandExecutor {
                         } else if (args[0].equalsIgnoreCase("command")) {
                             if (args.length > 1) {
                                 if (args[1].equalsIgnoreCase("list")) {
-                                    player.sendMessage(Message.LIST_BLOCKED_CMDS);
+                                    player.sendMessage(Message.LIST_BLOCKED_CMDS.replace("$CMDS$", CommandConfig.getConfig()
+                                            .getStringList("blocked-cmds").toString().replace("[", "").replace("]", "")));
                                 } else if (args[1].equalsIgnoreCase("block")) {
                                     if (args.length == 3) {
                                         ch.blockCmd(player, args[2]);

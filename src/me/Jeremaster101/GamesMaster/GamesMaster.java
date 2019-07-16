@@ -33,8 +33,6 @@ public class GamesMaster extends JavaPlugin{
     public void onEnable() {
         plugin = this;
 
-        Message msg = new Message();
-
         getConfig().options().copyDefaults(true);
         saveConfig();
 
@@ -45,6 +43,8 @@ public class GamesMaster extends JavaPlugin{
         RegionConfig.saveDefaultConfig();
         CommandConfig.saveDefaultConfig();
         MessageConfig.saveDefaultConfig();
+
+        Message msg = new Message();
 
         PluginManager pm = getServer().getPluginManager();
 

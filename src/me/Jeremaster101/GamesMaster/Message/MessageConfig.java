@@ -1,10 +1,6 @@
 package me.Jeremaster101.GamesMaster.Message;
 
-import me.Jeremaster101.GamesMaster.Command.CommandConfig;
 import me.Jeremaster101.GamesMaster.GamesMaster;
-import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryConfig;
-import me.Jeremaster101.GamesMaster.Region.RegionConfig;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -23,12 +19,9 @@ public class MessageConfig {
 
         if (messageConfigFile == null) {
             messageConfigFile = new File(GamesMaster.plugin.getDataFolder(), "messages.yml");
-            config = YamlConfiguration.loadConfiguration(messageConfigFile);
         }
-        try {
-            config.load(messageConfigFile);
-        } catch (IOException | InvalidConfigurationException ignored) {
-        }
+
+        config = YamlConfiguration.loadConfiguration(messageConfigFile);
 
         Reader defConfigStream = new InputStreamReader(GamesMaster.plugin.getResource("messages.yml"),
                 StandardCharsets.UTF_8);
@@ -94,14 +87,9 @@ public class MessageConfig {
         Message.SUCCESS_GAME_ADDED = Message.PREFIX + Message.colorize(getConfig().getString("SUCCESS_GAME_ADDED"));
         Message.ERROR_ARENA_ALREADY_ENABLED = Message.PREFIX + Message.colorize(getConfig().getString("ERROR_ARENA_ALREADY_ENABLED"));
         Message.ERROR_ARENA_ALREADY_DISABLED = Message.PREFIX + Message.colorize(getConfig().getString("ERROR_ARENA_ALREADY_DISABLED"));
-        Message.LIST_BLOCKED_CMDS = Message.PREFIX + Message.colorize(getConfig().getString("LIST_BLOCKED_CMDS").replace(
-                "$CMDS$", CommandConfig.getConfig().getStringList("blocked-cmds").toString().replace("[", "").replace("]", "")));
-        Message.LIST_REGIONS = Message.PREFIX + Message.colorize(getConfig().getString("LIST_REGIONS").replace("$REGS$",
-                RegionConfig.getConfig().getConfigurationSection("regions").getKeys(false).toString().replace("[",
-                        "").replace("]", "")));
-        Message.LIST_INVS = Message.PREFIX + Message.colorize(getConfig().getString("LIST_INVS").replace(
-                "$INVS$",
-                InventoryConfig.getConfig().getStringList("inventories").toString().replace("[", "").replace("]", "")));
+        Message.LIST_BLOCKED_CMDS = Message.PREFIX + Message.colorize(getConfig().getString("LIST_BLOCKED_CMDS"));
+        Message.LIST_REGIONS = Message.PREFIX + Message.colorize(getConfig().getString("LIST_REGIONS"));
+        Message.LIST_INVS = Message.PREFIX + Message.colorize(getConfig().getString("LIST_INVS"));
 
 
     }
@@ -130,6 +118,7 @@ public class MessageConfig {
         }
         if (!messageConfigFile.exists()) {
             GamesMaster.plugin.saveResource("messages.yml", false);
+            config = YamlConfiguration.loadConfiguration(messageConfigFile);
         }
     }
 }

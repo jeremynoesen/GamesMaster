@@ -1,7 +1,6 @@
 package me.Jeremaster101.GamesMaster.Region.Inventory;
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
@@ -16,12 +15,9 @@ public class InventoryConfig {
     public static void reloadConfig() {
         if (inventoryConfigFile == null) {
             inventoryConfigFile = new File(GamesMaster.plugin.getDataFolder(), "inventories.yml");
-            config = YamlConfiguration.loadConfiguration(inventoryConfigFile);
         }
-        try {
-            config.load(inventoryConfigFile);
-        } catch (IOException | InvalidConfigurationException ignored) {
-        }
+
+        config = YamlConfiguration.loadConfiguration(inventoryConfigFile);
 
         Reader defConfigStream = new InputStreamReader(GamesMaster.plugin.getResource("inventories.yml"),
                 StandardCharsets.UTF_8);
@@ -55,6 +51,7 @@ public class InventoryConfig {
         }
         if (!inventoryConfigFile.exists()) {
             GamesMaster.plugin.saveResource("inventories.yml", false);
+            config = YamlConfiguration.loadConfiguration(inventoryConfigFile);
         }
     }
 }

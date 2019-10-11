@@ -11,7 +11,7 @@ public class Game {
     private Player player;
     
     //todo fully implement this functionality of custom games
-    public Game(Player player, String game) {//todo remove player from pramas, remove messages from class
+    public Game(Player player, String game) {
         this.player = player;
         if (game != null) {
             this.game = game;

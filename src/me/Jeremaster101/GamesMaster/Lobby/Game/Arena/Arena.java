@@ -19,7 +19,7 @@ public class Arena {//todo finish this class
             if (ArenaConfig.getConfig().getConfigurationSection(game + "." + arena) == null) {
                 ArenaConfig.getConfig().set(game + "." + arena + ".enabled", false);
                 ArenaConfig.saveConfig();
-                player.sendMessage(Message.SUCCESS_GAME_ADDED.replace("$GAME$", game));//todo try to remove messages from this class
+                player.sendMessage(Message.SUCCESS_GAME_ADDED.replace("$GAME$", game));
             }
         }
     }

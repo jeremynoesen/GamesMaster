@@ -22,7 +22,6 @@ public class Region {//todo finish this class
         if (region != null) {
             this.region = region;
             if (RegionConfig.getConfig().getConfigurationSection(region) == null) {
-                //todo remove messages from class
                 
                 WorldEditPlugin worldEdit = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");//todo make option if there is no worldedit
                 com.sk89q.worldedit.regions.Region selection;

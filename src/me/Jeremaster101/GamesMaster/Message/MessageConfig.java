@@ -18,12 +18,12 @@ public class MessageConfig {
     public static void reloadConfig() {
 
         if (messageConfigFile == null) {
-            messageConfigFile = new File(GamesMaster.plugin.getDataFolder(), "messages.yml");
+            messageConfigFile = new File(GamesMaster.getInstance().getDataFolder(), "messages.yml");
         }
 
         config = YamlConfiguration.loadConfiguration(messageConfigFile);
 
-        Reader defConfigStream = new InputStreamReader(GamesMaster.plugin.getResource("messages.yml"),
+        Reader defConfigStream = new InputStreamReader(GamesMaster.getInstance().getResource("messages.yml"),
                 StandardCharsets.UTF_8);
         YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
         config.setDefaults(defConfig);
@@ -50,6 +50,18 @@ public class MessageConfig {
         Message.SUCCESS_UPDATED_REGION_MODE = Message.PREFIX + Message.colorize(getConfig().getString("SUCCESS_UPDATED_REGION_MODE"));
         Message.SUCCESS_UPDATED_REGION_LEAVE = Message.PREFIX + Message.colorize(getConfig().getString("SUCCESS_UPDATED_REGION_LEAVE"));
         Message.SUCCESS_REMOVED_REGION_LEAVE = Message.PREFIX + Message.colorize(getConfig().getString("SUCCESS_REMOVED_REGION_LEAVE"));
+        Message.SUCCESS_UPDATED_GAME_NAME = Message.PREFIX + Message.colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_NAME"));
+        Message.SUCCESS_UPDATED_GAME_ICON = Message.PREFIX + Message.colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_ICON"));
+        Message.SUCCESS_UPDATED_GAME_DESCRIPTION = Message.PREFIX + Message.colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_DESCRIPTION"));
+        Message.SUCCESS_UPDATED_GAME_COLOR = Message.PREFIX + Message.colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_COLOR"));
+        Message.SUCCESS_UPDATED_GAME_ENABLED = Message.PREFIX + Message.colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_ENABLED"));
+        Message.SUCCESS_UPDATED_GAME_HIDDEN = Message.PREFIX + Message.colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_HIDDEN"));
+        Message.SUCCESS_UPDATED_GAME_PRIORITY = Message.PREFIX + Message.colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_PRIORITY"));
+        Message.SUCCESS_UPDATED_ARENA_NAME = Message.PREFIX + Message.colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_NAME"));
+        Message.SUCCESS_UPDATED_ARENA_JOIN = Message.PREFIX + Message.colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_JOIN"));
+        Message.SUCCESS_UPDATED_ARENA_HIDDEN = Message.PREFIX + Message.colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_HIDDEN"));
+        Message.SUCCESS_UPDATED_ARENA_ENABLED = Message.PREFIX + Message.colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_ENABLED"));
+        Message.SUCCESS_UPDATED_ARENA_PRIORITY = Message.PREFIX + Message.colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_PRIORITY"));
         Message.SUCCESS_REGION_REMOVED = Message.PREFIX + Message.colorize(getConfig().getString("SUCCESS_REGION_REMOVED"));
         Message.SUCCESS_REGION_SELECTED = Message.PREFIX + Message.colorize(getConfig().getString("SUCCESS_REGION_SELECTED"));
         Message.SUCCESS_ARENA_ENABLED = Message.PREFIX + Message.colorize(getConfig().getString("SUCCESS_ARENA_ENABLED"));
@@ -90,6 +102,7 @@ public class MessageConfig {
         Message.LIST_BLOCKED_CMDS = Message.PREFIX + Message.colorize(getConfig().getString("LIST_BLOCKED_CMDS"));
         Message.LIST_REGIONS = Message.PREFIX + Message.colorize(getConfig().getString("LIST_REGIONS"));
         Message.LIST_INVS = Message.PREFIX + Message.colorize(getConfig().getString("LIST_INVS"));
+        Message.ERROR_CANT_ENABLE = Message.PREFIX + Message.colorize(MessageConfig.getConfig().getString("ERROR_CANT_ENABLE"));
 
 
     }
@@ -108,16 +121,16 @@ public class MessageConfig {
         try {
             getConfig().save(messageConfigFile);
         } catch (IOException ex) {
-            GamesMaster.plugin.getLogger().log(Level.SEVERE, "Could not save config to " + messageConfigFile, ex);
+            GamesMaster.getInstance().getLogger().log(Level.SEVERE, "Could not save config to " + messageConfigFile, ex);
         }
     }
 
     public static void saveDefaultConfig() {
         if (messageConfigFile == null) {
-            messageConfigFile = new File(GamesMaster.plugin.getDataFolder(), "messages.yml");
+            messageConfigFile = new File(GamesMaster.getInstance().getDataFolder(), "messages.yml");
         }
         if (!messageConfigFile.exists()) {
-            GamesMaster.plugin.saveResource("messages.yml", false);
+            GamesMaster.getInstance().saveResource("messages.yml", false);
             config = YamlConfiguration.loadConfiguration(messageConfigFile);
         }
     }

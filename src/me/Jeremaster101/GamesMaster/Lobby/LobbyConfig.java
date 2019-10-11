@@ -14,12 +14,12 @@ public class LobbyConfig {
 
     public static void reloadConfig() {
         if (lobbyConfigFile == null) {
-            lobbyConfigFile = new File(GamesMaster.plugin.getDataFolder(), "lobby.yml");
+            lobbyConfigFile = new File(GamesMaster.getInstance().getDataFolder(), "lobby.yml");
         }
 
         config = YamlConfiguration.loadConfiguration(lobbyConfigFile);
 
-        Reader defConfigStream = new InputStreamReader(GamesMaster.plugin.getResource("lobby.yml"),
+        Reader defConfigStream = new InputStreamReader(GamesMaster.getInstance().getResource("lobby.yml"),
                 StandardCharsets.UTF_8);
         YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
         config.setDefaults(defConfig);
@@ -41,16 +41,16 @@ public class LobbyConfig {
         try {
             getConfig().save(lobbyConfigFile);
         } catch (IOException ex) {
-            GamesMaster.plugin.getLogger().log(Level.SEVERE, "Could not save config to " + lobbyConfigFile, ex);
+            GamesMaster.getInstance().getLogger().log(Level.SEVERE, "Could not save config to " + lobbyConfigFile, ex);
         }
     }
 
     public static void saveDefaultConfig() {
         if (lobbyConfigFile == null) {
-            lobbyConfigFile = new File(GamesMaster.plugin.getDataFolder(), "lobby.yml");
+            lobbyConfigFile = new File(GamesMaster.getInstance().getDataFolder(), "lobby.yml");
         }
         if (!lobbyConfigFile.exists()) {
-            GamesMaster.plugin.saveResource("lobby.yml", false);
+            GamesMaster.getInstance().saveResource("lobby.yml", false);
             config = YamlConfiguration.loadConfiguration(lobbyConfigFile);
         }
     }

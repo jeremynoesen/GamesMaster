@@ -51,7 +51,7 @@ public class FloatyBoat implements Listener {
                                     public void run() {
                                         all.sendBlockChange(bl.getLocation(), bd);
                                     }
-                                }.runTaskLater(GamesMaster.plugin, 10 + getRandom(0, 20));
+                                }.runTaskLater(GamesMaster.getInstance(), 10 + getRandom(0, 20));
                             }
                         }
                     }
@@ -65,7 +65,7 @@ public class FloatyBoat implements Listener {
                     as.remove();
                 }
             }
-        }.runTaskTimer(GamesMaster.plugin, 2, 2);
+        }.runTaskTimer(GamesMaster.getInstance(), 2, 2);
     }
 
     @EventHandler

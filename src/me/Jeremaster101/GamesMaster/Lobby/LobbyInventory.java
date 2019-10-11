@@ -1,6 +1,7 @@
 package me.Jeremaster101.GamesMaster.Lobby;
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
+import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIColor;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIItem;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
 import org.bukkit.*;
@@ -78,8 +79,8 @@ public class LobbyInventory {
 
         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1.5f);
         p.setExp(0.8f);
-        p.getInventory().setItem(0, guiitem.filler(3));
-        p.getInventory().setItem(8, guiitem.filler(9));
+        p.getInventory().setItem(0, guiitem.filler(GUIColor.LIGHT_BLUE));
+        p.getInventory().setItem(8, guiitem.filler(GUIColor.CYAN));
         if (p.getInventory().getItem(4) != null)
             p.getInventory().getItem(4).setType(Material.STONE_BUTTON);
         new BukkitRunnable() {
@@ -87,12 +88,12 @@ public class LobbyInventory {
             public void run() {
                 if (p.getInventory().getItem(4) != null && p.getInventory().getItem(4).getType() == Material.STONE_BUTTON)
                     p.getInventory().getItem(4).setAmount(0);
-                p.getInventory().setItem(1, guiitem.filler(3));
-                p.getInventory().setItem(7, guiitem.filler(9));
+                p.getInventory().setItem(1, guiitem.filler(GUIColor.LIGHT_BLUE));
+                p.getInventory().setItem(7, guiitem.filler(GUIColor.CYAN));
                 p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, 0.75f);
                 p.setExp(0.6f);
             }
-        }.runTaskLater(GamesMaster.plugin, 1);
+        }.runTaskLater(GamesMaster.getInstance(), 1);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -103,7 +104,7 @@ public class LobbyInventory {
                 p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, 0);
                 p.setExp(0.4f);
             }
-        }.runTaskLater(GamesMaster.plugin, 2);
+        }.runTaskLater(GamesMaster.getInstance(), 2);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -113,7 +114,7 @@ public class LobbyInventory {
                 if (p.getInventory().getItem(7) != null) p.getInventory().getItem(7).setAmount(0);
                 p.setExp(0.2f);
             }
-        }.runTaskLater(GamesMaster.plugin, 3);
+        }.runTaskLater(GamesMaster.getInstance(), 3);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -121,7 +122,7 @@ public class LobbyInventory {
                 if (p.getInventory().getItem(8) != null) p.getInventory().getItem(8).setAmount(0);
                 p.setExp(0f);
             }
-        }.runTaskLater(GamesMaster.plugin, 4);
+        }.runTaskLater(GamesMaster.getInstance(), 4);
     }
 
     public void loadLobbyInv(Player p) {
@@ -130,6 +131,7 @@ public class LobbyInventory {
             p.removePotionEffect(allEffects.getType());
         }
 
+        p.getInventory().setHeldItemSlot(4);
         p.getInventory().setHeldItemSlot(4);
         p.getPlayer().giveExpLevels(-1000000000);
         p.getPlayer().setHealth(20);
@@ -148,24 +150,24 @@ public class LobbyInventory {
             @Override
             public void run() {
                 p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, 1.5f);
-                p.getInventory().setItem(0, guiitem.filler(3));
-                p.getInventory().setItem(8, guiitem.filler(9));
+                p.getInventory().setItem(0, guiitem.filler(GUIColor.LIGHT_BLUE));
+                p.getInventory().setItem(8, guiitem.filler(GUIColor.CYAN));
                 p.getInventory().setItem(1, guiitem.gameUI());
                 p.getInventory().setItem(7, guiitem.cosmeticUI());
                 p.setExp(0.4f);
             }
-        }.runTaskLater(GamesMaster.plugin, 1);
+        }.runTaskLater(GamesMaster.getInstance(), 1);
         new BukkitRunnable() {
             @Override
             public void run() {
                 p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 1, 2);
-                p.getInventory().setItem(1, guiitem.filler(3));
-                p.getInventory().setItem(7, guiitem.filler(9));
+                p.getInventory().setItem(1, guiitem.filler(GUIColor.LIGHT_BLUE));
+                p.getInventory().setItem(7, guiitem.filler(GUIColor.CYAN));
                 p.getInventory().setItem(2, guiitem.gameUI());
                 p.getInventory().setItem(6, guiitem.cosmeticUI());
                 p.setExp(0.6f);
             }
-        }.runTaskLater(GamesMaster.plugin, 2);
+        }.runTaskLater(GamesMaster.getInstance(), 2);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -173,7 +175,7 @@ public class LobbyInventory {
                 if (p.getInventory().getItem(7) != null) p.getInventory().getItem(7).setAmount(0);
                 p.setExp(0.8f);
             }
-        }.runTaskLater(GamesMaster.plugin, 3);
+        }.runTaskLater(GamesMaster.getInstance(), 3);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -182,6 +184,6 @@ public class LobbyInventory {
                 p.setExp(1f);
                 p.setAllowFlight(true);
             }
-        }.runTaskLater(GamesMaster.plugin, 4);
+        }.runTaskLater(GamesMaster.getInstance(), 4);
     }
 }

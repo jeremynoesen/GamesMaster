@@ -4,8 +4,8 @@ import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIItem;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
+import me.Jeremaster101.GamesMaster.GMPlayer;
 import org.bukkit.Location;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -13,8 +13,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.io.File;
 
 public class RegionListener implements Listener {
 
@@ -24,7 +22,7 @@ public class RegionListener implements Listener {
     private final GUIItem guiitem = new GUIItem();
     private final LobbyHandler lh = new LobbyHandler();
 
-    @EventHandler(priority = EventPriority.HIGH)
+    @EventHandler(priority = EventPriority.HIGH)//todo make player tp to games world spawn on join
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         new BukkitRunnable() {
@@ -37,9 +35,9 @@ public class RegionListener implements Listener {
                         public void run() {
                             li.loadLobbyInv(p);
                         }
-                    }.runTaskLater(GamesMaster.plugin, 5);
+                    }.runTaskLater(GamesMaster.getInstance(), 5);
             }
-        }.runTaskLater(GamesMaster.plugin, 10);
+        }.runTaskLater(GamesMaster.getInstance(), 10);
     }
 
     @SuppressWarnings("deprecation")
@@ -50,18 +48,16 @@ public class RegionListener implements Listener {
         Location from = e.getFrom();
 
         if (lh.isGamesWorld(to.getWorld())) {
-
-            File playerInvConfigFile = new File(GamesMaster.plugin.getDataFolder() + File.separator + "playerdata",
-                    p.getUniqueId().toString() + ".yml");
-            YamlConfiguration cur = YamlConfiguration.loadConfiguration(playerInvConfigFile);
-
+    
+            GMPlayer gmplayer = GMPlayer.getPlayerData(p);
+    
             new BukkitRunnable() {
                 public void run() {
 
                     String region = rg.getRegion(p);
 
-                                if (cur.get("current") != null) {
-                                    if (!region.equals("lobby") && cur.get("current").toString().equals("lobby")) {
+                                if (gmplayer.getCurrentRegion() != null) {
+                                    if (!region.equals("lobby") && gmplayer.getCurrentRegion().equals("lobby")) {
                                         if ((p.getInventory().getItem(2) != null && p.getInventory().getItem(2)
                                                 .equals(guiitem.gameUI())) ||
                                                 (p.getInventory().getItem(6) != null && p.getInventory().getItem(6)
@@ -72,7 +68,7 @@ public class RegionListener implements Listener {
                                                 public void run() {
                                                     rg.loadRegion(p, region);
                                                 }
-                                            }.runTaskLater(GamesMaster.plugin, 5);
+                                            }.runTaskLater(GamesMaster.getInstance(), 5);
                                         } else
                                             rg.loadRegion(p, region);
                                     } else
@@ -80,13 +76,13 @@ public class RegionListener implements Listener {
 
                                     if (to.getWorld() != from.getWorld()) {
                                         rg.fixGamemode(p);
-                                        if (rg.equals("lobby") && cur.get("current").toString().equals("lobby"))
+                                        if (rg.equals("lobby") && gmplayer.getCurrentRegion().equals("lobby"))
                                             new BukkitRunnable() {
                                                 @Override
                                                 public void run() {
                                                     li.loadLobbyInv(p);
                                                 }
-                                            }.runTaskLater(GamesMaster.plugin, 3);
+                                            }.runTaskLater(GamesMaster.getInstance(), 3);
                                     }
 
                                 } else {
@@ -94,29 +90,27 @@ public class RegionListener implements Listener {
                                 }
                             }
 
-            }.runTaskLater(GamesMaster.plugin, 3);
+            }.runTaskLater(GamesMaster.getInstance(), 3);
         }
 
         if (lh.isGamesWorld(from.getWorld())) {
-
-            File playerInvConfigFile = new File(GamesMaster.plugin.getDataFolder() + File.separator + "playerdata",
-                    p.getUniqueId().toString() + ".yml");
-            YamlConfiguration cur = YamlConfiguration.loadConfiguration(playerInvConfigFile);
-
+    
+            GMPlayer gmplayer = GMPlayer.getPlayerData(p);
+    
             new BukkitRunnable() {
                 public void run() {
                     String region = rg.getRegion(p);
 
-                    String curleave = "no command";
-                    String arleave = "no command";
-                    if (cur.get("current") != null && RegionConfig.getConfig().get("regions." + cur.get("current")
-                            .toString() + ".leave") != null)
-                        curleave = RegionConfig.getConfig().get("regions." + cur.get("current").toString() +
+                    String curleave = "null";
+                    String arleave = "null";
+                    if (gmplayer.getCurrentRegion() != null && RegionConfig.getConfig().get(
+                            gmplayer.getCurrentRegion() + ".leave") != null)
+                        curleave = RegionConfig.getConfig().get(gmplayer.getCurrentRegion() +
                                 ".leave").toString();
-                    if (RegionConfig.getConfig().get("regions." + region + ".leave") != null)
-                        arleave = RegionConfig.getConfig().get("regions." + region + ".leave").toString();
+                    if (RegionConfig.getConfig().get(region + ".leave") != null)
+                        arleave = RegionConfig.getConfig().get(region + ".leave").toString();
 
-                    if (!curleave.equals(arleave) && !curleave.equals("no command")) {
+                    if (!curleave.equals(arleave) && !curleave.equals("null")) {
                         if (!lh.isGamesWorld(to.getWorld())) {
 
                             p.performCommand(curleave);
@@ -126,7 +120,7 @@ public class RegionListener implements Listener {
                                 public void run() {
                                     p.teleport(to);
                                 }
-                            }.runTaskLater(GamesMaster.plugin, 10);
+                            }.runTaskLater(GamesMaster.getInstance(), 10);
                         } else {
                             String finalCurleave = curleave;
                             new BukkitRunnable() {
@@ -134,17 +128,19 @@ public class RegionListener implements Listener {
                                 public void run() {
                                     p.performCommand(finalCurleave);
                                 }
-                            }.runTaskLater(GamesMaster.plugin, 10);
+                            }.runTaskLater(GamesMaster.getInstance(), 10);
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {
                                     p.teleport(to);
                                 }
-                            }.runTaskLater(GamesMaster.plugin, 20);
+                            }.runTaskLater(GamesMaster.getInstance(), 20);
                         }
                     }
                 }
-            }.runTaskLater(GamesMaster.plugin, 1);
+            }.runTaskLater(GamesMaster.getInstance(), 1);
         }
     }
 }
+
+//todo allow worlds to be included in gamesmaster

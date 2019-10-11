@@ -71,7 +71,7 @@ public class SlimeLauncher {
                     this.cancel();
                 }
             }
-        }.runTaskTimer(GamesMaster.plugin, 0, 1);
+        }.runTaskTimer(GamesMaster.getInstance(), 0, 1);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -79,6 +79,6 @@ public class SlimeLauncher {
                     lh.setGadget(p, slimeLauncher());
                 }
             }
-        }.runTaskLater(GamesMaster.plugin, 30);
+        }.runTaskLater(GamesMaster.getInstance(), 30);
     }
 }

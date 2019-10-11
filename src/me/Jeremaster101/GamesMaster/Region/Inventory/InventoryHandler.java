@@ -2,108 +2,107 @@ package me.Jeremaster101.GamesMaster.Region.Inventory;
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
+import me.Jeremaster101.GamesMaster.GMPlayer;
 import me.Jeremaster101.GamesMaster.Region.RegionConfig;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
 
 public class InventoryHandler {
-
+    
     public void loadInv(Player p, String region) {
-        File playerInvConfigFile = new File(GamesMaster.plugin.getDataFolder() + File.separator + "playerdata",
-                p.getUniqueId().toString() + ".yml");
-        YamlConfiguration pInv = YamlConfiguration.loadConfiguration(playerInvConfigFile);
+        GMPlayer gmplayer = GMPlayer.getPlayerData(p);
         org.bukkit.inventory.PlayerInventory inv = p.getInventory();
-        String start = RegionConfig.getConfig().get("regions." + region + ".inventory").toString();
+        String inventory = "inventories." + RegionConfig.getConfig().get(region + ".inventory").toString();
         GameMode mode = GameMode.valueOf((RegionConfig.getConfig()
-                .getString("regions." + region + ".gamemode").toUpperCase()));
-
+                .getString(region + ".gamemode").toUpperCase()));
+        
         if (region.equals("lobby")) {
-            LobbyInventory lInv = new LobbyInventory();
-            lInv.loadLobbyInv(p);
-
-        } else if (!RegionConfig.getConfig().get("regions." + region + ".inventory").toString().equals("none") &&
-                (pInv.get("current") == null || !RegionConfig.getConfig().get("regions." + region + ".inventory")
-                        //todo make method to get player file
-                        .toString().equals(RegionConfig.getConfig().get("regions." + pInv.get("current").toString()
+            (new LobbyInventory()).loadLobbyInv(p);
+            
+        } else if (!RegionConfig.getConfig().get(region + ".inventory").toString().equals("none") &&
+                (gmplayer.getCurrentRegion() == null || !RegionConfig.getConfig().get(region + ".inventory")
+                        .toString().equals(RegionConfig.getConfig().get(gmplayer.getCurrentRegion()
                                 + ".inventory").toString()))) {
-
-            if (pInv.get(start + ".experience") != null) {
+            
+            if (gmplayer.getDataFile().get(inventory + ".experience") != null) {
                 p.getPlayer().giveExpLevels(-1000000000);
-                p.getPlayer().giveExp(pInv.getInt(start + ".experience"));
+                p.getPlayer().giveExp(gmplayer.getDataFile().getInt(inventory + ".experience"));
             } else
                 p.getPlayer().giveExpLevels(-1000000000);
-
-            if (pInv.get(start + ".health") != null) {
-                p.getPlayer().setHealth(pInv.getDouble(start + ".health"));
+            
+            if (gmplayer.getDataFile().get(inventory + ".health") != null) {
+                p.getPlayer().setHealth(gmplayer.getDataFile().getDouble(inventory + ".health"));
             } else
                 p.getPlayer().setHealth(20);
-
-            if (pInv.get(start + ".hunger.hunger") != null) {
-                p.getPlayer().setFoodLevel(pInv.getInt(start + ".hunger.hunger"));
+            
+            if (gmplayer.getDataFile().get(inventory + ".hunger.hunger") != null) {
+                p.getPlayer().setFoodLevel(gmplayer.getDataFile().getInt(inventory + ".hunger.hunger"));
             } else
                 p.getPlayer().setFoodLevel(20);
-
-            if (pInv.get(start + ".hunger.saturation") != null) {
-                p.getPlayer().setSaturation(Float.parseFloat(pInv.get(start + ".hunger.saturation").toString()));
+            
+            if (gmplayer.getDataFile().get(inventory + ".hunger.saturation") != null) {
+                p.getPlayer().setSaturation(Float.parseFloat(gmplayer.getDataFile().get(inventory + ".hunger.saturation").toString()));
             } else
                 p.getPlayer().setSaturation(5);
-
-            if (pInv.get(start + ".hunger.exhaustion") != null) {
-                p.getPlayer().setExhaustion(Float.parseFloat(pInv.get(start + ".hunger.exhaustion").toString()));
+            
+            if (gmplayer.getDataFile().get(inventory + ".hunger.exhaustion") != null) {
+                p.getPlayer().setExhaustion(Float.parseFloat(gmplayer.getDataFile().get(inventory + ".hunger.exhaustion").toString()));
             } else
                 p.getPlayer().setExhaustion(0);
-
-            if (pInv.get(start + ".remaining-air") != null) {
-                p.getPlayer().setRemainingAir(pInv.getInt(start + ".remaining-air"));
+            
+            if (gmplayer.getDataFile().get(inventory + ".remaining-air") != null) {
+                p.getPlayer().setRemainingAir(gmplayer.getDataFile().getInt(inventory + ".remaining-air"));
             } else
                 p.getPlayer().setRemainingAir(p.getMaximumAir());
-
-            if (pInv.get(start + ".fall-distance") != null) {
-                p.getPlayer().setFallDistance(Float.parseFloat(pInv.get(start + ".fall-distance").toString()));
+            
+            if (gmplayer.getDataFile().get(inventory + ".fall-distance") != null) {
+                p.getPlayer().setFallDistance(Float.parseFloat(gmplayer.getDataFile().get(inventory + ".fall-distance").toString()));
             } else
                 p.getPlayer().setFallDistance(0);
-
-            if (pInv.get(start + ".fire-ticks") != null) {
-                p.getPlayer().setFireTicks(pInv.getInt(start + ".fire-ticks"));
+            
+            if (gmplayer.getDataFile().get(inventory + ".fire-ticks") != null) {
+                p.getPlayer().setFireTicks(gmplayer.getDataFile().getInt(inventory + ".fire-ticks"));
             } else
                 p.getPlayer().setFireTicks(0);
-
+            
+            if (gmplayer.getDataFile().get(inventory + ".selected-slot") != null) {
+                p.getPlayer().getInventory().setHeldItemSlot(gmplayer.getDataFile().getInt(inventory + ".selected-slot"));
+            } else
+                p.getPlayer().getInventory().setHeldItemSlot(0);
+            
             for (PotionEffect allEffects : p.getActivePotionEffects()) {
                 p.removePotionEffect(allEffects.getType());
             }
-
-            if (pInv.get(start + ".effects", null) != null) {
-                for (int effect = 0; effect < pInv.getConfigurationSection(start + ".effects").getKeys(false)
+            
+            if (gmplayer.getDataFile().get(inventory + ".effects", null) != null) {
+                for (int effect = 0; effect < gmplayer.getDataFile().getConfigurationSection(inventory + ".effects").getKeys(false)
                         .size(); effect++) {
-                    PotionEffect peffect = (PotionEffect) pInv.get(start + ".effects." + effect);
+                    PotionEffect peffect = (PotionEffect) gmplayer.getDataFile().get(inventory + ".effects." + effect);
                     p.addPotionEffect(peffect);
                 }
             }
-
+            
             for (int slotcounter = 0; slotcounter < inv.getSize(); slotcounter++) {
                 ItemStack slot = new ItemStack(Material.AIR, 0);
-                if (pInv.get(start + ".inventory." + slotcounter, null) != null) {
-                    slot = (ItemStack) pInv.get(start + ".inventory." + slotcounter);
+                if (gmplayer.getDataFile().get(inventory + ".contents." + slotcounter, null) != null) {
+                    slot = (ItemStack) gmplayer.getDataFile().get(inventory + ".contents." + slotcounter);
                     inv.setItem(slotcounter, slot);
                 } else {
                     inv.setItem(slotcounter, slot);
                 }
             }
         }
-
+        
         if (p.getGameMode() != mode) {
             p.setGameMode(mode);
         }
-
+        
         if (mode.equals(GameMode.SURVIVAL)) {
             new BukkitRunnable() {
                 @Override
@@ -111,84 +110,78 @@ public class InventoryHandler {
                     p.setAllowFlight(false);
                     p.setFlying(false);
                 }
-            }.runTaskLater(GamesMaster.plugin, 1);
+            }.runTaskLater(GamesMaster.getInstance(), 1);
         }
-
-        pInv.set("current", region);
-
-        try {
-            pInv.save(playerInvConfigFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        
+        gmplayer.setCurrentRegion(region);
+        
+        p.updateInventory();
+        
+        gmplayer.savePlayerData();
     }
-
+    
     public void saveInv(Player p, String region) {
-        File playerInvConfigFile = new File(GamesMaster.plugin.getDataFolder() + File.separator + "playerdata",
-                p.getUniqueId().toString() + ".yml");
-        YamlConfiguration pInv = YamlConfiguration.loadConfiguration(playerInvConfigFile);
-        String start = RegionConfig.getConfig().get("regions." + region + ".inventory").toString();
+        GMPlayer gmplayer = GMPlayer.getPlayerData(p);
+        String inventory = "inventories." + RegionConfig.getConfig().get(region + ".inventory").toString();
         if (p.getPlayer().getTotalExperience() > 0) {
-            pInv.set(start + ".experience", p.getPlayer().getTotalExperience());
+            gmplayer.getDataFile().set(inventory + ".experience", p.getPlayer().getTotalExperience());
         } else
-            pInv.set(start + ".experience", null);
-
+            gmplayer.getDataFile().set(inventory + ".experience", null);
+        
         if (p.getPlayer().getHealth() < 20) {
-            pInv.set(start + ".health", p.getPlayer().getHealth());
+            gmplayer.getDataFile().set(inventory + ".health", p.getPlayer().getHealth());
         } else
-            pInv.set(start + ".health", null);
-
+            gmplayer.getDataFile().set(inventory + ".health", null);
+        
         if (p.getPlayer().getFoodLevel() < 20) {
-            pInv.set(start + ".hunger.hunger", p.getPlayer().getFoodLevel());
+            gmplayer.getDataFile().set(inventory + ".hunger.hunger", p.getPlayer().getFoodLevel());
         } else
-            pInv.set(start + ".hunger.hunger", null);
-
+            gmplayer.getDataFile().set(inventory + ".hunger.hunger", null);
+        
         if (p.getPlayer().getSaturation() != 5) {
-            pInv.set(start + ".hunger.saturation", p.getPlayer().getSaturation());
+            gmplayer.getDataFile().set(inventory + ".hunger.saturation", p.getPlayer().getSaturation());
         } else
-            pInv.set(start + ".hunger.saturation", null);
-
+            gmplayer.getDataFile().set(inventory + ".hunger.saturation", null);
+        
         if (p.getPlayer().getExhaustion() > 0) {
-            pInv.set(start + ".hunger.exhaustion", p.getPlayer().getExhaustion());
+            gmplayer.getDataFile().set(inventory + ".hunger.exhaustion", p.getPlayer().getExhaustion());
         } else
-            pInv.set(start + ".hunger.exhaustion", null);
-
+            gmplayer.getDataFile().set(inventory + ".hunger.exhaustion", null);
+        
         if (p.getPlayer().getRemainingAir() < p.getMaximumAir()) {
-            pInv.set(start + ".remaining-air", p.getPlayer().getRemainingAir());
+            gmplayer.getDataFile().set(inventory + ".remaining-air", p.getPlayer().getRemainingAir());
         } else
-            pInv.set(start + ".remaining-air", null);
-
+            gmplayer.getDataFile().set(inventory + ".remaining-air", null);
+        
         if (p.getPlayer().getFallDistance() > 0) {
-            pInv.set(start + ".fall-distance", p.getPlayer().getFallDistance());
+            gmplayer.getDataFile().set(inventory + ".fall-distance", p.getPlayer().getFallDistance());
         } else
-            pInv.set(start + ".fall-distance", null);
-
+            gmplayer.getDataFile().set(inventory + ".fall-distance", null);
+        
         if (p.getPlayer().getFireTicks() > -20) {
-            pInv.set(start + ".fire-ticks", p.getPlayer().getFireTicks());
+            gmplayer.getDataFile().set(inventory + ".fire-ticks", p.getPlayer().getFireTicks());
         } else
-            pInv.set(start + ".fire-ticks", null);
-
-        pInv.set(start + ".effects", null);
+            gmplayer.getDataFile().set(inventory + ".fire-ticks", null);
+        
+        gmplayer.getDataFile().set(inventory + ".selected-slot", p.getInventory().getHeldItemSlot());
+        
+        gmplayer.getDataFile().set(inventory + ".effects", null);
         int currenteffect = 0;
         for (PotionEffect effect : p.getActivePotionEffects()) {
-            pInv.set(start + ".effects." + currenteffect, effect);
+            gmplayer.getDataFile().set(inventory + ".effects." + currenteffect, effect);
             currenteffect++;
         }
-
-        pInv.set(start + ".inventory", null);
+        
+        gmplayer.getDataFile().set(inventory + ".contents", null);
         int currentslot = 0;
         for (ItemStack stack : p.getInventory().getContents()) {
-            pInv.set(start + ".inventory." + currentslot, stack);
+            gmplayer.getDataFile().set(inventory + ".contents." + currentslot, stack);
             currentslot++;
         }
-
-        try {
-            pInv.save(playerInvConfigFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        
+        gmplayer.savePlayerData();
     }
-
+    
     public void copyInv(Player p) {
         ItemStack[] contents = p.getInventory().getContents();
         int exp = p.getTotalExperience();
@@ -199,8 +192,9 @@ public class InventoryHandler {
         int air = p.getRemainingAir();
         float fall = p.getFallDistance();
         int firetick = p.getFireTicks();
+        int slot = p.getInventory().getHeldItemSlot();
         Collection<PotionEffect> effects = p.getActivePotionEffects();
-
+        
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -214,11 +208,12 @@ public class InventoryHandler {
                 p.setRemainingAir(air);
                 p.setFallDistance(fall);
                 p.setFireTicks(firetick);
+                p.getInventory().setHeldItemSlot(slot);
                 for (PotionEffect allEffects : p.getActivePotionEffects()) {
                     p.removePotionEffect(allEffects.getType());
                 }
                 p.addPotionEffects(effects);
             }
-        }.runTaskLater(GamesMaster.plugin, 1);
+        }.runTaskLater(GamesMaster.getInstance(), 1);
     }
 }

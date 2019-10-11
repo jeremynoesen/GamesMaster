@@ -14,12 +14,12 @@ public class InventoryConfig {
 
     public static void reloadConfig() {
         if (inventoryConfigFile == null) {
-            inventoryConfigFile = new File(GamesMaster.plugin.getDataFolder(), "inventories.yml");
+            inventoryConfigFile = new File(GamesMaster.getInstance().getDataFolder(), "inventories.yml");
         }
 
         config = YamlConfiguration.loadConfiguration(inventoryConfigFile);
 
-        Reader defConfigStream = new InputStreamReader(GamesMaster.plugin.getResource("inventories.yml"),
+        Reader defConfigStream = new InputStreamReader(GamesMaster.getInstance().getResource("inventories.yml"),
                 StandardCharsets.UTF_8);
         YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
         config.setDefaults(defConfig);
@@ -41,16 +41,16 @@ public class InventoryConfig {
         try {
             getConfig().save(inventoryConfigFile);
         } catch (IOException ex) {
-            GamesMaster.plugin.getLogger().log(Level.SEVERE, "Could not save config to " + inventoryConfigFile, ex);
+            GamesMaster.getInstance().getLogger().log(Level.SEVERE, "Could not save config to " + inventoryConfigFile, ex);
         }
     }
 
     public static void saveDefaultConfig() {
         if (inventoryConfigFile == null) {
-            inventoryConfigFile = new File(GamesMaster.plugin.getDataFolder(), "inventories.yml");
+            inventoryConfigFile = new File(GamesMaster.getInstance().getDataFolder(), "inventories.yml");
         }
         if (!inventoryConfigFile.exists()) {
-            GamesMaster.plugin.saveResource("inventories.yml", false);
+            GamesMaster.getInstance().saveResource("inventories.yml", false);
             config = YamlConfiguration.loadConfiguration(inventoryConfigFile);
         }
     }

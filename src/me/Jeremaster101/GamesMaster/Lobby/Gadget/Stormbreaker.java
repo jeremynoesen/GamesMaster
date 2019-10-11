@@ -21,7 +21,7 @@ public class Stormbreaker implements Listener {
 
     private final LobbyHandler lh = new LobbyHandler();
 
-    private static void sendLightningPacket(Player p, Location l) { //taken from spigot forums, sends fake lightning
+    private static void sendLightningPacket(Player p, Location l) {
         Class<?> light = getNMSClass("EntityLightning");
         try {
             Constructor<?> constu =
@@ -104,7 +104,7 @@ public class Stormbreaker implements Listener {
                         this.cancel();
                 }
             }
-        }.runTaskTimer(GamesMaster.plugin, 2, 2);
+        }.runTaskTimer(GamesMaster.getInstance(), 2, 2);
 
         new BukkitRunnable() {
             @Override
@@ -128,7 +128,7 @@ public class Stormbreaker implements Listener {
                                         lh.setGadget(p, stormbreaker());
                                     }
                             }
-                        }.runTaskLater(GamesMaster.plugin, 200);
+                        }.runTaskLater(GamesMaster.getInstance(), 200);
                     }
 
                     if (p.isOnGround()) {
@@ -185,13 +185,13 @@ public class Stormbreaker implements Listener {
                                         p.getWorld().spawnParticle(Particle.CRIT_MAGIC, playermidmid, 10, 0, 0, 0,
                                                 1);
                                     }
-                                }.runTaskLater(GamesMaster.plugin, 1);
+                                }.runTaskLater(GamesMaster.getInstance(), 1);
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
 
                                         for (Player all : lh.getPlayersInLobby()) {
-                                            //sendLightningPacket(all, mid);
+                                            //sendLightningPacket(all, mid);//todo make stormbreaker branch out to other mobs
                                         }
 
                                         p.getWorld().spawnParticle(Particle.CRIT_MAGIC, mid, 10, 0, 0, 0, 0.25);
@@ -204,7 +204,7 @@ public class Stormbreaker implements Listener {
                                             p.getWorld().playEffect(mid.add(0, -1, 0),
                                                     Effect.STEP_SOUND, mid.getBlock().getRelative(0, -1, 0).getType());
                                     }
-                                }.runTaskLater(GamesMaster.plugin, 2);
+                                }.runTaskLater(GamesMaster.getInstance(), 2);
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
@@ -214,7 +214,7 @@ public class Stormbreaker implements Listener {
                                         p.getWorld().spawnParticle(Particle.CRIT_MAGIC, midnearmid, 10, 0, 0, 0, 0.25);
 
                                     }
-                                }.runTaskLater(GamesMaster.plugin, 3);
+                                }.runTaskLater(GamesMaster.getInstance(), 3);
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
@@ -223,7 +223,7 @@ public class Stormbreaker implements Listener {
                                             sendLightningPacket(all, near.getLocation());
                                         }
 
-                                        p.getWorld().playSound(near.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_IMPACT
+                                        p.getWorld().playSound(near.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_IMPACT//todo remove, sound might be playing twice
                                                 , 5, 1);
 
                                         p.getWorld().spawnParticle(Particle.CRIT_MAGIC, near.getLocation(), 20, 0, 0, 0,
@@ -241,13 +241,13 @@ public class Stormbreaker implements Listener {
                                                     false));
                                         near.setGlowing(true);
                                     }
-                                }.runTaskLater(GamesMaster.plugin, 4);
+                                }.runTaskLater(GamesMaster.getInstance(), 4);
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
                                         near.setGlowing(false);
                                     }
-                                }.runTaskLater(GamesMaster.plugin, 6);
+                                }.runTaskLater(GamesMaster.getInstance(), 6);
 
                             } else if (near.getLocation().distanceSquared(p.getLocation()) <= 25) {
 
@@ -264,7 +264,7 @@ public class Stormbreaker implements Listener {
                                                 1);
 
                                     }
-                                }.runTaskLater(GamesMaster.plugin, 1);
+                                }.runTaskLater(GamesMaster.getInstance(), 1);
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
@@ -293,13 +293,13 @@ public class Stormbreaker implements Listener {
                                                     false));
                                         near.setGlowing(true);
                                     }
-                                }.runTaskLater(GamesMaster.plugin, 2);
+                                }.runTaskLater(GamesMaster.getInstance(), 2);
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
                                         near.setGlowing(false);
                                     }
-                                }.runTaskLater(GamesMaster.plugin, 4);
+                                }.runTaskLater(GamesMaster.getInstance(), 4);
                             }
                         }
 
@@ -311,7 +311,7 @@ public class Stormbreaker implements Listener {
                                 }
 
                             }
-                        }.runTaskLater(GamesMaster.plugin, 20);
+                        }.runTaskLater(GamesMaster.getInstance(), 20);
                         new BukkitRunnable() {
                             @Override
                             public void run() {
@@ -320,13 +320,13 @@ public class Stormbreaker implements Listener {
                                         lh.setGadget(p, stormbreaker());
                                     }
                             }
-                        }.runTaskLater(GamesMaster.plugin, 200);
+                        }.runTaskLater(GamesMaster.getInstance(), 200);
 
                         this.cancel();
                     }
                 } else this.cancel();
             }
-        }.runTaskTimer(GamesMaster.plugin, 5, 1);
+        }.runTaskTimer(GamesMaster.getInstance(), 5, 1);
     }
 
     public void useFly(Player p) {
@@ -358,7 +358,7 @@ public class Stormbreaker implements Listener {
                         }
                     }
                 }
-            }.runTaskLater(GamesMaster.plugin, charge);
+            }.runTaskLater(GamesMaster.getInstance(), charge);
         }
         new BukkitRunnable() {
             @Override
@@ -368,7 +368,7 @@ public class Stormbreaker implements Listener {
                     p.setGlowing(false);
                 }
             }
-        }.runTaskLater(GamesMaster.plugin, 101);
+        }.runTaskLater(GamesMaster.getInstance(), 101);
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -377,7 +377,7 @@ public class Stormbreaker implements Listener {
                         lh.setGadget(p, stormbreaker());
                     }
             }
-        }.runTaskLater(GamesMaster.plugin, 250);
+        }.runTaskLater(GamesMaster.getInstance(), 250);
     }
 
     @EventHandler

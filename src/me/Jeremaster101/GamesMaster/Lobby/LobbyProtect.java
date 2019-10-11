@@ -42,22 +42,25 @@ public class LobbyProtect implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                for (Entity e : lh.gamesWorld().getEntities()) {
-                    if (ah.isInRegion(e.getLocation(), "lobby") && !(e instanceof Player) && !(e instanceof ArmorStand) && !(e instanceof ItemFrame))
-                        e.remove();
-                    if (ah.isInRegion(e.getLocation(), "lobby") && e instanceof Player)
-                        for (Sound s : records) ((Player) e).stopSound(s);
+                try {
+                    for (Entity e : lh.gamesWorld().getEntities()) {
+                        if (ah.isInRegion(e.getLocation(), "lobby") && !(e instanceof Player) && !(e instanceof ArmorStand) && !(e instanceof ItemFrame))
+                            e.remove();
+                        if (ah.isInRegion(e.getLocation(), "lobby") && e instanceof Player)
+                            for (Sound s : records) ((Player) e).stopSound(s);
+                    }
+                } catch (Exception ignored) {
                 }
-                Bukkit.getScheduler().cancelTasks(GamesMaster.plugin);
+                Bukkit.getScheduler().cancelTasks(GamesMaster.getInstance());
             }
-        }.runTaskLater(GamesMaster.plugin, 2);
+        }.runTaskLater(GamesMaster.getInstance(), 2);
     }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         Action a = e.getAction();
-        if (e.getClickedBlock() != null && ah.isInRegion(e.getClickedBlock().getLocation(), "lobby")) {
+        if (e.getClickedBlock() != null && lh.isInLobby(p)) {
             if (a == Action.RIGHT_CLICK_BLOCK || a == Action.RIGHT_CLICK_AIR) {
                 if (e.getClickedBlock() != null && p.getGameMode() != GameMode.CREATIVE)
                     e.setCancelled(true);

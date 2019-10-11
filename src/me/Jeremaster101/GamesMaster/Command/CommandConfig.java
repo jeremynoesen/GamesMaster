@@ -1,4 +1,4 @@
-package me.Jeremaster101.GamesMaster.Command;
+package me.Jeremaster101.GamesMaster.Command; //todo possibly make a single config managing class
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,12 +17,12 @@ public class CommandConfig {
 
     public static void reloadConfig() {
         if (commandConfigFile == null) {
-            commandConfigFile = new File(GamesMaster.plugin.getDataFolder(), "commands.yml");
+            commandConfigFile = new File(GamesMaster.getInstance().getDataFolder(), "commands.yml");
         }
 
         config = YamlConfiguration.loadConfiguration(commandConfigFile);
 
-        Reader defConfigStream = new InputStreamReader(GamesMaster.plugin.getResource("commands.yml"),
+        Reader defConfigStream = new InputStreamReader(GamesMaster.getInstance().getResource("commands.yml"),
                 StandardCharsets.UTF_8);
         YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
         config.setDefaults(defConfig);
@@ -44,16 +44,16 @@ public class CommandConfig {
         try {
             getConfig().save(commandConfigFile);
         } catch (IOException ex) {
-            GamesMaster.plugin.getLogger().log(Level.SEVERE, "Could not save config to " + commandConfigFile, ex);
+            GamesMaster.getInstance().getLogger().log(Level.SEVERE, "Could not save config to " + commandConfigFile, ex);
         }
     }
 
     public static void saveDefaultConfig() {
         if (commandConfigFile == null) {
-            commandConfigFile = new File(GamesMaster.plugin.getDataFolder(), "commands.yml");
+            commandConfigFile = new File(GamesMaster.getInstance().getDataFolder(), "commands.yml");
         }
         if (!commandConfigFile.exists()) {
-            GamesMaster.plugin.saveResource("commands.yml", false);
+            GamesMaster.getInstance().saveResource("commands.yml", false);
             config = YamlConfiguration.loadConfiguration(commandConfigFile);
         }
     }

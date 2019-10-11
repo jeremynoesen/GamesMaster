@@ -1,18 +1,16 @@
 package me.Jeremaster101.GamesMaster.Lobby.GUI;
 
-import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
 import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaConfig;
 import me.Jeremaster101.GamesMaster.Lobby.Game.GameConfig;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
+import me.Jeremaster101.GamesMaster.GMPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,27 +28,25 @@ public class GUIInventory {
 
     public Inventory cosmeticUI(Player p) {
         Inventory cosmetics = Bukkit.createInventory(p, 9, ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Cosmetics");
-
-        File playerInvConfigFile = new File(GamesMaster.plugin.getDataFolder() + File.separator + "playerdata",
-                p.getUniqueId().toString() + ".yml");
-        YamlConfiguration cur = YamlConfiguration.loadConfiguration(playerInvConfigFile);
-
-        cosmetics.setItem(0, guiItem.filler(9));
-        cosmetics.setItem(1, guiItem.filler(9));
-        cosmetics.setItem(2, guiItem.filler(0));
+    
+        GMPlayer gmplayer = GMPlayer.getPlayerData(p);
+    
+        cosmetics.setItem(0, guiItem.filler(GUIColor.CYAN));
+        cosmetics.setItem(1, guiItem.filler(GUIColor.CYAN));
+        cosmetics.setItem(2, guiItem.filler(GUIColor.WHITE));
         if (lInv.list.contains(p.getInventory().getItem(4))) {
             cosmetics.setItem(3, guiItem.gadgetActiveUI());
         } else
             cosmetics.setItem(3, guiItem.gadgetUI());
-        cosmetics.setItem(4, guiItem.filler(0));
-        if (cur.getBoolean("music-muted")) {
+        cosmetics.setItem(4, guiItem.filler(GUIColor.WHITE));
+        if (gmplayer.isMusicMuted()) {
             cosmetics.setItem(5, guiItem.musicUImuted());
         } else {
             cosmetics.setItem(5, guiItem.musicUI());
         }
-        cosmetics.setItem(6, guiItem.filler(0));
-        cosmetics.setItem(7, guiItem.filler(9));
-        cosmetics.setItem(8, guiItem.filler(9));
+        cosmetics.setItem(6, guiItem.filler(GUIColor.WHITE));
+        cosmetics.setItem(7, guiItem.filler(GUIColor.CYAN));
+        cosmetics.setItem(8, guiItem.filler(GUIColor.CYAN));
 
         return cosmetics;
     }
@@ -58,8 +54,8 @@ public class GUIInventory {
     Inventory gadgetUI(Player p) {
         Inventory gadgets = Bukkit.createInventory(p, 18, ChatColor.YELLOW + "" + ChatColor.BOLD + "Gadgets");
 
-        gadgets.setItem(0, guiItem.fillerBack(4, "cosmetic"));
-        gadgets.setItem(1, guiItem.filler(0));
+        gadgets.setItem(0, guiItem.fillerBack(GUIColor.YELLOW, "cosmetic"));
+        gadgets.setItem(1, guiItem.filler(GUIColor.WHITE));
 
         if (p.getInventory().getItem(4) != null && (p.getInventory().getItem(4).equals(slimeLauncher.slimeLauncher()) ||
                 p.getInventory().getItem(4).equals(slimeLauncher.slimeLauncherReload()))) {
@@ -86,13 +82,13 @@ public class GUIInventory {
         } else
             gadgets.setItem(5, guiItem.fizzyLiftingDrinkDisabled());
 
-        gadgets.setItem(7, guiItem.filler(0));
-        gadgets.setItem(8, guiItem.fillerBack(4, "cosmetic"));
+        gadgets.setItem(7, guiItem.filler(GUIColor.WHITE));
+        gadgets.setItem(8, guiItem.fillerBack(GUIColor.YELLOW, "cosmetic"));
 
-        gadgets.setItem(9, guiItem.fillerBack(4, "cosmetic"));
-        gadgets.setItem(10, guiItem.filler(4));
-        gadgets.setItem(11, guiItem.filler(4));
-        gadgets.setItem(12, guiItem.filler(0));
+        gadgets.setItem(9, guiItem.fillerBack(GUIColor.YELLOW, "cosmetic"));
+        gadgets.setItem(10, guiItem.filler(GUIColor.YELLOW));
+        gadgets.setItem(11, guiItem.filler(GUIColor.YELLOW));
+        gadgets.setItem(12, guiItem.filler(GUIColor.WHITE));
         if (p.isOp() || ug.canUnlockStormbreaker(p)) {
             if (p.getInventory().getItem(4) != null && (p.getInventory().getItem(4).equals(stormbreaker.stormbreaker()) ||
                     p.getInventory().getItem(4).equals(stormbreaker.stormbreakerReload()))) {
@@ -103,26 +99,26 @@ public class GUIInventory {
         } else {
             gadgets.setItem(13, guiItem.stormbreakerLockedOntime());
         }
-        gadgets.setItem(14, guiItem.filler(0));
-        gadgets.setItem(15, guiItem.filler(4));
-        gadgets.setItem(16, guiItem.filler(4));
-        gadgets.setItem(17, guiItem.fillerBack(4, "cosmetic"));
+        gadgets.setItem(14, guiItem.filler(GUIColor.WHITE));
+        gadgets.setItem(15, guiItem.filler(GUIColor.YELLOW));
+        gadgets.setItem(16, guiItem.filler(GUIColor.YELLOW));
+        gadgets.setItem(17, guiItem.fillerBack(GUIColor.YELLOW, "cosmetic"));
 
 
         return gadgets;
     }
 
-    public Inventory gamesUI() {
+    public Inventory gameUI() {
         List<ItemStack> games = new ArrayList<>();
 
         if (GameConfig.getConfig().get("games") != null &&
                 GameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() > 0)
             for (String game : GameConfig.getConfig().getConfigurationSection("games").getKeys(false)) {
-                if (ArenaConfig.getConfig().get("arenas." + game) != null &&
-                        ArenaConfig.getConfig().getConfigurationSection("arenas." + game).getKeys(false).size() > 0) {
-                    games.add(guiItem.game(GameConfig.getConfig().getString("games." + game + ".display-name"),
-                            GameConfig.getConfig().getString("games." + game + ".icon"),
-                            GameConfig.getConfig().getString("games." + game + ".description")));
+                if (ArenaConfig.getConfig().get(game) != null &&
+                        ArenaConfig.getConfig().getConfigurationSection(game).getKeys(false).size() > 0) {
+                    games.add(guiItem.game(GameConfig.getConfig().getString(game + ".display-name"),
+                            GameConfig.getConfig().getString(game + ".icon"),
+                            GameConfig.getConfig().getString(game + ".description")));
                 }
             }
 
@@ -135,73 +131,73 @@ public class GUIInventory {
 
             switch (size) {
                 case 1:
-                    gamesui.setItem(0, guiItem.filler(3));
-                    gamesui.setItem(1, guiItem.filler(3));
-                    gamesui.setItem(2, guiItem.filler(3));
-                    gamesui.setItem(3, guiItem.filler(0));
+                    gamesui.setItem(0, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(1, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(2, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(3, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(4, games.get(0));
-                    gamesui.setItem(5, guiItem.filler(0));
-                    gamesui.setItem(6, guiItem.filler(3));
-                    gamesui.setItem(7, guiItem.filler(3));
-                    gamesui.setItem(8, guiItem.filler(3));
+                    gamesui.setItem(5, guiItem.filler(GUIColor.WHITE));
+                    gamesui.setItem(6, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(7, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(8, guiItem.filler(GUIColor.LIGHT_BLUE));
                     break;
                 case 2:
-                    gamesui.setItem(0, guiItem.filler(3));
-                    gamesui.setItem(1, guiItem.filler(3));
-                    gamesui.setItem(2, guiItem.filler(0));
+                    gamesui.setItem(0, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(1, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(2, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(3, games.get(0));
-                    gamesui.setItem(4, guiItem.filler(0));
+                    gamesui.setItem(4, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(5, games.get(1));
-                    gamesui.setItem(6, guiItem.filler(0));
-                    gamesui.setItem(7, guiItem.filler(3));
-                    gamesui.setItem(8, guiItem.filler(3));
+                    gamesui.setItem(6, guiItem.filler(GUIColor.WHITE));
+                    gamesui.setItem(7, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(8, guiItem.filler(GUIColor.LIGHT_BLUE));
                     break;
                 case 3:
-                    gamesui.setItem(0, guiItem.filler(3));
-                    gamesui.setItem(1, guiItem.filler(3));
-                    gamesui.setItem(2, guiItem.filler(0));
+                    gamesui.setItem(0, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(1, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(2, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(3, games.get(0));
                     gamesui.setItem(4, games.get(1));
                     gamesui.setItem(5, games.get(2));
-                    gamesui.setItem(6, guiItem.filler(0));
-                    gamesui.setItem(7, guiItem.filler(3));
-                    gamesui.setItem(8, guiItem.filler(3));
+                    gamesui.setItem(6, guiItem.filler(GUIColor.WHITE));
+                    gamesui.setItem(7, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(8, guiItem.filler(GUIColor.LIGHT_BLUE));
                     break;
                 case 4:
-                    gamesui.setItem(0, guiItem.filler(3));
-                    gamesui.setItem(1, guiItem.filler(0));
+                    gamesui.setItem(0, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(1, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(2, games.get(0));
                     gamesui.setItem(3, games.get(1));
-                    gamesui.setItem(4, guiItem.filler(0));
+                    gamesui.setItem(4, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(5, games.get(2));
                     gamesui.setItem(6, games.get(3));
-                    gamesui.setItem(7, guiItem.filler(0));
-                    gamesui.setItem(8, guiItem.filler(3));
+                    gamesui.setItem(7, guiItem.filler(GUIColor.WHITE));
+                    gamesui.setItem(8, guiItem.filler(GUIColor.LIGHT_BLUE));
                     break;
                 case 5:
-                    gamesui.setItem(0, guiItem.filler(3));
-                    gamesui.setItem(1, guiItem.filler(0));
+                    gamesui.setItem(0, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(1, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(2, games.get(0));
                     gamesui.setItem(3, games.get(1));
                     gamesui.setItem(4, games.get(2));
                     gamesui.setItem(5, games.get(3));
                     gamesui.setItem(6, games.get(4));
-                    gamesui.setItem(7, guiItem.filler(0));
-                    gamesui.setItem(8, guiItem.filler(3));
+                    gamesui.setItem(7, guiItem.filler(GUIColor.WHITE));
+                    gamesui.setItem(8, guiItem.filler(GUIColor.LIGHT_BLUE));
                     break;
                 case 6:
-                    gamesui.setItem(0, guiItem.filler(0));
+                    gamesui.setItem(0, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(1, games.get(0));
                     gamesui.setItem(2, games.get(1));
                     gamesui.setItem(3, games.get(2));
-                    gamesui.setItem(4, guiItem.filler(0));
+                    gamesui.setItem(4, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(5, games.get(3));
                     gamesui.setItem(6, games.get(4));
                     gamesui.setItem(7, games.get(5));
-                    gamesui.setItem(8, guiItem.filler(0));
+                    gamesui.setItem(8, guiItem.filler(GUIColor.WHITE));
                     break;
                 case 7:
-                    gamesui.setItem(0, guiItem.filler(0));
+                    gamesui.setItem(0, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(1, games.get(0));
                     gamesui.setItem(2, games.get(1));
                     gamesui.setItem(3, games.get(2));
@@ -209,7 +205,7 @@ public class GUIInventory {
                     gamesui.setItem(5, games.get(4));
                     gamesui.setItem(6, games.get(5));
                     gamesui.setItem(7, games.get(6));
-                    gamesui.setItem(8, guiItem.filler(0));
+                    gamesui.setItem(8, guiItem.filler(GUIColor.WHITE));
                     break;
             }
 
@@ -218,7 +214,7 @@ public class GUIInventory {
 
             switch (size) {
                 case 8:
-                    gamesui.setItem(0, guiItem.filler(0));
+                    gamesui.setItem(0, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(1, games.get(0));
                     gamesui.setItem(2, games.get(1));
                     gamesui.setItem(3, games.get(2));
@@ -226,20 +222,20 @@ public class GUIInventory {
                     gamesui.setItem(5, games.get(4));
                     gamesui.setItem(6, games.get(5));
                     gamesui.setItem(7, games.get(6));
-                    gamesui.setItem(8, guiItem.filler(0));
+                    gamesui.setItem(8, guiItem.filler(GUIColor.WHITE));
 
-                    gamesui.setItem(9, guiItem.filler(3));
-                    gamesui.setItem(10, guiItem.filler(3));
-                    gamesui.setItem(11, guiItem.filler(3));
-                    gamesui.setItem(12, guiItem.filler(0));
+                    gamesui.setItem(9, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(10, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(11, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(12, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(13, games.get(7));
-                    gamesui.setItem(14, guiItem.filler(0));
-                    gamesui.setItem(15, guiItem.filler(3));
-                    gamesui.setItem(16, guiItem.filler(3));
-                    gamesui.setItem(17, guiItem.filler(3));
+                    gamesui.setItem(14, guiItem.filler(GUIColor.WHITE));
+                    gamesui.setItem(15, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(16, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(17, guiItem.filler(GUIColor.LIGHT_BLUE));
                     break;
                 case 9:
-                    gamesui.setItem(0, guiItem.filler(0));
+                    gamesui.setItem(0, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(1, games.get(0));
                     gamesui.setItem(2, games.get(1));
                     gamesui.setItem(3, games.get(2));
@@ -247,20 +243,20 @@ public class GUIInventory {
                     gamesui.setItem(5, games.get(4));
                     gamesui.setItem(6, games.get(5));
                     gamesui.setItem(7, games.get(6));
-                    gamesui.setItem(8, guiItem.filler(0));
+                    gamesui.setItem(8, guiItem.filler(GUIColor.WHITE));
 
-                    gamesui.setItem(9, guiItem.filler(3));
-                    gamesui.setItem(10, guiItem.filler(3));
-                    gamesui.setItem(11, guiItem.filler(0));
+                    gamesui.setItem(9, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(10, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(11, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(12, games.get(7));
-                    gamesui.setItem(13, guiItem.filler(0));
+                    gamesui.setItem(13, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(14, games.get(8));
-                    gamesui.setItem(15, guiItem.filler(0));
-                    gamesui.setItem(16, guiItem.filler(3));
-                    gamesui.setItem(17, guiItem.filler(3));
+                    gamesui.setItem(15, guiItem.filler(GUIColor.WHITE));
+                    gamesui.setItem(16, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(17, guiItem.filler(GUIColor.LIGHT_BLUE));
                     break;
                 case 10:
-                    gamesui.setItem(0, guiItem.filler(0));
+                    gamesui.setItem(0, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(1, games.get(0));
                     gamesui.setItem(2, games.get(1));
                     gamesui.setItem(3, games.get(2));
@@ -268,20 +264,20 @@ public class GUIInventory {
                     gamesui.setItem(5, games.get(4));
                     gamesui.setItem(6, games.get(5));
                     gamesui.setItem(7, games.get(6));
-                    gamesui.setItem(8, guiItem.filler(0));
+                    gamesui.setItem(8, guiItem.filler(GUIColor.WHITE));
 
-                    gamesui.setItem(9, guiItem.filler(3));
-                    gamesui.setItem(10, guiItem.filler(3));
-                    gamesui.setItem(11, guiItem.filler(0));
+                    gamesui.setItem(9, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(10, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(11, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(12, games.get(7));
                     gamesui.setItem(13, games.get(8));
                     gamesui.setItem(14, games.get(9));
-                    gamesui.setItem(15, guiItem.filler(0));
-                    gamesui.setItem(16, guiItem.filler(3));
-                    gamesui.setItem(17, guiItem.filler(3));
+                    gamesui.setItem(15, guiItem.filler(GUIColor.WHITE));
+                    gamesui.setItem(16, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(17, guiItem.filler(GUIColor.LIGHT_BLUE));
                     break;
                 case 11:
-                    gamesui.setItem(0, guiItem.filler(0));
+                    gamesui.setItem(0, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(1, games.get(0));
                     gamesui.setItem(2, games.get(1));
                     gamesui.setItem(3, games.get(2));
@@ -289,20 +285,20 @@ public class GUIInventory {
                     gamesui.setItem(5, games.get(4));
                     gamesui.setItem(6, games.get(5));
                     gamesui.setItem(7, games.get(6));
-                    gamesui.setItem(8, guiItem.filler(0));
+                    gamesui.setItem(8, guiItem.filler(GUIColor.WHITE));
 
-                    gamesui.setItem(9, guiItem.filler(3));
-                    gamesui.setItem(10, guiItem.filler(0));
+                    gamesui.setItem(9, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(10, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(11, games.get(7));
                     gamesui.setItem(12, games.get(8));
-                    gamesui.setItem(13, guiItem.filler(0));
+                    gamesui.setItem(13, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(14, games.get(9));
                     gamesui.setItem(15, games.get(10));
-                    gamesui.setItem(16, guiItem.filler(0));
-                    gamesui.setItem(17, guiItem.filler(3));
+                    gamesui.setItem(16, guiItem.filler(GUIColor.WHITE));
+                    gamesui.setItem(17, guiItem.filler(GUIColor.LIGHT_BLUE));
                     break;
                 case 12:
-                    gamesui.setItem(0, guiItem.filler(0));
+                    gamesui.setItem(0, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(1, games.get(0));
                     gamesui.setItem(2, games.get(1));
                     gamesui.setItem(3, games.get(2));
@@ -310,20 +306,20 @@ public class GUIInventory {
                     gamesui.setItem(5, games.get(4));
                     gamesui.setItem(6, games.get(5));
                     gamesui.setItem(7, games.get(6));
-                    gamesui.setItem(8, guiItem.filler(0));
+                    gamesui.setItem(8, guiItem.filler(GUIColor.WHITE));
 
-                    gamesui.setItem(9, guiItem.filler(3));
-                    gamesui.setItem(10, guiItem.filler(0));
+                    gamesui.setItem(9, guiItem.filler(GUIColor.LIGHT_BLUE));
+                    gamesui.setItem(10, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(11, games.get(7));
                     gamesui.setItem(12, games.get(8));
                     gamesui.setItem(13, games.get(9));
                     gamesui.setItem(14, games.get(10));
                     gamesui.setItem(15, games.get(11));
-                    gamesui.setItem(16, guiItem.filler(0));
-                    gamesui.setItem(17, guiItem.filler(3));
+                    gamesui.setItem(16, guiItem.filler(GUIColor.WHITE));
+                    gamesui.setItem(17, guiItem.filler(GUIColor.LIGHT_BLUE));
                     break;
                 case 13:
-                    gamesui.setItem(0, guiItem.filler(0));
+                    gamesui.setItem(0, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(1, games.get(0));
                     gamesui.setItem(2, games.get(1));
                     gamesui.setItem(3, games.get(2));
@@ -331,17 +327,17 @@ public class GUIInventory {
                     gamesui.setItem(5, games.get(4));
                     gamesui.setItem(6, games.get(5));
                     gamesui.setItem(7, games.get(6));
-                    gamesui.setItem(8, guiItem.filler(0));
+                    gamesui.setItem(8, guiItem.filler(GUIColor.WHITE));
 
-                    gamesui.setItem(9, guiItem.filler(0));
+                    gamesui.setItem(9, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(10, games.get(7));
                     gamesui.setItem(11, games.get(8));
                     gamesui.setItem(12, games.get(9));
-                    gamesui.setItem(13, guiItem.filler(0));
+                    gamesui.setItem(13, guiItem.filler(GUIColor.WHITE));
                     gamesui.setItem(14, games.get(10));
                     gamesui.setItem(15, games.get(11));
                     gamesui.setItem(16, games.get(12));
-                    gamesui.setItem(17, guiItem.filler(0));
+                    gamesui.setItem(17, guiItem.filler(GUIColor.WHITE));
                     break;
 
             }
@@ -352,14 +348,14 @@ public class GUIInventory {
     }
 
     private boolean enabled(String game, int arena) {
-        return ArenaConfig.getConfig().get("arenas." + game + "." + arena + ".enabled").toString().equals("true");
+        return ArenaConfig.getConfig().get(game + "." + arena + ".enabled").toString().equals("true");
     }
 
     private String mapName(String game, int arena) {
-        return ArenaConfig.getConfig().get("arenas." + game + "." + arena + ".mapname").toString();
+        return ArenaConfig.getConfig().get(game + "." + arena + ".mapname").toString();
     }
 
-    Inventory gameUI(int color, String game, String invName) {
+    Inventory arenaUI(GUIColor color, String game, String invName) {
         Inventory inv = Bukkit.createInventory(null, 9, invName);
         inv.setItem(0, guiItem.fillerBack(color, "game"));
         inv.setItem(8, guiItem.fillerBack(color, "game"));
@@ -367,8 +363,8 @@ public class GUIInventory {
         List<ItemStack> arenas = new ArrayList<>();
 
         for (int i = 1; i < 6; i++) {
-            if (ArenaConfig.getConfig().getConfigurationSection("arenas." + game + "." + i) != null) {
-                if (enabled(game, i) && ArenaConfig.getConfig().get("arenas." + game + "." + i + ".hidden") == null) {
+            if (ArenaConfig.getConfig().getConfigurationSection(game + "." + i) != null) {
+                if (enabled(game, i) && ArenaConfig.getConfig().get(game + "." + i + ".hidden") == null) {
                     arenas.add(guiItem.arenaEnabled(i, mapName(game, i)));
                 } else {
                     arenas.add(guiItem.arenaDisabled(i, mapName(game, i)));
@@ -382,47 +378,47 @@ public class GUIInventory {
             case 1:
                 inv.setItem(1, guiItem.filler(color));
                 inv.setItem(2, guiItem.filler(color));
-                inv.setItem(3, guiItem.filler(0));
+                inv.setItem(3, guiItem.filler(GUIColor.WHITE));
                 inv.setItem(4, arenas.get(0));
-                inv.setItem(5, guiItem.filler(0));
+                inv.setItem(5, guiItem.filler(GUIColor.WHITE));
                 inv.setItem(6, guiItem.filler(color));
                 inv.setItem(7, guiItem.filler(color));
                 break;
             case 2:
                 inv.setItem(1, guiItem.filler(color));
-                inv.setItem(2, guiItem.filler(0));
+                inv.setItem(2, guiItem.filler(GUIColor.WHITE));
                 inv.setItem(3, arenas.get(0));
-                inv.setItem(4, guiItem.filler(0));
+                inv.setItem(4, guiItem.filler(GUIColor.WHITE));
                 inv.setItem(5, arenas.get(1));
-                inv.setItem(6, guiItem.filler(0));
+                inv.setItem(6, guiItem.filler(GUIColor.WHITE));
                 inv.setItem(7, guiItem.filler(color));
                 break;
             case 3:
                 inv.setItem(1, guiItem.filler(color));
-                inv.setItem(2, guiItem.filler(0));
+                inv.setItem(2, guiItem.filler(GUIColor.WHITE));
                 inv.setItem(3, arenas.get(0));
                 inv.setItem(4, arenas.get(1));
                 inv.setItem(5, arenas.get(2));
-                inv.setItem(6, guiItem.filler(0));
+                inv.setItem(6, guiItem.filler(GUIColor.WHITE));
                 inv.setItem(7, guiItem.filler(color));
                 break;
             case 4:
-                inv.setItem(1, guiItem.filler(0));
+                inv.setItem(1, guiItem.filler(GUIColor.WHITE));
                 inv.setItem(2, arenas.get(0));
                 inv.setItem(3, arenas.get(1));
-                inv.setItem(4, guiItem.filler(0));
+                inv.setItem(4, guiItem.filler(GUIColor.WHITE));
                 inv.setItem(5, arenas.get(2));
                 inv.setItem(6, arenas.get(3));
-                inv.setItem(7, guiItem.filler(0));
+                inv.setItem(7, guiItem.filler(GUIColor.WHITE));
                 break;
             case 5:
-                inv.setItem(1, guiItem.filler(0));
+                inv.setItem(1, guiItem.filler(GUIColor.WHITE));
                 inv.setItem(2, arenas.get(0));
                 inv.setItem(3, arenas.get(1));
                 inv.setItem(4, arenas.get(2));
                 inv.setItem(5, arenas.get(3));
                 inv.setItem(6, arenas.get(4));
-                inv.setItem(7, guiItem.filler(0));
+                inv.setItem(7, guiItem.filler(GUIColor.WHITE));
                 break;
         }
         return inv;
@@ -431,22 +427,22 @@ public class GUIInventory {
     Inventory musicUI() {
         Inventory music = Bukkit.createInventory(null, 27, ChatColor.GOLD + "" + ChatColor.BOLD + "Music");
 
-        music.setItem(0, guiItem.fillerBack(1, "cosmetic"));
-        music.setItem(1, guiItem.filler(1));
-        music.setItem(2, guiItem.filler(0));
-        music.setItem(9, guiItem.filler(1));
-        music.setItem(10, guiItem.filler(0));
-        music.setItem(18, guiItem.fillerBack(1, "cosmetic"));
-        music.setItem(19, guiItem.filler(1));
-        music.setItem(20, guiItem.filler(0));
-        music.setItem(8, guiItem.fillerBack(1, "cosmetic"));
-        music.setItem(7, guiItem.filler(1));
-        music.setItem(6, guiItem.filler(0));
-        music.setItem(17, guiItem.filler(1));
-        music.setItem(16, guiItem.filler(0));
-        music.setItem(26, guiItem.fillerBack(1, "cosmetic"));
-        music.setItem(25, guiItem.filler(1));
-        music.setItem(24, guiItem.filler(0));
+        music.setItem(0, guiItem.fillerBack(GUIColor.ORANGE, "cosmetic"));
+        music.setItem(1, guiItem.filler(GUIColor.ORANGE));
+        music.setItem(2, guiItem.filler(GUIColor.WHITE));
+        music.setItem(9, guiItem.filler(GUIColor.ORANGE));
+        music.setItem(10, guiItem.filler(GUIColor.WHITE));
+        music.setItem(18, guiItem.fillerBack(GUIColor.ORANGE, "cosmetic"));
+        music.setItem(19, guiItem.filler(GUIColor.ORANGE));
+        music.setItem(20, guiItem.filler(GUIColor.WHITE));
+        music.setItem(8, guiItem.fillerBack(GUIColor.ORANGE, "cosmetic"));
+        music.setItem(7, guiItem.filler(GUIColor.ORANGE));
+        music.setItem(6, guiItem.filler(GUIColor.WHITE));
+        music.setItem(17, guiItem.filler(GUIColor.ORANGE));
+        music.setItem(16, guiItem.filler(GUIColor.WHITE));
+        music.setItem(26, guiItem.fillerBack(GUIColor.ORANGE, "cosmetic"));
+        music.setItem(25, guiItem.filler(GUIColor.ORANGE));
+        music.setItem(24, guiItem.filler(GUIColor.WHITE));
 
         music.setItem(3, guiItem.discChirp());
         music.setItem(4, guiItem.discBlocks());

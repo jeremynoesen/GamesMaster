@@ -55,7 +55,7 @@ public class GrapplingHook implements Listener {
                             this.cancel();
                         }
                     }
-                }.runTaskTimer(GamesMaster.plugin, 0, 1);
+                }.runTaskTimer(GamesMaster.getInstance(), 0, 1);
             }
         }
     }
@@ -94,7 +94,7 @@ public class GrapplingHook implements Listener {
                         if (!e.getEntity().isDead()) e.getEntity().remove();
                     }
                 }
-            }.runTaskTimer(GamesMaster.plugin, 0, 1);
+            }.runTaskTimer(GamesMaster.getInstance(), 0, 1);
             p.getWorld().playSound(e.getEntity().getLocation(), Sound.ITEM_TRIDENT_HIT_GROUND, 3, 1.5f);
         }
     }

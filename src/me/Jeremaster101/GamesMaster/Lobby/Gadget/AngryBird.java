@@ -63,7 +63,7 @@ public class AngryBird implements Listener {
                     a.remove();
                 }
             }
-        }.runTaskLater(GamesMaster.plugin, 20);
+        }.runTaskLater(GamesMaster.getInstance(), 20);
     }
 
     @EventHandler

@@ -20,7 +20,7 @@ public class InventoryFixer implements Listener { //this class is to combat PerW
     @EventHandler
     public void onModeChange(PlayerGameModeChangeEvent e) {
         Player p = e.getPlayer();
-        if (GamesMaster.plugin.getConfig().getBoolean("pwi-gamemode-inv-fix")) {
+        if (GamesMaster.getInstance().getConfig().getBoolean("pwi-gamemode-inv-fix")) {
             if (lh.isGamesWorld(p.getWorld())) {
                 ih.copyInv(p);
             }
@@ -29,14 +29,14 @@ public class InventoryFixer implements Listener { //this class is to combat PerW
 
     @EventHandler
     public void onLeaveGamesWorld(PlayerTeleportEvent e) {
-        if (GamesMaster.plugin.getConfig().getBoolean("pwi-gamemode-inv-fix")) {
+        if (GamesMaster.getInstance().getConfig().getBoolean("pwi-gamemode-inv-fix")) {
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();
-            GameMode mode = GameMode.valueOf((RegionConfig.getConfig().getString("regions.default.gamemode")));
+            GameMode mode = GameMode.valueOf((RegionConfig.getConfig().getString("default.gamemode")));
 
             if (lh.isGamesWorld(to.getWorld()) && to.getWorld() != from.getWorld()) {
-                p.setGameMode(GameMode.valueOf((RegionConfig.getConfig().getString("regions.default.gamemode"))));
+                p.setGameMode(GameMode.valueOf((RegionConfig.getConfig().getString("default.gamemode"))));
             }
 
             if (lh.isGamesWorld(from.getWorld()) &&
@@ -48,7 +48,7 @@ public class InventoryFixer implements Listener { //this class is to combat PerW
                     public void run() {
                         p.teleport(to);
                     }
-                }.runTaskLater(GamesMaster.plugin, 2);
+                }.runTaskLater(GamesMaster.getInstance(), 2);
             }
         }
     }

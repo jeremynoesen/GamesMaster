@@ -25,11 +25,8 @@ public class CommandListener implements Listener {
     public void onCommandProcess(PlayerCommandPreprocessEvent e) {
 
         Player p = e.getPlayer();
-        File playerInvConfigFile = new File(GamesMaster.plugin.getDataFolder() + File.separator + "playerdata",
-                p.getUniqueId().toString() + ".yml");
-        YamlConfiguration cur = YamlConfiguration.loadConfiguration(playerInvConfigFile);
 
-        if (!e.getMessage().contains("/qcg")) {
+        if (!e.getMessage().contains("/qcg")) { //todo read from command alias config
             e.setMessage(e.getMessage()
                     .replace("/skywars", "/sw")
                     .replace("/blockparty", "/bp")
@@ -51,15 +48,15 @@ public class CommandListener implements Listener {
         try {
             for (String s : ArenaConfig.getConfig().getConfigurationSection("arenas").getKeys(false)) {
                 for (int i = 1; i <= 5; i++) {
-                    if (ArenaConfig.getConfig().get("arenas." + s + "." + i + ".enabled") == null) continue;
-                    if (ArenaConfig.getConfig().get("arenas." + s + "." + i + ".enabled").toString().equals("false")) {
-                        if (e.getMessage().equals("/" + ArenaConfig.getConfig().get("arenas." + s + "." + i + ".join").toString())) {
+                    if (ArenaConfig.getConfig().get(s + "." + i + ".enabled") == null) continue;
+                    if (ArenaConfig.getConfig().get(s + "." + i + ".enabled").toString().equals("false")) {
+                        if (e.getMessage().equals("/" + ArenaConfig.getConfig().get(s + "." + i + ".join").toString())) {
                             e.setCancelled(true);
                             p.sendMessage(Message.ERROR_ARENA_DISABLED);
                             return;
                         }
                     } else if (!ah.isInRegion(p.getLocation(), "lobby")) {
-                        if (e.getMessage().equals("/" + ArenaConfig.getConfig().get("arenas." + s + "." + i + ".join").toString())) {
+                        if (e.getMessage().equals("/" + ArenaConfig.getConfig().get(s + "." + i + ".join").toString())) {
                             if (lh.isGamesWorld(p.getWorld())) {
                                 e.setCancelled(true);
                                 p.sendMessage(Message.ERROR_NOT_IN_LOBBY);
@@ -74,17 +71,17 @@ public class CommandListener implements Listener {
                                     public void run() {
                                         li.clearLobbyInv(p);
                                     }
-                                }.runTaskLater(GamesMaster.plugin, 10);
+                                }.runTaskLater(GamesMaster.getInstance(), 10);
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
                                         p.performCommand(e.getMessage().replace("/", ""));
                                     }
-                                }.runTaskLater(GamesMaster.plugin, 15);
+                                }.runTaskLater(GamesMaster.getInstance(), 15);
                             }
                         }
                     } else {
-                        if (e.getMessage().equals("/" + ArenaConfig.getConfig().get("arenas." + s + "." + i + ".join").toString())) {
+                        if (e.getMessage().equals("/" + ArenaConfig.getConfig().get(s + "." + i + ".join").toString())) {
                             e.setCancelled(true);
                             li.clearLobbyInv(p);
                             new BukkitRunnable() {
@@ -92,7 +89,7 @@ public class CommandListener implements Listener {
                                 public void run() {
                                     p.performCommand(e.getMessage().replace("/", ""));
                                 }
-                            }.runTaskLater(GamesMaster.plugin, 5);
+                            }.runTaskLater(GamesMaster.getInstance(), 5);
                         }
                     }
                 }

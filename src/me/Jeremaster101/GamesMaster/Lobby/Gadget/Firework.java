@@ -96,6 +96,6 @@ public class Firework {
                     lh.setGadget(p, firework());
                 }
             }
-        }.runTaskLater(GamesMaster.plugin, 10);
+        }.runTaskLater(GamesMaster.getInstance(), 10);
     }
 }

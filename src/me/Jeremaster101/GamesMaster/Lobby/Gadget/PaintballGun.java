@@ -57,7 +57,7 @@ public class PaintballGun implements Listener {
                     lh.setGadget(p, paintballGun());
                 }
             }
-        }.runTaskLater(GamesMaster.plugin, 5);
+        }.runTaskLater(GamesMaster.getInstance(), 5);
     }
 
     private void paintballHitBlock(Block hitBlock, Location hitLoc) {
@@ -118,7 +118,7 @@ public class PaintballGun implements Listener {
                                         public void run() {
                                             all.sendBlockChange(bl.getLocation(), dataToBlock(randomData).createBlockData());
                                         }
-                                    }.runTaskLater(GamesMaster.plugin, 1);
+                                    }.runTaskLater(GamesMaster.getInstance(), 1);
                                 } else {
                                     all.sendBlockChange(bl.getLocation(), dataToBlock(randomData).createBlockData());
                                     all.playEffect(bl.getLocation(), Effect.STEP_SOUND, dataToBlock(randomData));
@@ -131,7 +131,7 @@ public class PaintballGun implements Listener {
                                     public void run() {
                                         all.sendBlockChange(bl.getLocation(), originalBlock);
                                     }
-                                }.runTaskLater(GamesMaster.plugin, 55 + r);
+                                }.runTaskLater(GamesMaster.getInstance(), 55 + r);
                             }
                         }
                     }
@@ -155,7 +155,7 @@ public class PaintballGun implements Listener {
                     if (p.getInventory().getHelmet() != null && p.getInventory().getHelmet().equals(helmet))
                         p.getInventory().setHelmet(new ItemStack(Material.AIR, 0));
             }
-        }.runTaskLater(GamesMaster.plugin, 60);
+        }.runTaskLater(GamesMaster.getInstance(), 60);
     }
 
     @EventHandler

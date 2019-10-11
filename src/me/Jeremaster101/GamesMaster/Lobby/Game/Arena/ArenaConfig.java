@@ -14,12 +14,12 @@ public class ArenaConfig {
 
     public static void reloadConfig() {
         if (arenaConfigFile == null) {
-            arenaConfigFile = new File(GamesMaster.plugin.getDataFolder(), "arenas.yml");
+            arenaConfigFile = new File(GamesMaster.getInstance().getDataFolder(), "arenas.yml");
         }
 
         config = YamlConfiguration.loadConfiguration(arenaConfigFile);
 
-        Reader defConfigStream = new InputStreamReader(GamesMaster.plugin.getResource("arenas.yml"),
+        Reader defConfigStream = new InputStreamReader(GamesMaster.getInstance().getResource("arenas.yml"),
                 StandardCharsets.UTF_8);
         YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
         config.setDefaults(defConfig);
@@ -41,16 +41,16 @@ public class ArenaConfig {
         try {
             getConfig().save(arenaConfigFile);
         } catch (IOException ex) {
-            GamesMaster.plugin.getLogger().log(Level.SEVERE, "Could not save config to " + arenaConfigFile, ex);
+            GamesMaster.getInstance().getLogger().log(Level.SEVERE, "Could not save config to " + arenaConfigFile, ex);
         }
     }
 
     public static void saveDefaultConfig() {
         if (arenaConfigFile == null) {
-            arenaConfigFile = new File(GamesMaster.plugin.getDataFolder(), "arenas.yml");
+            arenaConfigFile = new File(GamesMaster.getInstance().getDataFolder(), "arenas.yml");
         }
         if (!arenaConfigFile.exists()) {
-            GamesMaster.plugin.saveResource("arenas.yml", false);
+            GamesMaster.getInstance().saveResource("arenas.yml", false);
             config = YamlConfiguration.loadConfiguration(arenaConfigFile);
         }
     }

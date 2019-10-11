@@ -14,12 +14,12 @@ public class GameConfig {
 
     public static void reloadConfig() {
         if (gameConfigFile == null) {
-            gameConfigFile = new File(GamesMaster.plugin.getDataFolder(), "games.yml");
+            gameConfigFile = new File(GamesMaster.getInstance().getDataFolder(), "games.yml");
         }
 
         config = YamlConfiguration.loadConfiguration(gameConfigFile);
 
-        Reader defConfigStream = new InputStreamReader(GamesMaster.plugin.getResource("games.yml"),
+        Reader defConfigStream = new InputStreamReader(GamesMaster.getInstance().getResource("games.yml"),
                 StandardCharsets.UTF_8);
         YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
         config.setDefaults(defConfig);
@@ -41,16 +41,16 @@ public class GameConfig {
         try {
             getConfig().save(gameConfigFile);
         } catch (IOException ex) {
-            GamesMaster.plugin.getLogger().log(Level.SEVERE, "Could not save config to " + gameConfigFile, ex);
+            GamesMaster.getInstance().getLogger().log(Level.SEVERE, "Could not save config to " + gameConfigFile, ex);
         }
     }
 
     public static void saveDefaultConfig() {
         if (gameConfigFile == null) {
-            gameConfigFile = new File(GamesMaster.plugin.getDataFolder(), "games.yml");
+            gameConfigFile = new File(GamesMaster.getInstance().getDataFolder(), "games.yml");
         }
         if (!gameConfigFile.exists()) {
-            GamesMaster.plugin.saveResource("games.yml", false);
+            GamesMaster.getInstance().saveResource("games.yml", false);
             config = YamlConfiguration.loadConfiguration(gameConfigFile);
         }
     }

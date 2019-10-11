@@ -14,12 +14,12 @@ public class RegionConfig {
 
     public static void reloadConfig() {
         if (regionConfigFile == null) {
-            regionConfigFile = new File(GamesMaster.plugin.getDataFolder(), "regions.yml");
+            regionConfigFile = new File(GamesMaster.getInstance().getDataFolder(), "regions.yml");
         }
 
         config = YamlConfiguration.loadConfiguration(regionConfigFile);
 
-        Reader defConfigStream = new InputStreamReader(GamesMaster.plugin.getResource("regions.yml"),
+        Reader defConfigStream = new InputStreamReader(GamesMaster.getInstance().getResource("regions.yml"),
                 StandardCharsets.UTF_8);
         YamlConfiguration defConfig = YamlConfiguration.loadConfiguration(defConfigStream);
         config.setDefaults(defConfig);
@@ -41,16 +41,16 @@ public class RegionConfig {
         try {
             getConfig().save(regionConfigFile);
         } catch (IOException ex) {
-            GamesMaster.plugin.getLogger().log(Level.SEVERE, "Could not save config to " + regionConfigFile, ex);
+            GamesMaster.getInstance().getLogger().log(Level.SEVERE, "Could not save config to " + regionConfigFile, ex);
         }
     }
 
     public static void saveDefaultConfig() {
         if (regionConfigFile == null) {
-            regionConfigFile = new File(GamesMaster.plugin.getDataFolder(), "regions.yml");
+            regionConfigFile = new File(GamesMaster.getInstance().getDataFolder(), "regions.yml");
         }
         if (!regionConfigFile.exists()) {
-            GamesMaster.plugin.saveResource("regions.yml", false);
+            GamesMaster.getInstance().saveResource("regions.yml", false);
             config = YamlConfiguration.loadConfiguration(regionConfigFile);
         }
     }

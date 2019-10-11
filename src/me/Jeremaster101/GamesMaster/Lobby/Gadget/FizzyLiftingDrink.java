@@ -45,7 +45,7 @@ public class FizzyLiftingDrink {
                             p.getWorld().playSound(p.getLocation(), Sound.ENTITY_PLAYER_BURP, 1, 1);
                             p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING, 1000, 0, true, false));
                         }
-                    }.runTaskLater(GamesMaster.plugin, 100);
+                    }.runTaskLater(GamesMaster.getInstance(), 100);
                     new BukkitRunnable() {
                         @Override
                         public void run() {
@@ -60,10 +60,10 @@ public class FizzyLiftingDrink {
                                             p.getWorld().playSound(p.getLocation(), Sound.ITEM_BOTTLE_FILL, 1, 2);
                                         }
                                     }
-                                }.runTaskLater(GamesMaster.plugin, 40);
+                                }.runTaskLater(GamesMaster.getInstance(), 40);
                             }
                         }
-                    }.runTaskTimer(GamesMaster.plugin, 2, 1);
+                    }.runTaskTimer(GamesMaster.getInstance(), 2, 1);
 
         new BukkitRunnable() {
             int end = 0;
@@ -80,6 +80,6 @@ public class FizzyLiftingDrink {
                     p.removePotionEffect(PotionEffectType.LEVITATION);
                 }
             }
-        }.runTaskTimer(GamesMaster.plugin, 2, 1);
+        }.runTaskTimer(GamesMaster.getInstance(), 2, 1);
     }
 }

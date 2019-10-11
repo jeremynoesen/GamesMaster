@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Llama;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -40,23 +41,116 @@ public class GUIItem {
         return s;
     }
 
-    public ItemStack filler(int sh) {
-        ItemStack s = new ItemStack(Material.LEGACY_STAINED_GLASS_PANE, 1);
-        s.setDurability((short) sh);
-        ItemMeta sm = s.getItemMeta();
-        sm.setDisplayName(" ");
-        s.setItemMeta(sm);
-        return s;
+    public ItemStack filler(GUIColor color) {
+        ItemStack filler = new ItemStack(Material.AIR, 1);
+        switch (color) {
+            case RED:
+                filler.setType(Material.RED_STAINED_GLASS_PANE);
+                break;
+            case ORANGE:
+                filler.setType(Material.ORANGE_STAINED_GLASS_PANE);
+                break;
+            case YELLOW:
+                filler.setType(Material.YELLOW_STAINED_GLASS_PANE);
+                break;
+            case LIME:
+                filler.setType(Material.LIME_STAINED_GLASS_PANE);
+                break;
+            case GREEN:
+                filler.setType(Material.GREEN_STAINED_GLASS_PANE);
+                break;
+            case LIGHT_BLUE:
+                filler.setType(Material.LIGHT_BLUE_STAINED_GLASS_PANE);
+                break;
+            case BLUE:
+                filler.setType(Material.BLUE_STAINED_GLASS_PANE);
+                break;
+            case CYAN:
+                filler.setType(Material.CYAN_STAINED_GLASS_PANE);
+                break;
+            case PURPLE:
+                filler.setType(Material.PURPLE_STAINED_GLASS_PANE);
+                break;
+            case MAGENTA:
+                filler.setType(Material.MAGENTA_STAINED_GLASS_PANE);
+                break;
+            case PINK:
+                filler.setType(Material.PINK_STAINED_GLASS_PANE);
+                break;
+            case BLACK:
+                filler.setType(Material.BLACK_STAINED_GLASS_PANE);
+                break;
+            case BROWN:
+                filler.setType(Material.BROWN_STAINED_GLASS_PANE);
+                break;
+            case LIGHT_GRAY:
+                filler.setType(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
+                break;
+            case WHITE:
+                filler.setType(Material.WHITE_STAINED_GLASS_PANE);
+                break;
+        }
+        ItemMeta meta = filler.getItemMeta();
+        meta.setDisplayName(" ");
+        filler.setItemMeta(meta);
+        return filler;
     }
 
-    public ItemStack fillerBack(int color, String ui) {
-        ItemStack s = new ItemStack(Material.LEGACY_STAINED_GLASS, 1);
-        s.setDurability((short) color);
-        ItemMeta sm = s.getItemMeta();
-        sm.setDisplayName(ChatColor.WHITE + "" + ChatColor.BOLD + "Back");
-        sm.setLocalizedName(ui);
-        s.setItemMeta(sm);
-        return s;
+    public ItemStack fillerBack(GUIColor color, String ui) {
+        ItemStack filler = new ItemStack(Material.AIR, 1);
+        switch (color) {
+            case RED:
+                filler.setType(Material.RED_STAINED_GLASS);
+                break;
+            case ORANGE:
+                filler.setType(Material.ORANGE_STAINED_GLASS);
+                break;
+            case YELLOW:
+                filler.setType(Material.YELLOW_STAINED_GLASS);
+                break;
+            case LIME:
+                filler.setType(Material.LIME_STAINED_GLASS);
+                break;
+            case GREEN:
+                filler.setType(Material.GREEN_STAINED_GLASS);
+                break;
+            case LIGHT_BLUE:
+                filler.setType(Material.LIGHT_BLUE_STAINED_GLASS);
+                break;
+            case BLUE:
+                filler.setType(Material.BLUE_STAINED_GLASS);
+                break;
+            case CYAN:
+                filler.setType(Material.CYAN_STAINED_GLASS);
+                break;
+            case PURPLE:
+                filler.setType(Material.PURPLE_STAINED_GLASS);
+                break;
+            case MAGENTA:
+                filler.setType(Material.MAGENTA_STAINED_GLASS);
+                break;
+            case PINK:
+                filler.setType(Material.PINK_STAINED_GLASS);
+                break;
+            case BLACK:
+                filler.setType(Material.BLACK_STAINED_GLASS);
+                break;
+            case BROWN:
+                filler.setType(Material.BROWN_STAINED_GLASS);
+                break;
+            case LIGHT_GRAY:
+                filler.setType(Material.LIGHT_GRAY_STAINED_GLASS);
+                break;
+            case WHITE:
+                filler.setType(Material.WHITE_STAINED_GLASS);
+                break;
+        }
+    
+        ItemMeta meta = filler.getItemMeta();
+        meta.setDisplayName(ChatColor.WHITE + "" + ChatColor.BOLD + "Back");
+        meta.setLocalizedName(ui);
+        filler.setItemMeta(meta);
+        return filler;
     }
 
     ItemStack musicUI() {

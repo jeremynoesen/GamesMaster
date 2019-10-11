@@ -28,4 +28,12 @@ public class CommandHandler {
         } else
             p.sendMessage(Message.ERROR_CMD_NOT_BLOCKED);
     }
+    
+    public void addAlias(Player p, String cmd, String alias) {//todo finish
+    
+    }
+    
+    public void removeAlias(Player p, String cmd, String alias) {
+    
+    }
 }

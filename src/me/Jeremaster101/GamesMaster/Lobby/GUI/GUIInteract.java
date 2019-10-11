@@ -3,19 +3,17 @@ package me.Jeremaster101.GamesMaster.Lobby.GUI;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
 import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaConfig;
+import me.Jeremaster101.GamesMaster.Lobby.Game.GameConfig;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
 import me.Jeremaster101.GamesMaster.Message.Message;
+import me.Jeremaster101.GamesMaster.GMPlayer;
 import org.bukkit.*;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.io.File;
-import java.io.IOException;
 
 public class GUIInteract implements Listener {
 
@@ -39,7 +37,6 @@ public class GUIInteract implements Listener {
     private final SlimeLauncher slimeLauncher = new SlimeLauncher();
     private final GUIItem guiItem = new GUIItem();
     private final GUIInventory guiInv = new GUIInventory();
-    private final GUIConvert guim = new GUIConvert();
     private final GrapplingHook grapplingHook = new GrapplingHook();
     private final FizzyLiftingDrink fizzyLiftingDrink = new FizzyLiftingDrink();
     private final LobbyInventory li = new LobbyInventory();
@@ -64,36 +61,36 @@ public class GUIInteract implements Listener {
                     return;
                 }
 
-                if(e.getCurrentItem().equals(guiItem.gameUI())) {
+                if (e.getCurrentItem().equals(guiItem.gameUI())) {
                     e.setCancelled(true);
                     if (ArenaConfig.getConfig().getConfigurationSection("arenas") != null &&
                             ArenaConfig.getConfig().getConfigurationSection("arenas").getKeys(false).size() > 0) {
-                        p.openInventory(guiInv.gamesUI());
+                        p.openInventory(guiInv.gameUI());
                         p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 2, 2);
                     } else {
                         p.playSound(p.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 2, 2);
                         p.sendMessage(Message.ERROR_NO_GAMES);
                     }
                 }
-                if(e.getCurrentItem().equals(guiItem.cosmeticUI())) {
+                if (e.getCurrentItem().equals(guiItem.cosmeticUI())) {
                     e.setCancelled(true);
                     p.openInventory(guiInv.cosmeticUI(p));
                     p.playSound(p.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 1, 1);
                 }
 
-                for (int fillerType = 0; fillerType <= 15; fillerType++) {
-                    if (e.getCurrentItem().equals(guiItem.filler(fillerType))) {
+                for (GUIColor color : GUIColor.values()) {
+                    if (e.getCurrentItem().equals(guiItem.filler(color))) {
                         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 0);
                         e.setCancelled(true);
                         break;
                     }
-                    if (e.getCurrentItem().equals(guiItem.fillerBack(fillerType, "game"))) {
+                    if (e.getCurrentItem().equals(guiItem.fillerBack(color, "game"))) {
                         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
-                        p.openInventory(guiInv.gamesUI());
+                        p.openInventory(guiInv.gameUI());
                         e.setCancelled(true);
                         break;
                     }
-                    if (e.getCurrentItem().equals(guiItem.fillerBack(fillerType, "cosmetic"))) {
+                    if (e.getCurrentItem().equals(guiItem.fillerBack(color, "cosmetic"))) {
                         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
                         p.openInventory(guiInv.cosmeticUI(p));
                         e.setCancelled(true);
@@ -107,8 +104,8 @@ public class GUIInteract implements Listener {
                         p.closeInventory();
                         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 2);
                         try {
-                            String[] cmd = ArenaConfig.getConfig().get("arenas." + guim.invNameToGame(e.getInventory()
-                                    .getName()) + "." + arenas + ".join").toString().split(" ");
+                            String[] cmd = ArenaConfig.getConfig().get(/*guim.invNameToGame(e.getInventory()
+                                    .getName()) + */"." + arenas + ".join").toString().split(" ");
 
                             String xs = cmd[0];
                             String ys = cmd[1];
@@ -129,10 +126,11 @@ public class GUIInteract implements Listener {
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {
-                                    p.performCommand(ArenaConfig.getConfig().get("arenas." + guim.invNameToGame(e.getInventory()
-                                            .getName()) + "." + finalArenas + ".join").toString());
+                                    //p.performCommand(ArenaConfig.getConfig().get(guim.invNameToGame(e
+                                    // .getInventory()
+                                    //        .getName()) + "." + finalArenas + ".join").toString());
                                 }
-                            }.runTaskLater(GamesMaster.plugin, 5);
+                            }.runTaskLater(GamesMaster.getInstance(), 5);
                         }
                     } else if (e.getCurrentItem().getItemMeta().getDisplayName().equals(guiItem.arenaDisabled(arenas, "")
                             .getItemMeta().getDisplayName())) {
@@ -143,34 +141,21 @@ public class GUIInteract implements Listener {
                     }
                 }
 
-                if (e.getInventory().getName().equals(guiInv.gamesUI().getName())) {
+                if (e.getInventory().getName().equals(guiInv.gameUI().getName())) {
                     e.setCancelled(true);
 
-                    /*if (e.getCurrentItem().equals(guiItem.bp()) ||
-                            e.getCurrentItem().equals(guiItem.sp()) ||
-                            e.getCurrentItem().equals(guiItem.sb()) ||
-                            e.getCurrentItem().equals(guiItem.sw()) ||
-                            e.getCurrentItem().equals(guiItem.hg()) ||
-                            e.getCurrentItem().equals(guiItem.has()) ||
-                            e.getCurrentItem().equals(guiItem.elytra()) ||
-                            e.getCurrentItem().equals(guiItem.mm()) ||
-                            e.getCurrentItem().equals(guiItem.cw()) ||
-                            e.getCurrentItem().equals(guiItem.parkour()) ||
-                            e.getCurrentItem().equals(guiItem.bw())) {
-                        if (ArenaConfig.getConfig().getConfigurationSection("arenas." + guim.invNameToGame(
-                                e.getCurrentItem().getItemMeta().getDisplayName())) != null &&
-                                ArenaConfig.getConfig().getConfigurationSection("arenas." + guim.invNameToGame(
-                                        e.getCurrentItem().getItemMeta().getDisplayName())).getKeys(false).size() > 0) {
-                            p.openInventory(guiInv.gameUI(guim.gameToColorInt(guim.invNameToGame(e.getCurrentItem()
-                                            .getItemMeta().getDisplayName())),
-                                    guim.invNameToGame(e.getCurrentItem().getItemMeta().getDisplayName()),
-                                    e.getCurrentItem().getItemMeta().getDisplayName()));
-                            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 2);
-                        } else {
-                            p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 0);
-                            p.sendMessage(Message.ERROR_GAME_NOT_SETUP);
+                    if (GameConfig.getConfig().get("games") != null && GameConfig.getConfig().getConfigurationSection(
+                            "games").getKeys(false).size() > 0) {
+                        for (String section : GameConfig.getConfig().getConfigurationSection("games").getKeys(false)) {
+                            if (GameConfig.getConfig().getString(section + ".icon") != null &&
+                                    e.getCurrentItem().getType().equals(Material.getMaterial(
+                                            GameConfig.getConfig().getString(section + ".icon")))) {
+
+                                //todo open game ui
+
+                            }
                         }
-                    }*/
+                    }
 
                 } else if (e.getInventory().getName().equals(guiInv.gadgetUI(p).getName())) {
                     e.setCancelled(true);
@@ -238,40 +223,28 @@ public class GUIInteract implements Listener {
                             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 0);
                         }
                     }
-                    if (e.getCurrentItem().equals(guiItem.musicUI())) {
+                    if (e.getCurrentItem().equals(guiItem.musicUI())) { //todo add delays for music (maybe use hashmap)
                         if (e.isLeftClick()) {
                             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 2);
                             p.openInventory(guiInv.musicUI());
                         } else if (e.isRightClick()) {
-                            File playerInvConfigFile = new File(GamesMaster.plugin.getDataFolder() + File.separator + "playerdata",
-                                    p.getUniqueId().toString() + ".yml");
-                            YamlConfiguration cur = YamlConfiguration.loadConfiguration(playerInvConfigFile);
+                            GMPlayer gmplayer = GMPlayer.getPlayerData(p);
                             for (Sound s : records) p.stopSound(s);
-                            cur.set("music-muted", true);
+                            gmplayer.setMusicMuted(true);
                             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 1);
                             p.closeInventory();
-                            try {
-                                cur.save(playerInvConfigFile);
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
+                            gmplayer.savePlayerData();
                         } else {
                             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 0);
                         }
                     }
                     if (e.getCurrentItem().equals(guiItem.musicUImuted())) {
                         if (e.isRightClick()) {
-                            File playerInvConfigFile = new File(GamesMaster.plugin.getDataFolder() + File.separator + "playerdata",
-                                    p.getUniqueId().toString() + ".yml");
-                            YamlConfiguration cur = YamlConfiguration.loadConfiguration(playerInvConfigFile);
-                            cur.set("music-muted", false);
+                            GMPlayer gmplayer = GMPlayer.getPlayerData(p);
+                            gmplayer.setMusicMuted(false);
                             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 2);
                             p.closeInventory();
-                            try {
-                                cur.save(playerInvConfigFile);
-                            } catch (IOException e1) {
-                                e1.printStackTrace();
-                            }
+                            gmplayer.savePlayerData();
                         } else {
                             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 0);
                         }
@@ -290,10 +263,8 @@ public class GUIInteract implements Listener {
                             e.getCurrentItem().getType().equals(Material.MUSIC_DISC_WAIT) ||
                             e.getCurrentItem().getType().equals(Material.MUSIC_DISC_WARD)) {
                         for (Player all : lh.getPlayersInLobby()) {
-                            File playerInvConfigFile = new File(GamesMaster.plugin.getDataFolder() + File.separator + "playerdata",
-                                    all.getUniqueId().toString() + ".yml");
-                            YamlConfiguration cur = YamlConfiguration.loadConfiguration(playerInvConfigFile);
-                            if ((cur.get("music-muted") == null || !cur.getBoolean("music-muted"))) {
+                            GMPlayer gmplayer = GMPlayer.getPlayerData(all);
+                            if (!gmplayer.isMusicMuted()) {
                                 for (Sound s : records) all.stopSound(s);
                                 all.sendTitle("", ChatColor.WHITE + "" + ChatColor.BOLD + "Now playing: " +
                                         e.getCurrentItem().getItemMeta().getDisplayName(), 0, 20, 20);

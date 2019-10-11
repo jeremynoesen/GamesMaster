@@ -1,11 +1,11 @@
-package me.Jeremaster101.GamesMaster.Command;
+/*package me.Jeremaster101.GamesMaster.Command;
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
+import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIConfig;
 import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaConfig;
-import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaCreation;
 import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaHandler;
 import me.Jeremaster101.GamesMaster.Lobby.Game.GameConfig;
-import me.Jeremaster101.GamesMaster.Lobby.Game.GameCreation;
+import me.Jeremaster101.GamesMaster.Lobby.Game.GameBuilder;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyConfig;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyProtect;
@@ -14,31 +14,34 @@ import me.Jeremaster101.GamesMaster.Message.MessageConfig;
 import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryConfig;
 import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryCreation;
 import me.Jeremaster101.GamesMaster.Region.RegionConfig;
-import me.Jeremaster101.GamesMaster.Region.RegionCreation;
+import me.Jeremaster101.GamesMaster.Region.RegionBuilder;
 import me.Jeremaster101.GamesMaster.Region.RegionHandler;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandExec implements CommandExecutor {
-
-    private final RegionCreation rc = new RegionCreation();
+public class CommandExec implements CommandExecutor {//todo clean up or redo this class since commands are changing so much
+    
+    private final RegionBuilder rc = new RegionBuilder();
+    // needed
     private final RegionHandler rh = new RegionHandler();
     private final InventoryCreation ic = new InventoryCreation();
     private final LobbyProtect lp = new LobbyProtect();
-    private final ArenaCreation ac = new ArenaCreation();
+    //private final ArenaBuilder ac = new ArenaBuilder();
     private final ArenaHandler ah = new ArenaHandler();
     private final CommandHandler ch = new CommandHandler();
     private final LobbyHandler lh = new LobbyHandler();
-    private final GameCreation gc = new GameCreation();
-
+    
     private final Message msg = new Message();
-
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
+    
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {//todo change command order to something like logblock does it
+        
         if (commandLabel.equalsIgnoreCase("gamesmaster")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
+                GameBuilder.getGame(player, "test").setEnabled(true);
+    
                 if (player.hasPermission("gamesmaster.admin")) {
                     if (args.length > 0) {
                         if (args[0].equalsIgnoreCase("help")) {
@@ -47,7 +50,14 @@ public class CommandExec implements CommandExecutor {
                             if (args.length > 1) {
                                 if (args[1].equalsIgnoreCase("add")) {
                                     if (args.length >= 6) {
-                                        rc.addRegion(player, args[2], args[3], args[4], args[5]);
+                                        StringBuilder leave = new StringBuilder();
+                                        for (int l = 5; l <= args.length - 1; l++) {
+                                            if (l < args.length - 1)
+                                                leave.append(args[l]).append(" ");
+                                            else
+                                                leave.append(args[l]);
+                                        }
+                                        rc.addRegion(player, args[2], args[3], args[4], leave.toString());
                                     } else if (args.length == 5) {
                                         rc.addRegion(player, args[2], args[3], args[4], null);
                                     } else if (args.length == 4) {
@@ -58,7 +68,7 @@ public class CommandExec implements CommandExecutor {
                                         player.sendMessage(Message.ERROR_NO_REGION_NAME);
                                     }
                                 } else if (args[1].equalsIgnoreCase("update")) {
-
+                                    
                                     if (args.length > 2) {
                                         if (args[2].equalsIgnoreCase("bounds")) {
                                             if (args.length == 4) {
@@ -103,14 +113,14 @@ public class CommandExec implements CommandExecutor {
                                     } else {
                                         player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                                     }
-
+                                    
                                 } else if (args[1].equalsIgnoreCase("remove")) {
                                     try {
                                         rc.removeRegion(player, args[2]);
                                     } catch (Exception e) {
                                         if (lh.isGamesWorld(player.getWorld())) {
                                             String region = rh.getRegion(player);
-
+                                            
                                             if (!region.equals("default")) {
                                                 rc.removeRegion(player, region);
                                             } else
@@ -134,16 +144,16 @@ public class CommandExec implements CommandExecutor {
                                     }
                                 } else if (args[1].equalsIgnoreCase("select")) {
                                     if (lh.isGamesWorld(player.getWorld())) {
-
+                                        
                                         String region = rh.getRegion(player);
-
+                                        
                                         if (!region.equals("default")) {
                                             rh.selectRegion(player, region);
                                         } else
                                             player.sendMessage(Message.ERROR_DEFAULT_REGION.replace("$ACTION$", "select"));
                                     } else
                                         player.sendMessage(Message.ERROR_WORLD);
-
+                                    
                                 } else if (args[1].equalsIgnoreCase("help")) {
                                     player.sendMessage(msg.HELP_REGION);
                                 } else {
@@ -200,12 +210,13 @@ public class CommandExec implements CommandExecutor {
                                 } else if (args[1].equalsIgnoreCase("add")) {
                                     if (args.length == 7) {
                                         try {
-                                            ac.addArena(player, args[2], args[3], args[4], args[5], Boolean.parseBoolean(args[6]));
+                                            //ac.addArena(player, args[2], args[3], args[4], args[5],
+                                            //        Boolean.parseBoolean(args[6]));
                                         } catch (Exception e) {
-                                            ac.addArena(player, args[2], args[3], args[4], args[5], false);
+                                            //ac.addArena(player, args[2], args[3], args[4], args[5], false);
                                         }
                                     } else if (args.length == 6) {
-                                        ac.addArena(player, args[2], args[3], args[4], args[5], false);
+                                        //ac.addArena(player, args[2], args[3], args[4], args[5], false);
                                     } else if (args.length == 5) {
                                         player.sendMessage(Message.ERROR_NO_GAME_COMMAND);
                                     } else if (args.length == 4) {
@@ -218,13 +229,13 @@ public class CommandExec implements CommandExecutor {
                                 } else if (args[1].equalsIgnoreCase("update")) { //todo separate into multiple commands
                                     if (args.length == 7) {
                                         try {
-                                            ac.updateArena(player, args[2], args[3], args[4], args[5],
-                                                    Boolean.parseBoolean(args[6]));
+                                            //ac.updateArena(player, args[2], args[3], args[4], args[5],
+                                            //       Boolean.parseBoolean(args[6]));
                                         } catch (Exception e) {
-                                            ac.updateArena(player, args[2], args[3], args[4], args[5], false);
+                                            //ac.updateArena(player, args[2], args[3], args[4], args[5], false);
                                         }
                                     } else if (args.length == 6) {
-                                        ac.updateArena(player, args[2], args[3], args[4], args[5], false);
+                                        //ac.updateArena(player, args[2], args[3], args[4], args[5], false);
                                     } else if (args.length == 5) {
                                         player.sendMessage(Message.ERROR_NO_GAME_COMMAND);
                                     } else if (args.length == 4) {
@@ -236,7 +247,7 @@ public class CommandExec implements CommandExecutor {
                                     }
                                 } else if (args[1].equalsIgnoreCase("remove")) {
                                     if (args.length >= 4) {
-                                        ac.removeArena(player, args[2], args[3]);
+                                        //ac.removeArena(player, args[2], args[3]);
                                     } else if (args.length == 3) {
                                         player.sendMessage(Message.ERROR_NO_ARENA);
                                     } else {
@@ -283,15 +294,21 @@ public class CommandExec implements CommandExecutor {
                             } else {
                                 player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
                             }
+                        } else if (args[0].equalsIgnoreCase("game")) {
+                            if(args.length > 1) {
+                                
+                                //todo game commands
+                            }
+                            
                         } else if (args[0].equalsIgnoreCase("pwifix")) { //todo separate into enable/disable commands
                             if (args.length == 1) {
-                                if (GamesMaster.plugin.getConfig().getBoolean("pwi-gamemode-inv-fix")) {
-                                    GamesMaster.plugin.getConfig().set("pwi-gamemode-inv-fix", false);
-                                    GamesMaster.plugin.saveConfig();
+                                if (GamesMaster.getInstance().getConfig().getBoolean("pwi-gamemode-inv-fix")) {
+                                    GamesMaster.getInstance().getConfig().set("pwi-gamemode-inv-fix", false);
+                                    GamesMaster.getInstance().saveConfig();
                                     player.sendMessage(Message.SUCCESS_PWI_FIX_DISABLED);
                                 } else {
-                                    GamesMaster.plugin.getConfig().set("pwi-gamemode-inv-fix", true);
-                                    GamesMaster.plugin.saveConfig();
+                                    GamesMaster.getInstance().getConfig().set("pwi-gamemode-inv-fix", true);
+                                    GamesMaster.getInstance().saveConfig();
                                     player.sendMessage(Message.SUCCESS_PWI_FIX_ENABLED);
                                 }
                             } else {
@@ -301,11 +318,11 @@ public class CommandExec implements CommandExecutor {
                             rc.addRegion(player, "lobby", "none", "0", null);
                         } else if (args[0].equalsIgnoreCase("reload")) {
                             if (args.length == 2) {
-
+                                
                                 if (args[1].equalsIgnoreCase("all")) {
-
-                                    GamesMaster.plugin.reloadConfig();
-
+                                    
+                                    GamesMaster.getInstance().reloadConfig();
+                                    
                                     ArenaConfig.reloadConfig();
                                     GameConfig.reloadConfig();
                                     LobbyConfig.reloadConfig();
@@ -313,50 +330,54 @@ public class CommandExec implements CommandExecutor {
                                     RegionConfig.reloadConfig();
                                     CommandConfig.reloadConfig();
                                     MessageConfig.reloadConfig();
-
+                                    
                                     lp.cleanLobby();
-
+                                    
                                     player.sendMessage(Message.SUCCESS_RELOADED_ALL);
-
+                                    
                                 } else if (args[1].equalsIgnoreCase("arena")) {
                                     ArenaConfig.reloadConfig();
                                     player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "arena"));
-
+                                    
                                 } else if (args[1].equalsIgnoreCase("game")) {
                                     GameConfig.reloadConfig();
                                     player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "game"));
-
+                                    
                                 } else if (args[1].equalsIgnoreCase("lobby")) {
                                     lp.cleanLobby();
                                     LobbyConfig.reloadConfig();
                                     player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "lobby"));
-
+                                    
                                 } else if (args[1].equalsIgnoreCase("message")) {
                                     MessageConfig.reloadConfig();
                                     player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "message"));
-
+                                    
                                 } else if (args[1].equalsIgnoreCase("inventory")) {
                                     InventoryConfig.reloadConfig();
                                     player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "inventory"));
-
+                                    
                                 } else if (args[1].equalsIgnoreCase("region")) {
                                     RegionConfig.reloadConfig();
                                     player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "region"));
-
+                                    
                                 } else if (args[1].equalsIgnoreCase("command")) {
                                     CommandConfig.reloadConfig();
                                     player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "command"));
-
+    
+                                } else if (args[1].equalsIgnoreCase("gui")) {
+                                    GUIConfig.reloadConfig();
+                                    player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "GUI"));
+    
                                 } else if (args[1].equalsIgnoreCase("main")) {
-                                    GamesMaster.plugin.reloadConfig();
+                                    GamesMaster.getInstance().reloadConfig();
                                     player.sendMessage(Message.SUCCESS_RELOADED.replace("$CONFIG$", "main"));
-
+                                    
                                 } else player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
-
+                                
                             } else if (args.length == 1) player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
-
+                            
                         } else if (args[0].equalsIgnoreCase("setworld")) {
-                            GamesMaster.plugin.getConfig().set("games-world", player.getWorld().getName());
+                            GamesMaster.getInstance().getConfig().set("games-world", player.getWorld().getName());
                             player.sendMessage(Message.SUCCESS_SET_WORLD.replace("$WORLD$", player.getWorld().getName()));
                         } else {
                             player.sendMessage(Message.ERROR_UNKNOWN_COMMAND);
@@ -371,3 +392,5 @@ public class CommandExec implements CommandExecutor {
         return true;
     }
 }
+
+ */

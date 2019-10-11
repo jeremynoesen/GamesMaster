@@ -16,7 +16,7 @@ public class LobbyHandler {
 
     public ArrayList<Player> getPlayersInLobby() {
         ArrayList<Player> playerArrayList = new ArrayList<>();
-        for (Player all : Bukkit.getWorld(GamesMaster.plugin.getConfig().get("games-world").toString()).getPlayers()) {
+        for (Player all : Bukkit.getWorld(GamesMaster.getInstance().getConfig().get("games-world").toString()).getPlayers()) {
             if (isInLobby(all)) {
                 playerArrayList.add(all);
             }
@@ -28,17 +28,17 @@ public class LobbyHandler {
         Location l = player.getLocation();
 
         try {
-            double maxx = RegionConfig.getConfig().getDouble("regions.lobby.location.max.x");
-            double maxy = RegionConfig.getConfig().getDouble("regions.lobby.location.max.y");
-            double maxz = RegionConfig.getConfig().getDouble("regions.lobby.location.max.z");
-            double minx = RegionConfig.getConfig().getDouble("regions.lobby.location.min.x");
-            double miny = RegionConfig.getConfig().getDouble("regions.lobby.location.min.y");
-            double minz = RegionConfig.getConfig().getDouble("regions.lobby.location.min.z");
+            double maxx = RegionConfig.getConfig().getDouble("lobby.location.max.x");
+            double maxy = RegionConfig.getConfig().getDouble("lobby.location.max.y");
+            double maxz = RegionConfig.getConfig().getDouble("lobby.location.max.z");
+            double minx = RegionConfig.getConfig().getDouble("lobby.location.min.x");
+            double miny = RegionConfig.getConfig().getDouble("lobby.location.min.y");
+            double minz = RegionConfig.getConfig().getDouble("lobby.location.min.z");
             double tox = l.getBlock().getLocation().getX();
             double toy = l.getBlock().getLocation().getY();
             double toz = l.getBlock().getLocation().getZ();
 
-            return (l.getWorld().getName().equals(GamesMaster.plugin.getConfig().get("games-world").toString())) &&
+            return (l.getWorld().getName().equals(GamesMaster.getInstance().getConfig().get("games-world").toString())) &&
                     (tox <= maxx) && (tox >= minx) && (toy <= maxy) && (toy >= miny) && (toz <= maxz) && (toz >= minz);
         } catch (Exception e) {
             return false;
@@ -46,11 +46,11 @@ public class LobbyHandler {
     }
 
     public boolean isGamesWorld(World w) {
-        return w.getName().equals(GamesMaster.plugin.getConfig().get("games-world").toString());
+        return w.getName().equals(GamesMaster.getInstance().getConfig().get("games-world").toString());
     }
 
     public World gamesWorld() {
-        return Bukkit.getWorld(GamesMaster.plugin.getConfig().get("games-world").toString());
+        return Bukkit.getWorld(GamesMaster.getInstance().getConfig().get("games-world").toString());
     }
 
     public boolean activeGadget(Player p, ItemStack gadget) {

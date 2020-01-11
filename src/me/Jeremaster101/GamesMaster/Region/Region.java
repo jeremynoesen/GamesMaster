@@ -70,12 +70,19 @@ public class Region {//todo finish this class
         }
     }
     
+    boolean exists() {
+        if (RegionConfig.getConfig().get(region) != null)
+            return true;
+        else player.sendMessage(Message.ERROR_UNKNOWN_REGION);
+        return false;
+    }
+    
     public void remove() {
         
         if (region.equals("default")) {
             player.sendMessage(Message.ERROR_DEFAULT_REGION.replace("$ACTION$", "remove"));
         } else {
-            if (RegionConfig.getConfig().get(region) != null) {
+            if (exists()) {
                 RegionConfig.getConfig().set(region, null);
                 RegionConfig.saveConfig();
                 player.sendMessage(Message.SUCCESS_REGION_REMOVED.replace("$REGION$", region));
@@ -87,7 +94,7 @@ public class Region {//todo finish this class
     
     public void setBounds() {
         
-        if (RegionConfig.getConfig().get(region) != null) {
+        if (exists()) {
             if (!region.equals("default")) {
                 WorldEditPlugin worldEdit = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
                 
@@ -127,13 +134,11 @@ public class Region {//todo finish this class
                 }
             } else
                 player.sendMessage(Message.ERROR_DEFAULT_REGION);
-        } else
-            player.sendMessage(Message.ERROR_UNKNOWN_REGION);
+        }
     }
     
     public String getInventory() {
-        if (RegionConfig.getConfig().get(region) != null &&
-                RegionConfig.getConfig().get(region + ".inventory") != null) {
+        if (exists() && RegionConfig.getConfig().get(region + ".inventory") != null) {
             return RegionConfig.getConfig().getString(region + ".inventory");
         }
         return null;
@@ -141,7 +146,7 @@ public class Region {//todo finish this class
     
     public void setInventory(String inv) {
         
-        if (RegionConfig.getConfig().get(region) != null) {
+        if (exists()) {
             List<String> invs = InventoryConfig.getConfig().getStringList("inventories");
             if (invs == null || !invs.contains(inv)) {
                 player.sendMessage(Message.ERROR_UNKNOWN_INV);
@@ -150,13 +155,11 @@ public class Region {//todo finish this class
                 RegionConfig.saveConfig();
                 player.sendMessage(Message.SUCCESS_UPDATED_REGION_INV.replace("$REGION$", region).replace("$INV$", inv));
             }
-        } else
-            player.sendMessage(Message.ERROR_UNKNOWN_REGION);
+        }
     }
     
     public GameMode getGamemode() {
-        if (RegionConfig.getConfig().get(region) != null &&
-                RegionConfig.getConfig().get(region + ".gamemode") != null) {
+        if (exists() && RegionConfig.getConfig().get(region + ".gamemode") != null) {
             return GameMode.valueOf(RegionConfig.getConfig().getString(region + ".gamemode"));
         }
         return null;
@@ -164,7 +167,7 @@ public class Region {//todo finish this class
     
     public void setGamemode(String mode) {
         
-        if (RegionConfig.getConfig().get(region) != null) {
+        if (exists()) {
             
             try {
                 GameMode.valueOf(mode.toUpperCase());
@@ -176,14 +179,12 @@ public class Region {//todo finish this class
             RegionConfig.getConfig().set(region + ".gamemode", mode.toUpperCase());
             RegionConfig.saveConfig();
             player.sendMessage(Message.SUCCESS_UPDATED_REGION_MODE.replace("$REGION$", region).replace("$MODE$", mode.toLowerCase()));
-        } else
-            player.sendMessage(Message.ERROR_UNKNOWN_REGION);
+        }
     }
     
     public String getLeave() {
         if (!region.equals("default")) {
-            if (RegionConfig.getConfig().get(region) != null &&
-                    RegionConfig.getConfig().get(region + ".leave") != null) {
+            if (exists() && RegionConfig.getConfig().get(region + ".leave") != null) {
                 return RegionConfig.getConfig().getString(region + ".leave");
             }
         }
@@ -192,7 +193,7 @@ public class Region {//todo finish this class
     
     public void setLeave(String leave) {
         if (!region.equals("default")) {
-            if (RegionConfig.getConfig().get(region) != null) {
+            if (exists()) {
                 if (leave != null) {
                     RegionConfig.getConfig().set(region + ".leave", leave);
                     player.sendMessage(Message.SUCCESS_UPDATED_REGION_LEAVE.replace("$REGION$", region).replace("$CMD$", leave));
@@ -201,16 +202,14 @@ public class Region {//todo finish this class
                     player.sendMessage(Message.SUCCESS_REMOVED_REGION_LEAVE.replace("$REGION$", region));
                 }
                 RegionConfig.saveConfig();
-            } else
-                player.sendMessage(Message.ERROR_UNKNOWN_REGION);
+            }
         } else
             player.sendMessage(Message.ERROR_DEFAULT_REGION);
     }
     
     public boolean isEnabled() {
         if (!region.equals("default")) {
-            if (RegionConfig.getConfig().get(region) != null &&
-                    RegionConfig.getConfig().get(region + ".enabled") != null) {
+            if (exists() && RegionConfig.getConfig().get(region + ".enabled") != null) {
                 return RegionConfig.getConfig().getBoolean(region + ".enabled");
             }
         } else
@@ -220,13 +219,12 @@ public class Region {//todo finish this class
     
     public void setEnabled(boolean enabled) {
         if (!region.equals("default")) {
-            if (RegionConfig.getConfig().get(region) != null) {
+            if (exists()) {
                 if (getGamemode() != null && getInventory() != null) { //todo finish
                     RegionConfig.getConfig().set(region + ".enabled", enabled);
                 } else
                     player.sendMessage(Message.ERROR_CANT_ENABLE);
-            } else
-                player.sendMessage(Message.ERROR_UNKNOWN_REGION);
+            }
         } else
             player.sendMessage(Message.ERROR_DEFAULT_REGION);
     }

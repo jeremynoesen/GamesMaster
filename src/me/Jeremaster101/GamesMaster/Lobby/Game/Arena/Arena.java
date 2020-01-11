@@ -1,5 +1,7 @@
 package me.Jeremaster101.GamesMaster.Lobby.Game.Arena;
 
+import me.Jeremaster101.GamesMaster.Config.ConfigManager;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Lobby.Game.GameConfig;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Message.Message;
@@ -12,21 +14,23 @@ public class Arena {//todo finish this class
     private String arena;
     private Player player;
     
+    private static ConfigManager arenaConfig = new ConfigManager(ConfigType.ARENA); //todo finish replacing in all classes
+    
     public Arena(Player player, String game, String arena) {
         this.player = player;
         if (game != null && arena != null) {
             this.game = game;
             this.arena = arena;
-            if (ArenaConfig.getConfig().getConfigurationSection(game + "." + arena) == null) {
-                ArenaConfig.getConfig().set(game + "." + arena + ".enabled", false);
-                ArenaConfig.saveConfig();
+            if (arenaConfig.getConfig().getConfigurationSection(game + "." + arena) == null) {
+                arenaConfig.getConfig().set(game + "." + arena + ".enabled", false);
+                arenaConfig.saveConfig();
                 player.sendMessage(Message.SUCCESS_GAME_ADDED.replace("$GAME$", game));
             }
         }
     }
     
     public static Arena getArena(Player player, String game, String arena) {
-        if (ArenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null) {
+        if (arenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null) {
             return new Arena(player, game, arena);
         } else {
             player.sendMessage(Message.ERROR_UNKNOWN_ARENA);
@@ -35,7 +39,7 @@ public class Arena {//todo finish this class
     }
     
     boolean exists() {
-        if (ArenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null) {
+        if (arenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null) {
             if (GameConfig.getConfig().getConfigurationSection("games") == null ||
                     GameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() == 0) {
                 player.sendMessage(Message.ERROR_NO_GAMES);
@@ -53,7 +57,7 @@ public class Arena {//todo finish this class
     public void addArena(Player p, String game, String arena, String mapname, String join, int priority,
                          boolean enabled, boolean hidden) {
         
-        if (ArenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null) {
+        if (arenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null) {
             p.sendMessage(Message.ERROR_ARENA_EXISTS);
             return;
         }
@@ -93,12 +97,12 @@ public class Arena {//todo finish this class
                         .replace("sg", "hg");
             }
             
-            ArenaConfig.getConfig().set(game + "." + arena + ".enabled", enabled);
-            ArenaConfig.getConfig().set(game + "." + arena + ".join", command);
-            ArenaConfig.getConfig().set(game + "." + arena + ".mapname", mapname);
-            ArenaConfig.getConfig().set(game + "." + arena + ".priority", priority);
-            ArenaConfig.getConfig().set(game + "." + arena + ".hidden", hidden);
-            ArenaConfig.saveConfig();
+            arenaConfig.getConfig().set(game + "." + arena + ".enabled", enabled);
+            arenaConfig.getConfig().set(game + "." + arena + ".join", command);
+            arenaConfig.getConfig().set(game + "." + arena + ".mapname", mapname);
+            arenaConfig.getConfig().set(game + "." + arena + ".priority", priority);
+            arenaConfig.getConfig().set(game + "." + arena + ".hidden", hidden);
+            arenaConfig.saveConfig();
             p.sendMessage(Message.SUCCESS_ARENA_ADDED.replace("$ARENA", game + " " + arena + " - " + mapname.replace("_", " ")));
         }
     }
@@ -119,7 +123,7 @@ public class Arena {//todo finish this class
         }
     }
     
-    public void setPriority(int priority) {//todo remove arena number replace with priority
+    public void setPriority(int priority) {
         
         if (exists()) {
             //finish
@@ -127,7 +131,7 @@ public class Arena {//todo finish this class
         }
     }
     
-    public void setEnabled(boolean enabled) {
+    public void setEnabled(boolean enabled) { //todo only when all conditions are met
         
         if (exists()) {
             //finish
@@ -144,15 +148,15 @@ public class Arena {//todo finish this class
     }
     
     public void remove() {
-        if (ArenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null &&
-                ArenaConfig.getConfig().getConfigurationSection(game).getKeys(false).size() == 1) {
-            ArenaConfig.getConfig().set(game, null);
+        if (arenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null &&
+                arenaConfig.getConfig().getConfigurationSection(game).getKeys(false).size() == 1) {
+            arenaConfig.getConfig().set(game, null);
             player.sendMessage(Message.SUCCESS_ARENA_REMOVED.replace("$ARENA", game + " " + arena));
-            ArenaConfig.saveConfig();
-        } else if (ArenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null) {
-            ArenaConfig.getConfig().set(game + "." + arena, null);
+            arenaConfig.saveConfig();
+        } else if (arenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null) {
+            arenaConfig.getConfig().set(game + "." + arena, null);
             player.sendMessage(Message.SUCCESS_ARENA_REMOVED.replace("$ARENA", game + " " + arena));
-            ArenaConfig.saveConfig();
+            arenaConfig.saveConfig();
         } else
             player.sendMessage(Message.ERROR_UNKNOWN_ARENA);
     }

@@ -1,6 +1,8 @@
 package me.Jeremaster101.GamesMaster.Region;
 
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import me.Jeremaster101.GamesMaster.Config.ConfigManager;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Message.Message;
 import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryConfig;
@@ -17,11 +19,13 @@ public class Region {//todo finish this class
     private String region;
     private Player player;
     
+    public static ConfigManager regionConfig = new ConfigManager(ConfigType.REGION);
+    
     public Region(Player player, String region) {//todo make worldguard region if installed
         this.player = player;
         if (region != null) {
             this.region = region;
-            if (RegionConfig.getConfig().getConfigurationSection(region) == null) {
+            if (regionConfig.getConfig().getConfigurationSection(region) == null) {
                 
                 WorldEditPlugin worldEdit = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");//todo make option if there is no worldedit
                 com.sk89q.worldedit.regions.Region selection;
@@ -42,14 +46,14 @@ public class Region {//todo finish this class
                         double maxy = selection.getMaximumPoint().getY();
                         double maxz = selection.getMaximumPoint().getZ();
                         
-                        RegionConfig.getConfig().set(regionName + ".enabled", false);
-                        RegionConfig.getConfig().set(regionName + ".location.min.x", minx);
-                        RegionConfig.getConfig().set(regionName + ".location.min.y", miny);
-                        RegionConfig.getConfig().set(regionName + ".location.min.z", minz);
-                        RegionConfig.getConfig().set(regionName + ".location.max.x", maxx);
-                        RegionConfig.getConfig().set(regionName + ".location.max.y", maxy);
-                        RegionConfig.getConfig().set(regionName + ".location.max.z", maxz);
-                        RegionConfig.saveConfig();
+                        regionConfig.getConfig().set(regionName + ".enabled", false);
+                        regionConfig.getConfig().set(regionName + ".location.min.x", minx);
+                        regionConfig.getConfig().set(regionName + ".location.min.y", miny);
+                        regionConfig.getConfig().set(regionName + ".location.min.z", minz);
+                        regionConfig.getConfig().set(regionName + ".location.max.x", maxx);
+                        regionConfig.getConfig().set(regionName + ".location.max.y", maxy);
+                        regionConfig.getConfig().set(regionName + ".location.max.z", maxz);
+                        regionConfig.saveConfig();
                         
                         player.sendMessage(Message.SUCCESS_REGION_SET.replace("$REGION$", region));
                         
@@ -62,7 +66,7 @@ public class Region {//todo finish this class
     }
     
     public static Region getRegion(Player player, String region) {
-        if (RegionConfig.getConfig().get(region) != null) {
+        if (regionConfig.getConfig().get(region) != null) {
             return new Region(player, region);
         } else {
             player.sendMessage(Message.ERROR_UNKNOWN_REGION);
@@ -71,7 +75,7 @@ public class Region {//todo finish this class
     }
     
     boolean exists() {
-        if (RegionConfig.getConfig().get(region) != null)
+        if (regionConfig.getConfig().get(region) != null)
             return true;
         else player.sendMessage(Message.ERROR_UNKNOWN_REGION);
         return false;
@@ -83,8 +87,8 @@ public class Region {//todo finish this class
             player.sendMessage(Message.ERROR_DEFAULT_REGION.replace("$ACTION$", "remove"));
         } else {
             if (exists()) {
-                RegionConfig.getConfig().set(region, null);
-                RegionConfig.saveConfig();
+                regionConfig.getConfig().set(region, null);
+                regionConfig.saveConfig();
                 player.sendMessage(Message.SUCCESS_REGION_REMOVED.replace("$REGION$", region));
             } else {
                 player.sendMessage(Message.ERROR_UNKNOWN_REGION.replace("$REGION$", region));
@@ -116,15 +120,15 @@ public class Region {//todo finish this class
                         double maxy = selection.getMaximumPoint().getY();
                         double maxz = selection.getMaximumPoint().getZ();
                         
-                        RegionConfig.getConfig().set(regionName + ".location.min.x", minx);
-                        RegionConfig.getConfig().set(regionName + ".location.min.y", miny);
-                        RegionConfig.getConfig().set(regionName + ".location.min.z", minz);
-                        RegionConfig.getConfig().set(regionName + ".location.max.x", maxx);
-                        RegionConfig.getConfig().set(regionName + ".location.max.y", maxy);
-                        RegionConfig.getConfig().set(regionName + ".location.max.z", maxz);
-                        RegionConfig.saveConfig();
+                        regionConfig.getConfig().set(regionName + ".location.min.x", minx);
+                        regionConfig.getConfig().set(regionName + ".location.min.y", miny);
+                        regionConfig.getConfig().set(regionName + ".location.min.z", minz);
+                        regionConfig.getConfig().set(regionName + ".location.max.x", maxx);
+                        regionConfig.getConfig().set(regionName + ".location.max.y", maxy);
+                        regionConfig.getConfig().set(regionName + ".location.max.z", maxz);
+                        regionConfig.saveConfig();
                         
-                        player.sendMessage(Message.SUCCESS_UPDATED_REGION_BOUNDS.replace("$REGION$", region));
+                        player.sendMessage(Message.SUCCESS_UPDATED_REGION_BOUNDS.replace("$REGION$", region)); //todo match message names to actual methods
                         
                     } else {
                         player.sendMessage(Message.ERROR_WORLD);
@@ -138,8 +142,8 @@ public class Region {//todo finish this class
     }
     
     public String getInventory() {
-        if (exists() && RegionConfig.getConfig().get(region + ".inventory") != null) {
-            return RegionConfig.getConfig().getString(region + ".inventory");
+        if (exists() && regionConfig.getConfig().get(region + ".inventory") != null) {
+            return regionConfig.getConfig().getString(region + ".inventory");
         }
         return null;
     }
@@ -151,16 +155,16 @@ public class Region {//todo finish this class
             if (invs == null || !invs.contains(inv)) {
                 player.sendMessage(Message.ERROR_UNKNOWN_INV);
             } else {
-                RegionConfig.getConfig().set(region + ".inventory", inv);
-                RegionConfig.saveConfig();
+                regionConfig.getConfig().set(region + ".inventory", inv);
+                regionConfig.saveConfig();
                 player.sendMessage(Message.SUCCESS_UPDATED_REGION_INV.replace("$REGION$", region).replace("$INV$", inv));
             }
         }
     }
     
     public GameMode getGamemode() {
-        if (exists() && RegionConfig.getConfig().get(region + ".gamemode") != null) {
-            return GameMode.valueOf(RegionConfig.getConfig().getString(region + ".gamemode"));
+        if (exists() && regionConfig.getConfig().get(region + ".gamemode") != null) {
+            return GameMode.valueOf(regionConfig.getConfig().getString(region + ".gamemode"));
         }
         return null;
     }
@@ -176,16 +180,16 @@ public class Region {//todo finish this class
                 return;
             }
             
-            RegionConfig.getConfig().set(region + ".gamemode", mode.toUpperCase());
-            RegionConfig.saveConfig();
+            regionConfig.getConfig().set(region + ".gamemode", mode.toUpperCase());
+            regionConfig.saveConfig();
             player.sendMessage(Message.SUCCESS_UPDATED_REGION_MODE.replace("$REGION$", region).replace("$MODE$", mode.toLowerCase()));
         }
     }
     
     public String getLeave() {
         if (!region.equals("default")) {
-            if (exists() && RegionConfig.getConfig().get(region + ".leave") != null) {
-                return RegionConfig.getConfig().getString(region + ".leave");
+            if (exists() && regionConfig.getConfig().get(region + ".leave") != null) {
+                return regionConfig.getConfig().getString(region + ".leave");
             }
         }
         return null;
@@ -195,13 +199,13 @@ public class Region {//todo finish this class
         if (!region.equals("default")) {
             if (exists()) {
                 if (leave != null) {
-                    RegionConfig.getConfig().set(region + ".leave", leave);
+                    regionConfig.getConfig().set(region + ".leave", leave);
                     player.sendMessage(Message.SUCCESS_UPDATED_REGION_LEAVE.replace("$REGION$", region).replace("$CMD$", leave));
                 } else {
-                    RegionConfig.getConfig().set(region + ".leave", "null");
+                    regionConfig.getConfig().set(region + ".leave", "null");
                     player.sendMessage(Message.SUCCESS_REMOVED_REGION_LEAVE.replace("$REGION$", region));
                 }
-                RegionConfig.saveConfig();
+                regionConfig.saveConfig();
             }
         } else
             player.sendMessage(Message.ERROR_DEFAULT_REGION);
@@ -209,8 +213,8 @@ public class Region {//todo finish this class
     
     public boolean isEnabled() {
         if (!region.equals("default")) {
-            if (exists() && RegionConfig.getConfig().get(region + ".enabled") != null) {
-                return RegionConfig.getConfig().getBoolean(region + ".enabled");
+            if (exists() && regionConfig.getConfig().get(region + ".enabled") != null) {
+                return regionConfig.getConfig().getBoolean(region + ".enabled");
             }
         } else
             return true;
@@ -221,7 +225,7 @@ public class Region {//todo finish this class
         if (!region.equals("default")) {
             if (exists()) {
                 if (getGamemode() != null && getInventory() != null) { //todo finish
-                    RegionConfig.getConfig().set(region + ".enabled", enabled);
+                    regionConfig.getConfig().set(region + ".enabled", enabled);
                 } else
                     player.sendMessage(Message.ERROR_CANT_ENABLE);
             }

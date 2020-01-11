@@ -31,6 +31,8 @@ public class GamesMaster extends JavaPlugin{
 
     public void onEnable() {
         plugin = this;
+        
+        Message.reloadMessages();
 
         getConfig().options().copyDefaults(true);
         saveConfig();

@@ -1,5 +1,7 @@
 package me.Jeremaster101.GamesMaster.Lobby.Game;
 
+import me.Jeremaster101.GamesMaster.Config.ConfigManager;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIColor;
 import me.Jeremaster101.GamesMaster.Message.Message;
 import org.bukkit.Material;
@@ -10,21 +12,23 @@ public class Game {
     private String game;
     private Player player;
     
+    public static ConfigManager gameConfig = new ConfigManager(ConfigType.GAME);
+    
     //todo fully implement this functionality of custom games
     public Game(Player player, String game) {
         this.player = player;
         if (game != null) {
             this.game = game;
-            if (GameConfig.getConfig().getConfigurationSection(game) == null) {
-                GameConfig.getConfig().set(game + ".enabled", false);
-                GameConfig.saveConfig();
+            if (gameConfig.getConfig().getConfigurationSection(game) == null) {
+                gameConfig.getConfig().set(game + ".enabled", false);
+                gameConfig.saveConfig();
                 player.sendMessage(Message.SUCCESS_GAME_ADDED.replace("$GAME$", game));
             }
         }
     }
     
     public static Game getGame(Player player, String game) {
-        if (GameConfig.getConfig().getConfigurationSection(game) != null) {
+        if (gameConfig.getConfig().getConfigurationSection(game) != null) {
             return new Game(player, game);
         } else {
             player.sendMessage(Message.ERROR_UNKNOWN_GAME);
@@ -33,7 +37,7 @@ public class Game {
     }
     
     boolean exists() {
-        if (GameConfig.getConfig().getConfigurationSection(game) != null)
+        if (gameConfig.getConfig().getConfigurationSection(game) != null)
             return true;
         else player.sendMessage(Message.ERROR_UNKNOWN_GAME);
         return false;
@@ -42,15 +46,15 @@ public class Game {
     public void remove() {
         
         if (exists()) {
-            GameConfig.getConfig().set(game, null);
+            gameConfig.getConfig().set(game, null);
             player.sendMessage(Message.SUCCESS_GAME_REMOVED.replace("$GAME$", game));
-            GameConfig.saveConfig();
+            gameConfig.saveConfig();
         }
     }
     
     public String getName() {
-        if (exists() && GameConfig.getConfig().get(game + ".display-name") != null) {
-            return GameConfig.getConfig().getString(game + ".display-name");
+        if (exists() && gameConfig.getConfig().get(game + ".display-name") != null) {
+            return gameConfig.getConfig().getString(game + ".display-name");
         }
         return null;
     }
@@ -58,16 +62,16 @@ public class Game {
     public void setName(String displayName) {
     
         if (exists()) {
-            GameConfig.getConfig().set(game + ".display-name", displayName);
-            GameConfig.saveConfig();
+            gameConfig.getConfig().set(game + ".display-name", displayName);
+            gameConfig.saveConfig();
             player.sendMessage(Message.SUCCESS_UPDATED_GAME_NAME.replace("$NAME$", displayName));
         }
     }
     
     public Material getIcon() {
-        if (exists() && GameConfig.getConfig().get(game + ".icon") != null) {
+        if (exists() && gameConfig.getConfig().get(game + ".icon") != null) {
             try {
-                return Material.getMaterial(GameConfig.getConfig().getString(game + ".icon"));
+                return Material.getMaterial(gameConfig.getConfig().getString(game + ".icon"));
             } catch (Exception e) {
                 return null;
             }
@@ -80,8 +84,8 @@ public class Game {
         if (exists()) {
             //try {
             //    Material.getMaterial(icon);
-            GameConfig.getConfig().set(game + ".icon", icon.name());
-            GameConfig.saveConfig();
+            gameConfig.getConfig().set(game + ".icon", icon.name());
+            gameConfig.saveConfig();
             player.sendMessage(Message.SUCCESS_UPDATED_GAME_ICON.replace("$ICON$",
                     icon.name().replace("_", "").toLowerCase()));
             //} catch (Exception e) {
@@ -92,8 +96,8 @@ public class Game {
     }
     
     public String getDescription() {
-        if (exists() && GameConfig.getConfig().get(game + ".description") != null) {
-            return GameConfig.getConfig().getString(game + ".description");
+        if (exists() && gameConfig.getConfig().get(game + ".description") != null) {
+            return gameConfig.getConfig().getString(game + ".description");
         }
         return null;
     }
@@ -101,24 +105,24 @@ public class Game {
     public void setDescription(String description) {
         
         if (exists()) {
-            GameConfig.getConfig().set(game + ".description", description);
-            GameConfig.saveConfig();
+            gameConfig.getConfig().set(game + ".description", description);
+            gameConfig.saveConfig();
             player.sendMessage(Message.SUCCESS_UPDATED_GAME_DESCRIPTION.replace("$DESCRIPTION$", description));
         }
     }
     
     public void setGuiColor(GUIColor color) {
         if (exists()) {
-            GameConfig.getConfig().set(game + ".gui-color", color);
-            GameConfig.saveConfig();
+            gameConfig.getConfig().set(game + ".gui-color", color);
+            gameConfig.saveConfig();
             player.sendMessage(Message.SUCCESS_UPDATED_GAME_COLOR.replace("$COLOR$",
                     color.toString().replace("_", "").toLowerCase()));
         }
     }
     
     public int getPriority() {
-        if (exists() && GameConfig.getConfig().get(game + ".priority") != null) {
-            return GameConfig.getConfig().getInt(game + ".priority");
+        if (exists() && gameConfig.getConfig().get(game + ".priority") != null) {
+            return gameConfig.getConfig().getInt(game + ".priority");
         }
         return 0;
     }
@@ -126,31 +130,32 @@ public class Game {
     public void setPriority(int priority) {
         
         if (exists()) {
-            GameConfig.getConfig().set(game + ".priority", priority);
-            GameConfig.saveConfig();
+            gameConfig.getConfig().set(game + ".priority", priority);
+            gameConfig.saveConfig();
             player.sendMessage(Message.SUCCESS_UPDATED_GAME_PRIORITY.replace("$PRIORITY$", Integer.toString(priority)));
         }
     }
     
     public boolean isHidden() {
-        if (exists() && GameConfig.getConfig().get(game + ".hidden") != null) {
-            return GameConfig.getConfig().getBoolean(game + ".hidden");
+        if (exists() && gameConfig.getConfig().get(game + ".hidden") != null) {
+            return gameConfig.getConfig().getBoolean(game + ".hidden");
         }
+        
         return false;
     }
     
     public void setHidden(boolean hidden) {
         
         if (exists()) {
-            GameConfig.getConfig().set(game + ".hidden", hidden);
-            GameConfig.saveConfig();
+            gameConfig.getConfig().set(game + ".hidden", hidden);
+            gameConfig.saveConfig();
             player.sendMessage(Message.SUCCESS_UPDATED_GAME_HIDDEN.replace("$HIDDEN$", Boolean.toString(hidden)));
         }
     }
     
     public boolean isEnabled() {
-        if (exists() && GameConfig.getConfig().get(game + ".enabled") != null) {
-            return GameConfig.getConfig().getBoolean(game + ".enabled");
+        if (exists() && gameConfig.getConfig().get(game + ".enabled") != null) {
+            return gameConfig.getConfig().getBoolean(game + ".enabled");
         }
         return false;
     }
@@ -159,8 +164,8 @@ public class Game {
         
         if (exists()) {
             //todo only enable if all requirements met
-            GameConfig.getConfig().set(game + ".enabled", true);
-            GameConfig.saveConfig();
+            gameConfig.getConfig().set(game + ".enabled", true);
+            gameConfig.saveConfig();
             player.sendMessage(Message.SUCCESS_UPDATED_GAME_ENABLED.replace("$ENABLED$", Boolean.toString(enabled)));
         }
     }

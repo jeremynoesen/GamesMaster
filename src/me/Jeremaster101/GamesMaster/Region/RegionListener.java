@@ -1,5 +1,8 @@
 package me.Jeremaster101.GamesMaster.Region;
 
+import me.Jeremaster101.GamesMaster.Config.ConfigManager;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
+import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIItem;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
@@ -21,6 +24,8 @@ public class RegionListener implements Listener {
     private final LobbyInventory li = new LobbyInventory();
     private final GUIItem guiitem = new GUIItem();
     private final LobbyHandler lh = new LobbyHandler();
+    
+    private ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
 
     @EventHandler(priority = EventPriority.HIGH)//todo make player tp to games world spawn on join
     public void onJoin(PlayerJoinEvent e) {
@@ -103,12 +108,12 @@ public class RegionListener implements Listener {
 
                     String curleave = "null";
                     String arleave = "null";
-                    if (gmplayer.getCurrentRegion() != null && RegionConfig.getConfig().get(
+                    if (gmplayer.getCurrentRegion() != null && regionConfig.getConfig().get(
                             gmplayer.getCurrentRegion() + ".leave") != null)
-                        curleave = RegionConfig.getConfig().get(gmplayer.getCurrentRegion() +
+                        curleave = regionConfig.getConfig().get(gmplayer.getCurrentRegion() +
                                 ".leave").toString();
-                    if (RegionConfig.getConfig().get(region + ".leave") != null)
-                        arleave = RegionConfig.getConfig().get(region + ".leave").toString();
+                    if (regionConfig.getConfig().get(region + ".leave") != null)
+                        arleave = regionConfig.getConfig().get(region + ".leave").toString();
 
                     if (!curleave.equals(arleave) && !curleave.equals("null")) {
                         if (!lh.isGamesWorld(to.getWorld())) {

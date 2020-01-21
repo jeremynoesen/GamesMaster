@@ -1,9 +1,10 @@
 package me.Jeremaster101.GamesMaster.Lobby.Gadget;
 
+import me.Jeremaster101.GamesMaster.Config.ConfigManager;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
+import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIInventory;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIItem;
-import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaConfig;
-import me.Jeremaster101.GamesMaster.Lobby.Game.GameConfig;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Message.Message;
 import org.bukkit.Sound;
@@ -24,6 +25,8 @@ public class UseGadget implements Listener {
     private final GUIItem guiitem = new GUIItem();
     private final Stormbreaker stormbreaker = new Stormbreaker();
     private final LobbyHandler lh = new LobbyHandler();
+    
+    ConfigManager gameConfig = Configs.getConfig(ConfigType.GAME);
     
     //todo gold launchpads
     //todo beachball gadget
@@ -67,8 +70,8 @@ public class UseGadget implements Listener {
                 }
                 if (p.getInventory().getItemInMainHand().equals(guiitem.gameUI())) {
                     e.setCancelled(true);
-                    if (GameConfig.getConfig().getConfigurationSection("games") != null &&
-                            GameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() > 0) {
+                    if (gameConfig.getConfig().getConfigurationSection("games") != null &&
+                            gameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() > 0) {
                         p.openInventory(guiInv.gameUI());
                         p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 2, 2);
                     } else {
@@ -84,8 +87,8 @@ public class UseGadget implements Listener {
                 }
                 if (p.getInventory().getItemInMainHand().equals(guiitem.gameUI())) {
                     e.setCancelled(true);
-                    if (GameConfig.getConfig().getConfigurationSection("games") != null &&
-                            GameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() > 0) {
+                    if (gameConfig.getConfig().getConfigurationSection("games") != null &&
+                            gameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() > 0) {
                         p.openInventory(guiInv.gameUI());
                         p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 2, 2);
                     } else {

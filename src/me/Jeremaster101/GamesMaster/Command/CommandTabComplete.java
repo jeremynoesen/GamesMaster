@@ -1,8 +1,8 @@
 package me.Jeremaster101.GamesMaster.Command;
 
-import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaConfig;
-import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryConfig;
-import me.Jeremaster101.GamesMaster.Region.RegionConfig;
+import me.Jeremaster101.GamesMaster.Config.ConfigManager;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
+import me.Jeremaster101.GamesMaster.Config.Configs;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -12,7 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CommandTabComplete implements TabCompleter {
-
+    
+    ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
+    ConfigManager inventoryConfig = Configs.getConfig(ConfigType.INVENTORY);
+    ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    ConfigManager commandConfig = Configs.getConfig(ConfigType.COMMAND);
+    
+    
+    
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {//todo complete
         ArrayList<String> tabList = new ArrayList<>();
@@ -191,9 +198,9 @@ public class CommandTabComplete implements TabCompleter {
                     if (args[0].equals("region")) {
                         if (args[1].equals("info") || args[1].equals("remove") ||
                                 args[1].equals("select")) {
-                            if (args[2].equals("")) tabList.addAll(RegionConfig.getConfig()
+                            if (args[2].equals("")) tabList.addAll(regionConfig.getConfig()
                                     .getConfigurationSection("regions").getKeys(false));
-                            for (String regions : RegionConfig.getConfig()
+                            for (String regions : regionConfig.getConfig()
                                     .getConfigurationSection("regions").getKeys(false)) {
                                 if (regions.startsWith(args[2])) {
                                     tabList.add(regions);
@@ -218,9 +225,9 @@ public class CommandTabComplete implements TabCompleter {
                         if (args[1].equals("info") || args[1].equals("remove") ||
                                 args[1].equals("enable") ||
                                 args[1].equals("disable")) {
-                            if (args[2].equals("")) tabList.addAll(ArenaConfig.getConfig()
+                            if (args[2].equals("")) tabList.addAll(arenaConfig.getConfig()
                                     .getConfigurationSection("arenas").getKeys(false));
-                            for (String arenas : ArenaConfig.getConfig()
+                            for (String arenas : arenaConfig.getConfig()
                                     .getConfigurationSection("arenas").getKeys(false)) {
                                 if (arenas.startsWith(args[2])) {
                                     tabList.add(arenas);
@@ -230,9 +237,9 @@ public class CommandTabComplete implements TabCompleter {
                     }
                     if (args[0].equals("command")) {
                         if (args[1].equals("unblock")) {
-                            if (args[2].equals("")) tabList.addAll(CommandConfig.getConfig()
+                            if (args[2].equals("")) tabList.addAll(commandConfig.getConfig()
                                     .getStringList("blocked-cmds"));
-                            for (String commands : CommandConfig.getConfig()
+                            for (String commands : commandConfig.getConfig()
                                     .getStringList("blocked-cmds")) {
                                 if (commands.startsWith(args[2])) {
                                     tabList.add(commands);
@@ -242,9 +249,9 @@ public class CommandTabComplete implements TabCompleter {
                     }
                     if (args[0].equals("inventory")) {
                         if (args[1].equals("remove")) {
-                            if (args[2].equals("")) tabList.addAll(InventoryConfig.getConfig()
+                            if (args[2].equals("")) tabList.addAll(inventoryConfig.getConfig()
                                     .getStringList("inventories"));
-                            for (String inventories : InventoryConfig.getConfig()
+                            for (String inventories : inventoryConfig.getConfig()
                                     .getStringList("inventories")) {
                                 if (inventories.startsWith(args[2])) {
                                     tabList.add(inventories);
@@ -257,18 +264,18 @@ public class CommandTabComplete implements TabCompleter {
 
             if (args.length == 4) {
                 if (args[0].equals("region") && args[1].equals("add")) {
-                    if (args[3].equals("")) tabList.addAll(InventoryConfig.getConfig()
+                    if (args[3].equals("")) tabList.addAll(inventoryConfig.getConfig()
                             .getStringList("inventories"));
-                    for (String inventories : InventoryConfig.getConfig()
+                    for (String inventories : inventoryConfig.getConfig()
                             .getStringList("inventories")) {
                         if (inventories.startsWith(args[3])) {
                             tabList.add(inventories);
                         }
                     }
                 } else if (args[0].equals("region") && args[1].equals("update")) {
-                    if (args[3].equals("")) tabList.addAll(RegionConfig.getConfig()
+                    if (args[3].equals("")) tabList.addAll(regionConfig.getConfig()
                             .getConfigurationSection("regions").getKeys(false));
-                    for (String regions : RegionConfig.getConfig()
+                    for (String regions : regionConfig.getConfig()
                             .getConfigurationSection("regions").getKeys(false)) {
                         if (regions.startsWith(args[3])) {
                             tabList.add(regions);

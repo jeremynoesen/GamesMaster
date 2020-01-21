@@ -1,9 +1,10 @@
 package me.Jeremaster101.GamesMaster.Lobby.GUI;
 
+import me.Jeremaster101.GamesMaster.Config.ConfigManager;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
+import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
-import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaConfig;
-import me.Jeremaster101.GamesMaster.Lobby.Game.GameConfig;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
 import me.Jeremaster101.GamesMaster.Message.Message;
@@ -42,7 +43,11 @@ public class GUIInteract implements Listener {
     private final LobbyInventory li = new LobbyInventory();
     private final Stormbreaker stormbreaker = new Stormbreaker();
     private final LobbyHandler lh = new LobbyHandler();
-
+    
+    private static ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
+    private static ConfigManager gameConfig = Configs.getConfig(ConfigType.GAME);
+    
+    
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onInvInteract(InventoryClickEvent e) {
@@ -63,8 +68,8 @@ public class GUIInteract implements Listener {
 
                 if (e.getCurrentItem().equals(guiItem.gameUI())) {
                     e.setCancelled(true);
-                    if (ArenaConfig.getConfig().getConfigurationSection("arenas") != null &&
-                            ArenaConfig.getConfig().getConfigurationSection("arenas").getKeys(false).size() > 0) {
+                    if (arenaConfig.getConfig().getConfigurationSection("arenas") != null &&
+                            arenaConfig.getConfig().getConfigurationSection("arenas").getKeys(false).size() > 0) {
                         p.openInventory(guiInv.gameUI());
                         p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 2, 2);
                     } else {
@@ -104,7 +109,7 @@ public class GUIInteract implements Listener {
                         p.closeInventory();
                         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 2);
                         try {
-                            String[] cmd = ArenaConfig.getConfig().get(/*guim.invNameToGame(e.getInventory()
+                            String[] cmd = arenaConfig.getConfig().get(/*guim.invNameToGame(e.getInventory()
                                     .getName()) + */"." + arenas + ".join").toString().split(" ");
 
                             String xs = cmd[0];
@@ -126,7 +131,7 @@ public class GUIInteract implements Listener {
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {
-                                    //p.performCommand(ArenaConfig.getConfig().get(guim.invNameToGame(e
+                                    //p.performCommand(arenaConfig.getConfig().get(guim.invNameToGame(e
                                     // .getInventory()
                                     //        .getName()) + "." + finalArenas + ".join").toString());
                                 }
@@ -144,12 +149,12 @@ public class GUIInteract implements Listener {
                 if (e.getInventory().getName().equals(guiInv.gameUI().getName())) {
                     e.setCancelled(true);
 
-                    if (GameConfig.getConfig().get("games") != null && GameConfig.getConfig().getConfigurationSection(
+                    if (gameConfig.getConfig().get("games") != null && gameConfig.getConfig().getConfigurationSection(
                             "games").getKeys(false).size() > 0) {
-                        for (String section : GameConfig.getConfig().getConfigurationSection("games").getKeys(false)) {
-                            if (GameConfig.getConfig().getString(section + ".icon") != null &&
+                        for (String section : gameConfig.getConfig().getConfigurationSection("games").getKeys(false)) {
+                            if (gameConfig.getConfig().getString(section + ".icon") != null &&
                                     e.getCurrentItem().getType().equals(Material.getMaterial(
-                                            GameConfig.getConfig().getString(section + ".icon")))) {
+                                            gameConfig.getConfig().getString(section + ".icon")))) {
 
                                 //todo open game ui
 

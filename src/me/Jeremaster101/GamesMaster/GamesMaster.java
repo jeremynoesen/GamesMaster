@@ -1,22 +1,16 @@
 package me.Jeremaster101.GamesMaster;
 
-import me.Jeremaster101.GamesMaster.Command.CommandConfig;
 //import me.Jeremaster101.GamesMaster.Command.CommandExec;
 import me.Jeremaster101.GamesMaster.Command.CommandListener;
 import me.Jeremaster101.GamesMaster.Command.CommandTabComplete;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIConfig;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
+import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIInteract;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIListener;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
-import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaConfig;
-import me.Jeremaster101.GamesMaster.Lobby.Game.GameConfig;
-import me.Jeremaster101.GamesMaster.Lobby.LobbyConfig;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyProtect;
 import me.Jeremaster101.GamesMaster.Message.Message;
-import me.Jeremaster101.GamesMaster.Message.MessageConfig;
-import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryConfig;
 import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryFixer;
-import me.Jeremaster101.GamesMaster.Region.RegionConfig;
 import me.Jeremaster101.GamesMaster.Region.RegionListener;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginManager;
@@ -32,20 +26,20 @@ public class GamesMaster extends JavaPlugin{
     public void onEnable() {
         plugin = this;
         
-        Message.reloadMessages();
-
         getConfig().options().copyDefaults(true);
         saveConfig();
     
-        GUIConfig.saveDefaultConfig();
-        LobbyConfig.saveDefaultConfig();
-        GameConfig.saveDefaultConfig();
-        ArenaConfig.saveDefaultConfig();
-        InventoryConfig.saveDefaultConfig();
-        RegionConfig.saveDefaultConfig();
-        CommandConfig.saveDefaultConfig();
-        MessageConfig.saveDefaultConfig();
-
+        Configs.getConfig(ConfigType.GUI).saveDefaultConfig();
+        Configs.getConfig(ConfigType.LOBBY).saveDefaultConfig();
+        Configs.getConfig(ConfigType.GAME).saveDefaultConfig();
+        Configs.getConfig(ConfigType.ARENA).saveDefaultConfig();
+        Configs.getConfig(ConfigType.INVENTORY).saveDefaultConfig();
+        Configs.getConfig(ConfigType.REGION).saveDefaultConfig();
+        Configs.getConfig(ConfigType.COMMAND).saveDefaultConfig();
+        Configs.getConfig(ConfigType.MESSAGE).saveDefaultConfig();
+    
+        Message.reloadMessages();
+    
         Message msg = new Message();
 
         GamesMaster.plugin.getServer().getConsoleSender().sendMessage(msg.STARTUP);

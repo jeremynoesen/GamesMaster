@@ -4,11 +4,13 @@ import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
+import me.Jeremaster101.GamesMaster.Config.ConfigManager;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
+import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Message.Message;
 import me.Jeremaster101.GamesMaster.GMPlayer;
-import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryConfig;
 import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryHandler;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -23,11 +25,14 @@ public class RegionHandler {//todo implement some of these methods into player c
     private final InventoryHandler ih = new InventoryHandler();
     private final LobbyHandler lh = new LobbyHandler();
     
+    private static ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    private static ConfigManager inventoryConfig = Configs.getConfig(ConfigType.INVENTORY);
+    
     void fixGamemode(Player p) {
         
         GMPlayer gmplayer = GMPlayer.getPlayerData(p);
         if (gmplayer.getCurrentRegion() != null && p.getWorld().getName().equals(GamesMaster.getInstance().getConfig().get("games-world").toString())) {
-            GameMode mode = GameMode.valueOf((RegionConfig.getConfig()
+            GameMode mode = GameMode.valueOf((regionConfig.getConfig()
                     .getString(gmplayer.getCurrentRegion() + ".gamemode")));
             
             p.setGameMode(mode);
@@ -47,12 +52,12 @@ public class RegionHandler {//todo implement some of these methods into player c
     public boolean isInRegion(Location l, String rg) {
         
         try {
-            double maxx = RegionConfig.getConfig().getDouble(rg + ".location.max.x");
-            double maxy = RegionConfig.getConfig().getDouble(rg + ".location.max.y");
-            double maxz = RegionConfig.getConfig().getDouble(rg + ".location.max.z");
-            double minx = RegionConfig.getConfig().getDouble(rg + ".location.min.x");
-            double miny = RegionConfig.getConfig().getDouble(rg + ".location.min.y");
-            double minz = RegionConfig.getConfig().getDouble(rg + ".location.min.z");
+            double maxx = regionConfig.getConfig().getDouble(rg + ".location.max.x");
+            double maxy = regionConfig.getConfig().getDouble(rg + ".location.max.y");
+            double maxz = regionConfig.getConfig().getDouble(rg + ".location.max.z");
+            double minx = regionConfig.getConfig().getDouble(rg + ".location.min.x");
+            double miny = regionConfig.getConfig().getDouble(rg + ".location.min.y");
+            double minz = regionConfig.getConfig().getDouble(rg + ".location.min.z");
             double tox = l.getBlock().getLocation().getX();
             double toy = l.getBlock().getLocation().getY();
             double toz = l.getBlock().getLocation().getZ();
@@ -66,7 +71,7 @@ public class RegionHandler {//todo implement some of these methods into player c
     
     public String getRegion(Player player) {
         
-        Set<String> regs = RegionConfig.getConfig().getConfigurationSection("regions")
+        Set<String> regs = regionConfig.getConfig().getConfigurationSection("regions")
                 .getKeys(false);
         if (lh.isGamesWorld(player.getWorld())) {
             int end = 0;
@@ -88,22 +93,22 @@ public class RegionHandler {//todo implement some of these methods into player c
     @SuppressWarnings("deprecation")
     void loadRegion(Player p, String rg) {
         GMPlayer gmplayer = GMPlayer.getPlayerData(p);
-        Set<String> regs = RegionConfig.getConfig().getConfigurationSection("regions").getKeys(false);
-        List<String> invs = InventoryConfig.getConfig().getStringList("inventories");
+        Set<String> regs = regionConfig.getConfig().getConfigurationSection("regions").getKeys(false);
+        List<String> invs = inventoryConfig.getConfig().getStringList("inventories");
         
         if (regs.size() > 0)
             if (gmplayer.getCurrentRegion() == null || !regs.contains(gmplayer.getCurrentRegion())) {
-                if (invs != null && invs.contains(RegionConfig.getConfig()
+                if (invs != null && invs.contains(regionConfig.getConfig()
                         .get(rg + ".inventory").toString()))
                     ih.loadInv(p, rg);
             } else if (!gmplayer.getCurrentRegion().equals(rg)) {
                 
-                if (invs != null && invs.contains(RegionConfig.getConfig().get(gmplayer.getCurrentRegion()
-                        + ".inventory").toString()) && !RegionConfig.getConfig().get(gmplayer.getCurrentRegion() +
+                if (invs != null && invs.contains(regionConfig.getConfig().get(gmplayer.getCurrentRegion()
+                        + ".inventory").toString()) && !regionConfig.getConfig().get(gmplayer.getCurrentRegion() +
                         ".inventory").toString().equals("none"))
                     ih.saveInv(p, gmplayer.getCurrentRegion());
                 
-                if (invs != null && invs.contains(RegionConfig.getConfig().get(rg + ".inventory").toString()))
+                if (invs != null && invs.contains(regionConfig.getConfig().get(rg + ".inventory").toString()))
                     ih.loadInv(p, rg);
             }
     }
@@ -116,12 +121,12 @@ public class RegionHandler {//todo implement some of these methods into player c
                 return;
             }
             
-            BlockVector3 min = BlockVector3.at(RegionConfig.getConfig().getDouble(region + ".location.min.x"),
-                    RegionConfig.getConfig().getDouble(region + ".location.min.y"),
-                    RegionConfig.getConfig().getDouble(region + ".location.min.z"));
-            BlockVector3 max = BlockVector3.at(RegionConfig.getConfig().getDouble(region + ".location.max.x"),
-                    RegionConfig.getConfig().getDouble(region + ".location.max.y"),
-                    RegionConfig.getConfig().getDouble(region + ".location.max.z"));
+            BlockVector3 min = BlockVector3.at(regionConfig.getConfig().getDouble(region + ".location.min.x"),
+                    regionConfig.getConfig().getDouble(region + ".location.min.y"),
+                    regionConfig.getConfig().getDouble(region + ".location.min.z"));
+            BlockVector3 max = BlockVector3.at(regionConfig.getConfig().getDouble(region + ".location.max.x"),
+                    regionConfig.getConfig().getDouble(region + ".location.max.y"),
+                    regionConfig.getConfig().getDouble(region + ".location.max.z"));
             
             com.sk89q.worldedit.entity.Player weplayer = BukkitAdapter.adapt(player);
             LocalSession ls = WorldEdit.getInstance().getSessionManager().get(weplayer);

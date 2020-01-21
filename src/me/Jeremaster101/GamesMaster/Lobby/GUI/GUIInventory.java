@@ -1,8 +1,9 @@
 package me.Jeremaster101.GamesMaster.Lobby.GUI;
 
+import me.Jeremaster101.GamesMaster.Config.ConfigManager;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
+import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
-import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaConfig;
-import me.Jeremaster101.GamesMaster.Lobby.Game.GameConfig;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
 import me.Jeremaster101.GamesMaster.GMPlayer;
 import org.bukkit.Bukkit;
@@ -25,7 +26,11 @@ public class GUIInventory {
     private final FizzyLiftingDrink fizzyLiftingDrink = new FizzyLiftingDrink();
     private final Stormbreaker stormbreaker = new Stormbreaker();
     private final UnlockGadget ug = new UnlockGadget();
-
+    
+    private static ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
+    private static ConfigManager gameConfig = Configs.getConfig(ConfigType.GAME);
+    
+    
     public Inventory cosmeticUI(Player p) {
         Inventory cosmetics = Bukkit.createInventory(p, 9, ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Cosmetics");
     
@@ -111,14 +116,14 @@ public class GUIInventory {
     public Inventory gameUI() {
         List<ItemStack> games = new ArrayList<>();
 
-        if (GameConfig.getConfig().get("games") != null &&
-                GameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() > 0)
-            for (String game : GameConfig.getConfig().getConfigurationSection("games").getKeys(false)) {
-                if (ArenaConfig.getConfig().get(game) != null &&
-                        ArenaConfig.getConfig().getConfigurationSection(game).getKeys(false).size() > 0) {
-                    games.add(guiItem.game(GameConfig.getConfig().getString(game + ".display-name"),
-                            GameConfig.getConfig().getString(game + ".icon"),
-                            GameConfig.getConfig().getString(game + ".description")));
+        if (gameConfig.getConfig().get("games") != null &&
+                gameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() > 0)
+            for (String game : gameConfig.getConfig().getConfigurationSection("games").getKeys(false)) {
+                if (arenaConfig.getConfig().get(game) != null &&
+                        arenaConfig.getConfig().getConfigurationSection(game).getKeys(false).size() > 0) {
+                    games.add(guiItem.game(gameConfig.getConfig().getString(game + ".display-name"),
+                            gameConfig.getConfig().getString(game + ".icon"),
+                            gameConfig.getConfig().getString(game + ".description")));
                 }
             }
 
@@ -348,11 +353,11 @@ public class GUIInventory {
     }
 
     private boolean enabled(String game, int arena) {
-        return ArenaConfig.getConfig().get(game + "." + arena + ".enabled").toString().equals("true");
+        return arenaConfig.getConfig().get(game + "." + arena + ".enabled").toString().equals("true");
     }
 
     private String mapName(String game, int arena) {
-        return ArenaConfig.getConfig().get(game + "." + arena + ".mapname").toString();
+        return arenaConfig.getConfig().get(game + "." + arena + ".mapname").toString();
     }
 
     Inventory arenaUI(GUIColor color, String game, String invName) {
@@ -363,8 +368,8 @@ public class GUIInventory {
         List<ItemStack> arenas = new ArrayList<>();
 
         for (int i = 1; i < 6; i++) {
-            if (ArenaConfig.getConfig().getConfigurationSection(game + "." + i) != null) {
-                if (enabled(game, i) && ArenaConfig.getConfig().get(game + "." + i + ".hidden") == null) {
+            if (arenaConfig.getConfig().getConfigurationSection(game + "." + i) != null) {
+                if (enabled(game, i) && arenaConfig.getConfig().get(game + "." + i + ".hidden") == null) {
                     arenas.add(guiItem.arenaEnabled(i, mapName(game, i)));
                 } else {
                     arenas.add(guiItem.arenaDisabled(i, mapName(game, i)));

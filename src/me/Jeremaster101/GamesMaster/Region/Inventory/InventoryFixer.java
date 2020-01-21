@@ -1,8 +1,10 @@
 package me.Jeremaster101.GamesMaster.Region.Inventory;
 
+import me.Jeremaster101.GamesMaster.Config.ConfigManager;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
+import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.GamesMaster;
-import me.Jeremaster101.GamesMaster.Region.RegionConfig;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -16,7 +18,9 @@ public class InventoryFixer implements Listener { //this class is to combat PerW
 
     private final InventoryHandler ih = new InventoryHandler();
     private final LobbyHandler lh = new LobbyHandler();
-
+    
+    private static ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    
     @EventHandler
     public void onModeChange(PlayerGameModeChangeEvent e) {
         Player p = e.getPlayer();
@@ -33,10 +37,10 @@ public class InventoryFixer implements Listener { //this class is to combat PerW
             Player p = e.getPlayer();
             Location from = e.getFrom();
             Location to = e.getTo();
-            GameMode mode = GameMode.valueOf((RegionConfig.getConfig().getString("default.gamemode")));
+            GameMode mode = GameMode.valueOf((regionConfig.getConfig().getString("default.gamemode")));
 
             if (lh.isGamesWorld(to.getWorld()) && to.getWorld() != from.getWorld()) {
-                p.setGameMode(GameMode.valueOf((RegionConfig.getConfig().getString("default.gamemode"))));
+                p.setGameMode(GameMode.valueOf((regionConfig.getConfig().getString("default.gamemode"))));
             }
 
             if (lh.isGamesWorld(from.getWorld()) &&

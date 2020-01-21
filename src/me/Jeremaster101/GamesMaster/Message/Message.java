@@ -1,8 +1,9 @@
 package me.Jeremaster101.GamesMaster.Message;
 
+import me.Jeremaster101.GamesMaster.Config.ConfigManager;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
+import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.GamesMaster;
-import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaConfig;
-import me.Jeremaster101.GamesMaster.Region.RegionConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -11,7 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Message {
-
+    
+    private static ConfigManager messageConfig = Configs.getConfig(ConfigType.MESSAGE);
+    private static ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    private static ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
+    
+    
     public static String PREFIX;
     public static String ERROR_CMD_BLOCKED;
     public static String ERROR_GAMEMODE;
@@ -87,79 +93,79 @@ public class Message {
     public static String ERROR_CANT_ENABLE;
     
     public static void reloadMessages() {
-        PREFIX = colorize(MessageConfig.getConfig().getString("PREFIX"));
-        ERROR_CMD_BLOCKED = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_CMD_BLOCKED"));
-        ERROR_GAMEMODE = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_GAMEMODE"));
-        ERROR_WORLD = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_WORLD"));
-        ERROR_NULL_BOUNDS = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_NULL_BOUNDS"));
-        ERROR_ARENA_DISABLED = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_ARENA_DISABLED"));
-        ERROR_NOT_IN_LOBBY = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_NOT_IN_LOBBY"));
-        ERROR_UNKNOWN_INV = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_UNKNOWN_INV"));
-        ERROR_INV_EXISTS = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_INV_EXISTS"));
-        ERROR_UNKNOWN_REGION = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_UNKNOWN_REGION"));
-        ERROR_DEFAULT_REGION = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_DEFAULT_REGION"));
-        ERROR_DEFAULT_INV = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_DEFAULT_INV"));
-        ERROR_GAME_LIST = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_GAME_LIST"));
-        ERROR_UNKNOWN_ARENA = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_UNKNOWN_ARENA"));
-        SUCCESS_REGION_SET = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_REGION_SET"));
-        SUCCESS_UPDATED_REGION_INV = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_REGION_INV"));
-        SUCCESS_UPDATED_REGION_BOUNDS = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_REGION_BOUNDS"));
-        SUCCESS_UPDATED_REGION_MODE = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_REGION_MODE"));
-        SUCCESS_UPDATED_REGION_LEAVE = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_REGION_LEAVE"));
-        SUCCESS_REMOVED_REGION_LEAVE = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_REMOVED_REGION_LEAVE"));
-        SUCCESS_UPDATED_GAME_NAME = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_NAME"));
-        SUCCESS_UPDATED_GAME_ICON = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_ICON"));
-        SUCCESS_UPDATED_GAME_DESCRIPTION = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_DESCRIPTION"));
-        SUCCESS_UPDATED_GAME_COLOR = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_COLOR"));
-        SUCCESS_UPDATED_GAME_ENABLED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_ENABLED"));
-        SUCCESS_UPDATED_GAME_HIDDEN = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_HIDDEN"));
-        SUCCESS_UPDATED_GAME_PRIORITY = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_PRIORITY"));
-        SUCCESS_UPDATED_ARENA_NAME = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_NAME"));
-        SUCCESS_UPDATED_ARENA_JOIN = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_JOIN"));
-        SUCCESS_UPDATED_ARENA_HIDDEN = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_HIDDEN"));
-        SUCCESS_UPDATED_ARENA_ENABLED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_ENABLED"));
-        SUCCESS_UPDATED_ARENA_PRIORITY = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_PRIORITY"));
-        SUCCESS_REGION_REMOVED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_REGION_REMOVED"));
-        SUCCESS_REGION_SELECTED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_REGION_SELECTED"));
-        SUCCESS_ARENA_ENABLED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_ARENA_ENABLED"));
-        SUCCESS_ARENA_DISABLED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_ARENA_DISABLED"));
-        SUCCESS_ARENA_ADDED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_ARENA_ADDED"));
-        SUCCESS_ARENA_REMOVED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_ARENA_REMOVED"));
-        SUCCESS_ARENA_UPDATED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_ARENA_UPDATED"));
-        SUCCESS_INV_ADDED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_INV_ADDED"));
-        SUCCESS_INV_REMOVED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_INV_REMOVED"));
-        ERROR_CMD_ALREADY_BLOCKED = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_CMD_ALREADY_BLOCKED"));
-        ERROR_CMD_NOT_BLOCKED = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_CMD_NOT_BLOCKED"));
-        SUCCESS_CMD_BLOCKED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_CMD_BLOCKED"));
-        SUCCESS_CMD_UNBLOCKED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_CMD_UNBLOCKED"));
-        SUCCESS_PWI_FIX_ENABLED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_PWI_FIX_ENABLED"));
-        SUCCESS_PWI_FIX_DISABLED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_PWI_FIX_DISABLED"));
-        ERROR_NO_REGION_NAME = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_NO_REGION_NAME"));
-        ERROR_NO_ARENA_NAME = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_NO_ARENA_NAME"));
-        ERROR_NO_GAME = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_NO_GAME"));
-        ERROR_NO_GAMES = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_NO_GAMES"));
-        ERROR_NO_ARENA = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_NO_ARENA"));
-        ERROR_NO_GAME_COMMAND = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_NO_GAME_COMMAND"));
-        ERROR_NO_CMD_TO_BLOCK = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_NO_CMD_TO_BLOCK"));
-        ERROR_UNKNOWN_COMMAND = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_UNKNOWN_COMMAND"));
-        SUCCESS_RELOADED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_RELOADED"));
-        SUCCESS_RELOADED_ALL = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_RELOADED_ALL"));
-        SUCCESS_SET_WORLD = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_SET_WORLD"));
-        ERROR_GAME_NOT_SETUP = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_GAME_NOT_SETUP"));
-        ERROR_ARENA_MAX = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_ARENA_MAX"));
-        ERROR_REGION_EXISTS = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_REGION_EXISTS"));
-        ERROR_ARENA_EXISTS = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_ARENA_EXISTS"));
-        ERROR_GAME_EXISTS = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_GAME_EXISTS"));
-        ERROR_UNKNOWN_GAME = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_UNKNOWN_GAME"));
-        ERROR_UNKNOWN_MATERIAL = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_UNKNOWN_MATERIAL"));
-        SUCCESS_GAME_REMOVED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_GAME_REMOVED"));
-        SUCCESS_GAME_ADDED = PREFIX + colorize(MessageConfig.getConfig().getString("SUCCESS_GAME_ADDED"));
-        ERROR_ARENA_ALREADY_ENABLED = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_ARENA_ALREADY_ENABLED"));
-        ERROR_ARENA_ALREADY_DISABLED = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_ARENA_ALREADY_DISABLED"));
-        LIST_BLOCKED_CMDS = PREFIX + colorize(MessageConfig.getConfig().getString("LIST_BLOCKED_CMDS"));
-        LIST_REGIONS = PREFIX + colorize(MessageConfig.getConfig().getString("LIST_REGIONS"));
-        LIST_INVS = PREFIX + colorize(MessageConfig.getConfig().getString("LIST_INVS"));
-        ERROR_CANT_ENABLE = PREFIX + colorize(MessageConfig.getConfig().getString("ERROR_CANT_ENABLE"));
+        PREFIX = colorize(messageConfig.getConfig().getString("PREFIX"));
+        ERROR_CMD_BLOCKED = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_CMD_BLOCKED"));
+        ERROR_GAMEMODE = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_GAMEMODE"));
+        ERROR_WORLD = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_WORLD"));
+        ERROR_NULL_BOUNDS = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_NULL_BOUNDS"));
+        ERROR_ARENA_DISABLED = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_ARENA_DISABLED"));
+        ERROR_NOT_IN_LOBBY = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_NOT_IN_LOBBY"));
+        ERROR_UNKNOWN_INV = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_UNKNOWN_INV"));
+        ERROR_INV_EXISTS = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_INV_EXISTS"));
+        ERROR_UNKNOWN_REGION = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_UNKNOWN_REGION"));
+        ERROR_DEFAULT_REGION = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_DEFAULT_REGION"));
+        ERROR_DEFAULT_INV = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_DEFAULT_INV"));
+        ERROR_GAME_LIST = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_GAME_LIST"));
+        ERROR_UNKNOWN_ARENA = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_UNKNOWN_ARENA"));
+        SUCCESS_REGION_SET = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_REGION_SET"));
+        SUCCESS_UPDATED_REGION_INV = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_REGION_INV"));
+        SUCCESS_UPDATED_REGION_BOUNDS = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_REGION_BOUNDS"));
+        SUCCESS_UPDATED_REGION_MODE = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_REGION_MODE"));
+        SUCCESS_UPDATED_REGION_LEAVE = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_REGION_LEAVE"));
+        SUCCESS_REMOVED_REGION_LEAVE = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_REMOVED_REGION_LEAVE"));
+        SUCCESS_UPDATED_GAME_NAME = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_NAME"));
+        SUCCESS_UPDATED_GAME_ICON = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_ICON"));
+        SUCCESS_UPDATED_GAME_DESCRIPTION = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_DESCRIPTION"));
+        SUCCESS_UPDATED_GAME_COLOR = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_COLOR"));
+        SUCCESS_UPDATED_GAME_ENABLED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_ENABLED"));
+        SUCCESS_UPDATED_GAME_HIDDEN = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_HIDDEN"));
+        SUCCESS_UPDATED_GAME_PRIORITY = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_GAME_PRIORITY"));
+        SUCCESS_UPDATED_ARENA_NAME = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_NAME"));
+        SUCCESS_UPDATED_ARENA_JOIN = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_JOIN"));
+        SUCCESS_UPDATED_ARENA_HIDDEN = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_HIDDEN"));
+        SUCCESS_UPDATED_ARENA_ENABLED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_ENABLED"));
+        SUCCESS_UPDATED_ARENA_PRIORITY = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_UPDATED_ARENA_PRIORITY"));
+        SUCCESS_REGION_REMOVED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_REGION_REMOVED"));
+        SUCCESS_REGION_SELECTED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_REGION_SELECTED"));
+        SUCCESS_ARENA_ENABLED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_ARENA_ENABLED"));
+        SUCCESS_ARENA_DISABLED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_ARENA_DISABLED"));
+        SUCCESS_ARENA_ADDED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_ARENA_ADDED"));
+        SUCCESS_ARENA_REMOVED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_ARENA_REMOVED"));
+        SUCCESS_ARENA_UPDATED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_ARENA_UPDATED"));
+        SUCCESS_INV_ADDED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_INV_ADDED"));
+        SUCCESS_INV_REMOVED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_INV_REMOVED"));
+        ERROR_CMD_ALREADY_BLOCKED = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_CMD_ALREADY_BLOCKED"));
+        ERROR_CMD_NOT_BLOCKED = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_CMD_NOT_BLOCKED"));
+        SUCCESS_CMD_BLOCKED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_CMD_BLOCKED"));
+        SUCCESS_CMD_UNBLOCKED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_CMD_UNBLOCKED"));
+        SUCCESS_PWI_FIX_ENABLED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_PWI_FIX_ENABLED"));
+        SUCCESS_PWI_FIX_DISABLED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_PWI_FIX_DISABLED"));
+        ERROR_NO_REGION_NAME = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_NO_REGION_NAME"));
+        ERROR_NO_ARENA_NAME = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_NO_ARENA_NAME"));
+        ERROR_NO_GAME = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_NO_GAME"));
+        ERROR_NO_GAMES = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_NO_GAMES"));
+        ERROR_NO_ARENA = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_NO_ARENA"));
+        ERROR_NO_GAME_COMMAND = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_NO_GAME_COMMAND"));
+        ERROR_NO_CMD_TO_BLOCK = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_NO_CMD_TO_BLOCK"));
+        ERROR_UNKNOWN_COMMAND = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_UNKNOWN_COMMAND"));
+        SUCCESS_RELOADED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_RELOADED"));
+        SUCCESS_RELOADED_ALL = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_RELOADED_ALL"));
+        SUCCESS_SET_WORLD = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_SET_WORLD"));
+        ERROR_GAME_NOT_SETUP = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_GAME_NOT_SETUP"));
+        ERROR_ARENA_MAX = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_ARENA_MAX"));
+        ERROR_REGION_EXISTS = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_REGION_EXISTS"));
+        ERROR_ARENA_EXISTS = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_ARENA_EXISTS"));
+        ERROR_GAME_EXISTS = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_GAME_EXISTS"));
+        ERROR_UNKNOWN_GAME = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_UNKNOWN_GAME"));
+        ERROR_UNKNOWN_MATERIAL = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_UNKNOWN_MATERIAL"));
+        SUCCESS_GAME_REMOVED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_GAME_REMOVED"));
+        SUCCESS_GAME_ADDED = PREFIX + colorize(messageConfig.getConfig().getString("SUCCESS_GAME_ADDED"));
+        ERROR_ARENA_ALREADY_ENABLED = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_ARENA_ALREADY_ENABLED"));
+        ERROR_ARENA_ALREADY_DISABLED = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_ARENA_ALREADY_DISABLED"));
+        LIST_BLOCKED_CMDS = PREFIX + colorize(messageConfig.getConfig().getString("LIST_BLOCKED_CMDS"));
+        LIST_REGIONS = PREFIX + colorize(messageConfig.getConfig().getString("LIST_REGIONS"));
+        LIST_INVS = PREFIX + colorize(messageConfig.getConfig().getString("LIST_INVS"));
+        ERROR_CANT_ENABLE = PREFIX + colorize(messageConfig.getConfig().getString("ERROR_CANT_ENABLE"));
     }
     
     public String STARTUP = "\n\n" +
@@ -338,15 +344,15 @@ public class Message {
 
     public String LIST_ARENAS() {
         List<String> list = new ArrayList<>();
-        for (String s : ArenaConfig.getConfig().getConfigurationSection("arenas").getKeys(false)) {
+        for (String s : arenaConfig.getConfig().getConfigurationSection("arenas").getKeys(false)) {
             for (int i = 1; i <= 5; i++) {
-                if (ArenaConfig.getConfig().get(s + "." + i) != null) {
+                if (arenaConfig.getConfig().get(s + "." + i) != null) {
                     list.add(s + " " + i);
                 }
             }
         }
 
-        return PREFIX + colorize(MessageConfig.getConfig().getString("LIST_ARENAS").replace("$ARENAS$",
+        return PREFIX + colorize(messageConfig.getConfig().getString("LIST_ARENAS").replace("$ARENAS$",
                 list.toString().replace(
                         "[",
                         "").replace("]", "")));
@@ -354,20 +360,20 @@ public class Message {
 
     public String[] arenaInfo(String game, String arena) {
         try {
-            String join = ArenaConfig.getConfig().getString(game + "." + arena + ".join");
-            String name = ArenaConfig.getConfig().getString(game + "." + arena + ".mapname");
-            boolean hidden = ArenaConfig.getConfig().getBoolean(game + "." + arena + ".hidden");
-            boolean enabled = ArenaConfig.getConfig().getBoolean(game + "." + arena + ".enabled");
+            String join = arenaConfig.getConfig().getString(game + "." + arena + ".join");
+            String name = arenaConfig.getConfig().getString(game + "." + arena + ".mapname");
+            boolean hidden = arenaConfig.getConfig().getBoolean(game + "." + arena + ".hidden");
+            boolean enabled = arenaConfig.getConfig().getBoolean(game + "." + arena + ".enabled");
             return new String[]{
                     "",
-                    PREFIX + colorize(MessageConfig.getConfig().getString("ARENA_INFO_HEADER")),
-                    colorize(MessageConfig.getConfig().getString("ARENA_INFO_GAME").replace("$GAME$", game)),
-                    colorize(MessageConfig.getConfig().getString("ARENA_INFO_ARENA").replace("$ARENA$", arena)),
-                    colorize(MessageConfig.getConfig().getString("ARENA_INFO_NAME").replace("$NAME$", name)),
-                    colorize(MessageConfig.getConfig().getString("ARENA_INFO_JOIN").replace("$JOIN$", join)),
-                    colorize(MessageConfig.getConfig().getString("ARENA_INFO_ENABLED").replace("$ENABLED$",
+                    PREFIX + colorize(messageConfig.getConfig().getString("ARENA_INFO_HEADER")),
+                    colorize(messageConfig.getConfig().getString("ARENA_INFO_GAME").replace("$GAME$", game)),
+                    colorize(messageConfig.getConfig().getString("ARENA_INFO_ARENA").replace("$ARENA$", arena)),
+                    colorize(messageConfig.getConfig().getString("ARENA_INFO_NAME").replace("$NAME$", name)),
+                    colorize(messageConfig.getConfig().getString("ARENA_INFO_JOIN").replace("$JOIN$", join)),
+                    colorize(messageConfig.getConfig().getString("ARENA_INFO_ENABLED").replace("$ENABLED$",
                             Boolean.toString(enabled))),
-                    colorize(MessageConfig.getConfig().getString("ARENA_INFO_HIDDEN").replace("$HIDDEN$",
+                    colorize(messageConfig.getConfig().getString("ARENA_INFO_HIDDEN").replace("$HIDDEN$",
                             Boolean.toString(hidden))),
                     ""
             };
@@ -382,46 +388,46 @@ public class Message {
                 Location locMin =
                         new Location(Bukkit.getWorld(GamesMaster.getInstance().getConfig().getString("games-world")),
                                 Double.parseDouble(
-                                        RegionConfig.getConfig().getString(region + ".location.min.x")),
+                                        regionConfig.getConfig().getString(region + ".location.min.x")),
                                 Double.parseDouble(
-                                        RegionConfig.getConfig().getString(region + ".location.min.y")),
+                                        regionConfig.getConfig().getString(region + ".location.min.y")),
                                 Double.parseDouble(
-                                        RegionConfig.getConfig().getString(region + ".location.min.z")));
+                                        regionConfig.getConfig().getString(region + ".location.min.z")));
                 Location locMax = new Location(Bukkit.getWorld(GamesMaster.getInstance().getConfig().getString("games-world")),
                         Double.parseDouble(
-                                RegionConfig.getConfig().getString(region + ".location.max.x")),
+                                regionConfig.getConfig().getString(region + ".location.max.x")),
                         Double.parseDouble(
-                                RegionConfig.getConfig().getString(region + ".location.max.y")),
+                                regionConfig.getConfig().getString(region + ".location.max.y")),
                         Double.parseDouble(
-                                RegionConfig.getConfig().getString(region + ".location.max.z")));
+                                regionConfig.getConfig().getString(region + ".location.max.z")));
 
                 return new String[]{
                         "",
-                        PREFIX + colorize(MessageConfig.getConfig().getString("REGION_INFO_HEADER")),
-                        colorize(MessageConfig.getConfig().getString("REGION_INFO_NAME").replace("$NAME$", region)),
-                        colorize(MessageConfig.getConfig().getString("REGION_INFO_UPPER_BOUND").replace("$LOC$", locMax.getBlockX() + ", "
+                        PREFIX + colorize(messageConfig.getConfig().getString("REGION_INFO_HEADER")),
+                        colorize(messageConfig.getConfig().getString("REGION_INFO_NAME").replace("$NAME$", region)),
+                        colorize(messageConfig.getConfig().getString("REGION_INFO_UPPER_BOUND").replace("$LOC$", locMax.getBlockX() + ", "
                                 + locMax.getBlockY() + ", " + locMax.getBlockZ())),
-                        colorize(MessageConfig.getConfig().getString("REGION_INFO_LOWER_BOUND").replace("$LOC$", locMin.getBlockX() + ", "
+                        colorize(messageConfig.getConfig().getString("REGION_INFO_LOWER_BOUND").replace("$LOC$", locMin.getBlockX() + ", "
                                 + locMin.getBlockY() + ", " + locMin.getBlockZ())),
-                        colorize(MessageConfig.getConfig().getString("REGION_INFO_INVENTORY").replace("$INV$",
-                                RegionConfig.getConfig().getString(region + ".inventory"))),
-                        colorize(MessageConfig.getConfig().getString("REGION_INFO_GAMEMODE").replace("$MODE$",
-                                RegionConfig.getConfig().getString(region + ".gamemode").toLowerCase())),
-                        colorize(MessageConfig.getConfig().getString("REGION_INFO_LEAVE").replace("$LEAVE$",
-                                RegionConfig.getConfig().getString(region + ".leave"))),
+                        colorize(messageConfig.getConfig().getString("REGION_INFO_INVENTORY").replace("$INV$",
+                                regionConfig.getConfig().getString(region + ".inventory"))),
+                        colorize(messageConfig.getConfig().getString("REGION_INFO_GAMEMODE").replace("$MODE$",
+                                regionConfig.getConfig().getString(region + ".gamemode").toLowerCase())),
+                        colorize(messageConfig.getConfig().getString("REGION_INFO_LEAVE").replace("$LEAVE$",
+                                regionConfig.getConfig().getString(region + ".leave"))),
                         ""
                 };
             } else {
                 return new String[]{
                         "",
-                        PREFIX + colorize(MessageConfig.getConfig().getString("REGION_INFO_HEADER")),
-                        colorize(MessageConfig.getConfig().getString("REGION_INFO_NAME").replace("$NAME$", region)),
-                        colorize(MessageConfig.getConfig().getString("REGION_INFO_DEFAULT_BOUNDS").replace("$WORLD$",
+                        PREFIX + colorize(messageConfig.getConfig().getString("REGION_INFO_HEADER")),
+                        colorize(messageConfig.getConfig().getString("REGION_INFO_NAME").replace("$NAME$", region)),
+                        colorize(messageConfig.getConfig().getString("REGION_INFO_DEFAULT_BOUNDS").replace("$WORLD$",
                                 GamesMaster.getInstance().getConfig().getString("games-world"))),
-                        colorize(MessageConfig.getConfig().getString("REGION_INFO_INVENTORY").replace("$INV$",
-                                RegionConfig.getConfig().getString(region + ".inventory"))),
-                        colorize(MessageConfig.getConfig().getString("REGION_INFO_GAMEMODE").replace("$MODE$",
-                                RegionConfig.getConfig().getString(region + ".gamemode").toLowerCase())),
+                        colorize(messageConfig.getConfig().getString("REGION_INFO_INVENTORY").replace("$INV$",
+                                regionConfig.getConfig().getString(region + ".inventory"))),
+                        colorize(messageConfig.getConfig().getString("REGION_INFO_GAMEMODE").replace("$MODE$",
+                                regionConfig.getConfig().getString(region + ".gamemode").toLowerCase())),
                         ""
                 };
             }

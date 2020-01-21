@@ -2,7 +2,7 @@ package me.Jeremaster101.GamesMaster.Lobby.Game.Arena;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Lobby.Game.GameConfig;
+import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Message.Message;
 import org.bukkit.entity.Player;
@@ -14,7 +14,9 @@ public class Arena {//todo finish this class
     private String arena;
     private Player player;
     
-    private static ConfigManager arenaConfig = new ConfigManager(ConfigType.ARENA); //todo finish replacing in all classes
+    private static ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
+    private static ConfigManager gameConfig = Configs.getConfig(ConfigType.GAME);
+    
     
     public Arena(Player player, String game, String arena) {
         this.player = player;
@@ -40,10 +42,10 @@ public class Arena {//todo finish this class
     
     boolean exists() {
         if (arenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null) {
-            if (GameConfig.getConfig().getConfigurationSection("games") == null ||
-                    GameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() == 0) {
+            if (gameConfig.getConfig().getConfigurationSection("games") == null ||
+                    gameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() == 0) {
                 player.sendMessage(Message.ERROR_NO_GAMES);
-            } else if (!GameConfig.getConfig().getConfigurationSection("games").getKeys(false).contains(game)) {
+            } else if (!gameConfig.getConfig().getConfigurationSection("games").getKeys(false).contains(game)) {
                 player.sendMessage(Message.ERROR_GAME_LIST);
             } else {
                 
@@ -62,10 +64,10 @@ public class Arena {//todo finish this class
             return;
         }
         
-        if (GameConfig.getConfig().getConfigurationSection("games") == null ||
-                GameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() == 0) {
+        if (gameConfig.getConfig().getConfigurationSection("games") == null ||
+                gameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() == 0) {
             p.sendMessage(Message.ERROR_NO_GAMES);
-        } else if (!GameConfig.getConfig().getConfigurationSection("games").getKeys(false).contains(game)) {
+        } else if (!gameConfig.getConfig().getConfigurationSection("games").getKeys(false).contains(game)) {
             p.sendMessage(Message.ERROR_GAME_LIST);
         } else {
             

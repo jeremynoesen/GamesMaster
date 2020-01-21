@@ -1,7 +1,9 @@
 package me.Jeremaster101.GamesMaster.Lobby;
 
+import me.Jeremaster101.GamesMaster.Config.ConfigManager;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
+import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.GamesMaster;
-import me.Jeremaster101.GamesMaster.Region.RegionConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -11,7 +13,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 
 public class LobbyHandler {
-
+    
+    private static ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    
     int gadgetSlot = 4;
 
     public ArrayList<Player> getPlayersInLobby() {
@@ -28,12 +32,12 @@ public class LobbyHandler {
         Location l = player.getLocation();
 
         try {
-            double maxx = RegionConfig.getConfig().getDouble("lobby.location.max.x");
-            double maxy = RegionConfig.getConfig().getDouble("lobby.location.max.y");
-            double maxz = RegionConfig.getConfig().getDouble("lobby.location.max.z");
-            double minx = RegionConfig.getConfig().getDouble("lobby.location.min.x");
-            double miny = RegionConfig.getConfig().getDouble("lobby.location.min.y");
-            double minz = RegionConfig.getConfig().getDouble("lobby.location.min.z");
+            double maxx = regionConfig.getConfig().getDouble("lobby.location.max.x");
+            double maxy = regionConfig.getConfig().getDouble("lobby.location.max.y");
+            double maxz = regionConfig.getConfig().getDouble("lobby.location.max.z");
+            double minx = regionConfig.getConfig().getDouble("lobby.location.min.x");
+            double miny = regionConfig.getConfig().getDouble("lobby.location.min.y");
+            double minz = regionConfig.getConfig().getDouble("lobby.location.min.z");
             double tox = l.getBlock().getLocation().getX();
             double toy = l.getBlock().getLocation().getY();
             double toz = l.getBlock().getLocation().getZ();

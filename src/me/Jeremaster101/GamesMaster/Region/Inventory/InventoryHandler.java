@@ -1,9 +1,11 @@
 package me.Jeremaster101.GamesMaster.Region.Inventory;
 
+import me.Jeremaster101.GamesMaster.Config.ConfigManager;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
+import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
 import me.Jeremaster101.GamesMaster.GMPlayer;
-import me.Jeremaster101.GamesMaster.Region.RegionConfig;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -15,19 +17,21 @@ import java.util.Collection;
 
 public class InventoryHandler {
     
+    private static ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    
     public void loadInv(Player p, String region) {
         GMPlayer gmplayer = GMPlayer.getPlayerData(p);
         org.bukkit.inventory.PlayerInventory inv = p.getInventory();
-        String inventory = "inventories." + RegionConfig.getConfig().get(region + ".inventory").toString();
-        GameMode mode = GameMode.valueOf((RegionConfig.getConfig()
+        String inventory = "inventories." + regionConfig.getConfig().get(region + ".inventory").toString();
+        GameMode mode = GameMode.valueOf((regionConfig.getConfig()
                 .getString(region + ".gamemode").toUpperCase()));
         
         if (region.equals("lobby")) {
             (new LobbyInventory()).loadLobbyInv(p);
             
-        } else if (!RegionConfig.getConfig().get(region + ".inventory").toString().equals("none") &&
-                (gmplayer.getCurrentRegion() == null || !RegionConfig.getConfig().get(region + ".inventory")
-                        .toString().equals(RegionConfig.getConfig().get(gmplayer.getCurrentRegion()
+        } else if (!regionConfig.getConfig().get(region + ".inventory").toString().equals("none") &&
+                (gmplayer.getCurrentRegion() == null || !regionConfig.getConfig().get(region + ".inventory")
+                        .toString().equals(regionConfig.getConfig().get(gmplayer.getCurrentRegion()
                                 + ".inventory").toString()))) {
             
             if (gmplayer.getDataFile().get(inventory + ".experience") != null) {
@@ -122,7 +126,7 @@ public class InventoryHandler {
     
     public void saveInv(Player p, String region) {
         GMPlayer gmplayer = GMPlayer.getPlayerData(p);
-        String inventory = "inventories." + RegionConfig.getConfig().get(region + ".inventory").toString();
+        String inventory = "inventories." + regionConfig.getConfig().get(region + ".inventory").toString();
         if (p.getPlayer().getTotalExperience() > 0) {
             gmplayer.getDataFile().set(inventory + ".experience", p.getPlayer().getTotalExperience());
         } else

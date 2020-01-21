@@ -3,9 +3,9 @@ package me.Jeremaster101.GamesMaster.Region;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
+import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Message.Message;
-import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -19,7 +19,7 @@ public class Region {//todo finish this class
     private String region;
     private Player player;
     
-    public static ConfigManager regionConfig = new ConfigManager(ConfigType.REGION);
+    static ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
     
     public Region(Player player, String region) {//todo make worldguard region if installed
         this.player = player;
@@ -151,7 +151,7 @@ public class Region {//todo finish this class
     public void setInventory(String inv) {
         
         if (exists()) {
-            List<String> invs = InventoryConfig.getConfig().getStringList("inventories");
+            List<String> invs = Configs.getConfig(ConfigType.INVENTORY).getConfig().getStringList("inventories");
             if (invs == null || !invs.contains(inv)) {
                 player.sendMessage(Message.ERROR_UNKNOWN_INV);
             } else {

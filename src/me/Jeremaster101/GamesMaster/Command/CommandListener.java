@@ -1,7 +1,9 @@
 package me.Jeremaster101.GamesMaster.Command;
 
+import me.Jeremaster101.GamesMaster.Config.ConfigManager;
+import me.Jeremaster101.GamesMaster.Config.ConfigType;
+import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.GamesMaster;
-import me.Jeremaster101.GamesMaster.Lobby.Game.Arena.ArenaConfig;
 import me.Jeremaster101.GamesMaster.Region.RegionHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
@@ -20,7 +22,10 @@ public class CommandListener implements Listener {
     private final RegionHandler ah = new RegionHandler();
     private final LobbyInventory li = new LobbyInventory();
     private final LobbyHandler lh = new LobbyHandler();
-
+    
+    ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
+    
+    
     @EventHandler
     public void onCommandProcess(PlayerCommandPreprocessEvent e) {
 
@@ -46,17 +51,17 @@ public class CommandListener implements Listener {
         }
 
         try {
-            for (String s : ArenaConfig.getConfig().getConfigurationSection("arenas").getKeys(false)) {
+            for (String s : arenaConfig.getConfig().getConfigurationSection("arenas").getKeys(false)) {
                 for (int i = 1; i <= 5; i++) {
-                    if (ArenaConfig.getConfig().get(s + "." + i + ".enabled") == null) continue;
-                    if (ArenaConfig.getConfig().get(s + "." + i + ".enabled").toString().equals("false")) {
-                        if (e.getMessage().equals("/" + ArenaConfig.getConfig().get(s + "." + i + ".join").toString())) {
+                    if (arenaConfig.getConfig().get(s + "." + i + ".enabled") == null) continue;
+                    if (arenaConfig.getConfig().get(s + "." + i + ".enabled").toString().equals("false")) {
+                        if (e.getMessage().equals("/" + arenaConfig.getConfig().get(s + "." + i + ".join").toString())) {
                             e.setCancelled(true);
                             p.sendMessage(Message.ERROR_ARENA_DISABLED);
                             return;
                         }
                     } else if (!ah.isInRegion(p.getLocation(), "lobby")) {
-                        if (e.getMessage().equals("/" + ArenaConfig.getConfig().get(s + "." + i + ".join").toString())) {
+                        if (e.getMessage().equals("/" + arenaConfig.getConfig().get(s + "." + i + ".join").toString())) {
                             if (lh.isGamesWorld(p.getWorld())) {
                                 e.setCancelled(true);
                                 p.sendMessage(Message.ERROR_NOT_IN_LOBBY);
@@ -81,7 +86,7 @@ public class CommandListener implements Listener {
                             }
                         }
                     } else {
-                        if (e.getMessage().equals("/" + ArenaConfig.getConfig().get(s + "." + i + ".join").toString())) {
+                        if (e.getMessage().equals("/" + arenaConfig.getConfig().get(s + "." + i + ".join").toString())) {
                             e.setCancelled(true);
                             li.clearLobbyInv(p);
                             new BukkitRunnable() {
@@ -99,7 +104,7 @@ public class CommandListener implements Listener {
         }
 
         try {
-            for (String blockedcmd : CommandConfig.getConfig().getStringList("blocked-cmds")) {
+            for (String blockedcmd : Configs.getConfig(ConfigType.COMMAND).getConfig().getStringList("blocked-cmds")) {
                 for (String word : e.getMessage().split(" ")) {
                     if (word.equals("/" + blockedcmd) && !p.isOp() && lh.isGamesWorld(p.getWorld())) {
                         e.setCancelled(true);

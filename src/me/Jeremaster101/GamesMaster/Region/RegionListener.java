@@ -27,13 +27,15 @@ public class RegionListener implements Listener {
     
     private ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
 
-    @EventHandler(priority = EventPriority.HIGH)//todo make player tp to games world spawn on join
+    @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         new BukkitRunnable() {
             public void run() {
-                if (lh.isGamesWorld(p.getWorld()))
+                if (lh.isGamesWorld(p.getWorld())) {
                     rg.fixGamemode(p);
+                    //todo teleport to games spawn (set in a config)
+                }
                 if (rg.isInRegion(p.getLocation(), "lobby"))
                     new BukkitRunnable() {
                         @Override

@@ -3,16 +3,15 @@ package me.Jeremaster101.GamesMaster.Lobby.Game;
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIColor;
-import me.Jeremaster101.GamesMaster.Message.Message;
+import me.Jeremaster101.GamesMaster.Message;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 public class Game {
     
+    public static ConfigManager gameConfig = new ConfigManager(ConfigType.GAME);
     private String game;
     private Player player;
-    
-    public static ConfigManager gameConfig = new ConfigManager(ConfigType.GAME);
     
     //todo fully implement this functionality of custom games
     public Game(Player player, String game) {
@@ -60,11 +59,11 @@ public class Game {
     }
     
     public void setName(String displayName) {
-    
+        
         if (exists()) {
             gameConfig.getConfig().set(game + ".display-name", displayName);
             gameConfig.saveConfig();
-            player.sendMessage(Message.SUCCESS_UPDATED_GAME_NAME.replace("$NAME$", displayName));
+            player.sendMessage(Message.SUCCESS_SET_GAME_NAME.replace("$NAME$", displayName));
         }
     }
     
@@ -82,15 +81,10 @@ public class Game {
     public void setIcon(Material icon) {
         
         if (exists()) {
-            //try {
-            //    Material.getMaterial(icon);
             gameConfig.getConfig().set(game + ".icon", icon.name());
             gameConfig.saveConfig();
-            player.sendMessage(Message.SUCCESS_UPDATED_GAME_ICON.replace("$ICON$",
+            player.sendMessage(Message.SUCCESS_SET_GAME_ICON.replace("$ICON$",
                     icon.name().replace("_", "").toLowerCase()));
-            //} catch (Exception e) {
-            //    player.sendMessage(Message.ERROR_UNKNOWN_MATERIAL);
-            //}
         }
         
     }
@@ -107,15 +101,24 @@ public class Game {
         if (exists()) {
             gameConfig.getConfig().set(game + ".description", description);
             gameConfig.saveConfig();
-            player.sendMessage(Message.SUCCESS_UPDATED_GAME_DESCRIPTION.replace("$DESCRIPTION$", description));
+            player.sendMessage(Message.SUCCESS_SET_GAME_DESCRIPTION.replace("$DESCRIPTION$", description));
         }
+    }
+    
+    public GUIColor getGuiColor() {
+        if (exists()) {
+            if (gameConfig.getConfig().get(game + ".gui-color") != null) {
+                return (GUIColor) gameConfig.getConfig().get(game + ".gui-color");
+            }
+        }
+        return null;
     }
     
     public void setGuiColor(GUIColor color) {
         if (exists()) {
             gameConfig.getConfig().set(game + ".gui-color", color);
             gameConfig.saveConfig();
-            player.sendMessage(Message.SUCCESS_UPDATED_GAME_COLOR.replace("$COLOR$",
+            player.sendMessage(Message.SUCCESS_SET_GAME_COLOR.replace("$COLOR$",
                     color.toString().replace("_", "").toLowerCase()));
         }
     }
@@ -132,7 +135,7 @@ public class Game {
         if (exists()) {
             gameConfig.getConfig().set(game + ".priority", priority);
             gameConfig.saveConfig();
-            player.sendMessage(Message.SUCCESS_UPDATED_GAME_PRIORITY.replace("$PRIORITY$", Integer.toString(priority)));
+            player.sendMessage(Message.SUCCESS_SET_GAME_PRIORITY.replace("$PRIORITY$", Integer.toString(priority)));
         }
     }
     
@@ -149,7 +152,7 @@ public class Game {
         if (exists()) {
             gameConfig.getConfig().set(game + ".hidden", hidden);
             gameConfig.saveConfig();
-            player.sendMessage(Message.SUCCESS_UPDATED_GAME_HIDDEN.replace("$HIDDEN$", Boolean.toString(hidden)));
+            player.sendMessage(Message.SUCCESS_SET_GAME_HIDDEN.replace("$HIDDEN$", Boolean.toString(hidden)));
         }
     }
     
@@ -163,10 +166,13 @@ public class Game {
     public void setEnabled(boolean enabled) {
         
         if (exists()) {
-            //todo only enable if all requirements met
-            gameConfig.getConfig().set(game + ".enabled", true);
-            gameConfig.saveConfig();
-            player.sendMessage(Message.SUCCESS_UPDATED_GAME_ENABLED.replace("$ENABLED$", Boolean.toString(enabled)));
+            if (getDescription() != null && getGuiColor() != null && getIcon() != null && getName() != null) {
+                gameConfig.getConfig().set(game + ".enabled", true);
+                gameConfig.saveConfig();
+                player.sendMessage(Message.SUCCESS_SET_GAME_ENABLED.replace("$ENABLED$", Boolean.toString(enabled)));
+            } else {
+                //message
+            }
         }
     }
 }

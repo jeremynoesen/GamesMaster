@@ -3,7 +3,7 @@ package me.Jeremaster101.GamesMaster.Command;
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Config.Configs;
-import me.Jeremaster101.GamesMaster.Message.Message;
+import me.Jeremaster101.GamesMaster.Message;
 import org.bukkit.entity.Player;
 
 import java.util.List;

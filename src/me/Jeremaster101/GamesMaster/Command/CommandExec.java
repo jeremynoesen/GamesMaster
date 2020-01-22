@@ -9,7 +9,7 @@ import me.Jeremaster101.GamesMaster.Lobby.Game.GameBuilder;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyConfig;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyProtect;
-import me.Jeremaster101.GamesMaster.Message.Message;
+import me.Jeremaster101.GamesMaster.Message;
 import me.Jeremaster101.GamesMaster.Message.MessageConfig;
 import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryConfig;
 import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryCreation;
@@ -21,7 +21,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class CommandExec implements CommandExecutor {//todo clean up or redo this class since commands are changing so much
+public class CommandExec implements CommandExecutor {//todo rewrite this whole fucking class, and make command arg order better
     
     private final RegionBuilder rc = new RegionBuilder();
     // needed
@@ -35,7 +35,7 @@ public class CommandExec implements CommandExecutor {//todo clean up or redo thi
     
     private final Message msg = new Message();
     
-    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {//todo change command order to something like logblock does it
+    public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         
         if (commandLabel.equalsIgnoreCase("gamesmaster")) {
             if (sender instanceof Player) {
@@ -226,7 +226,7 @@ public class CommandExec implements CommandExecutor {//todo clean up or redo thi
                                     } else if (args.length == 2) {
                                         player.sendMessage(Message.ERROR_NO_GAME);
                                     }
-                                } else if (args[1].equalsIgnoreCase("update")) { //todo separate into multiple commands
+                                } else if (args[1].equalsIgnoreCase("update")) {
                                     if (args.length == 7) {
                                         try {
                                             //ac.updateArena(player, args[2], args[3], args[4], args[5],
@@ -297,10 +297,10 @@ public class CommandExec implements CommandExecutor {//todo clean up or redo thi
                         } else if (args[0].equalsIgnoreCase("game")) {
                             if(args.length > 1) {
                                 
-                                //todo game commands
+
                             }
                             
-                        } else if (args[0].equalsIgnoreCase("pwifix")) { //todo separate into enable/disable commands
+                        } else if (args[0].equalsIgnoreCase("pwifix")) {
                             if (args.length == 1) {
                                 if (GamesMaster.getInstance().getConfig().getBoolean("pwi-gamemode-inv-fix")) {
                                     GamesMaster.getInstance().getConfig().set("pwi-gamemode-inv-fix", false);

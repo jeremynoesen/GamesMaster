@@ -27,8 +27,8 @@ public class GUIInventory {
     private final Stormbreaker stormbreaker = new Stormbreaker();
     private final UnlockGadget ug = new UnlockGadget();
     
-    private static ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
-    private static ConfigManager gameConfig = Configs.getConfig(ConfigType.GAME);
+    private ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
+    private ConfigManager gameConfig = Configs.getConfig(ConfigType.GAME);
     
     
     public Inventory cosmeticUI(Player p) {

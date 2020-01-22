@@ -1,7 +1,7 @@
 package me.Jeremaster101.GamesMaster.Config;
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
-import me.Jeremaster101.GamesMaster.Message.Message;
+import me.Jeremaster101.GamesMaster.Message;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;

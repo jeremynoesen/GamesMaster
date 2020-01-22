@@ -11,7 +11,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.util.Vector;
 
-public class Misc implements Listener {//todo make config vals
+public class Misc implements Listener {//todo make configurable, make into a world options class
 
     LobbyHandler lh = new LobbyHandler();
 

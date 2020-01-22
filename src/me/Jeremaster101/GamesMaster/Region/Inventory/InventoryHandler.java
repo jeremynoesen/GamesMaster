@@ -17,7 +17,7 @@ import java.util.Collection;
 
 public class InventoryHandler {
     
-    private static ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    private ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
     
     public void loadInv(Player p, String region) {
         GMPlayer gmplayer = GMPlayer.getPlayerData(p);

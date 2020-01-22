@@ -7,7 +7,7 @@ import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
-import me.Jeremaster101.GamesMaster.Message.Message;
+import me.Jeremaster101.GamesMaster.Message;
 import me.Jeremaster101.GamesMaster.GMPlayer;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class GUIInteract implements Listener {
+public class GUIInteract implements Listener {//todo NOTE: THIS CLASS IS BEING REPLACED WITH THE NEW GUI SYSTEM
 
     private final Sound[] records = new Sound[]{
             Sound.MUSIC_DISC_13,
@@ -44,8 +44,8 @@ public class GUIInteract implements Listener {
     private final Stormbreaker stormbreaker = new Stormbreaker();
     private final LobbyHandler lh = new LobbyHandler();
     
-    private static ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
-    private static ConfigManager gameConfig = Configs.getConfig(ConfigType.GAME);
+    private ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
+    private ConfigManager gameConfig = Configs.getConfig(ConfigType.GAME);
     
     
     @SuppressWarnings("deprecation")
@@ -156,7 +156,7 @@ public class GUIInteract implements Listener {
                                     e.getCurrentItem().getType().equals(Material.getMaterial(
                                             gameConfig.getConfig().getString(section + ".icon")))) {
 
-                                //todo open game ui
+                                //open game gui
 
                             }
                         }
@@ -228,7 +228,7 @@ public class GUIInteract implements Listener {
                             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 0);
                         }
                     }
-                    if (e.getCurrentItem().equals(guiItem.musicUI())) { //todo add delays for music (maybe use hashmap)
+                    if (e.getCurrentItem().equals(guiItem.musicUI())) {
                         if (e.isLeftClick()) {
                             p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 2);
                             p.openInventory(guiInv.musicUI());

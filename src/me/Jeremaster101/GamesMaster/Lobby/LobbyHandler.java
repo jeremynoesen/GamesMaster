@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class LobbyHandler {
     
-    private static ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    private ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
     
     int gadgetSlot = 4;
 

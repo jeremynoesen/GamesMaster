@@ -21,7 +21,7 @@ public class CommandTabComplete implements TabCompleter {
     
     
     @Override
-    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {//todo complete
+    public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {//todo redo due to command rewrite
         ArrayList<String> tabList = new ArrayList<>();
         if (sender instanceof Player) {
             Player player = (Player) sender;

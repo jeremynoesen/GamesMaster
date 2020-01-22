@@ -3,7 +3,7 @@ package me.Jeremaster101.GamesMaster.Region.Inventory;
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Config.Configs;
-import me.Jeremaster101.GamesMaster.Message.Message;
+import me.Jeremaster101.GamesMaster.Message;
 import me.Jeremaster101.GamesMaster.GMPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;

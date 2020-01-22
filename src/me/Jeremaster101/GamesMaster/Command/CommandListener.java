@@ -7,15 +7,12 @@ import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Region.RegionHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
-import me.Jeremaster101.GamesMaster.Message.Message;
-import org.bukkit.configuration.file.YamlConfiguration;
+import me.Jeremaster101.GamesMaster.Message;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.io.File;
 
 public class CommandListener implements Listener {
 
@@ -31,7 +28,7 @@ public class CommandListener implements Listener {
 
         Player p = e.getPlayer();
 
-        if (!e.getMessage().contains("/qcg")) { //todo read from command alias config
+        if (!e.getMessage().contains("/gamesmaster")) { //todo read from command alias config
             e.setMessage(e.getMessage()
                     .replace("/skywars", "/sw")
                     .replace("/blockparty", "/bp")

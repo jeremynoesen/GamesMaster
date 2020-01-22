@@ -13,7 +13,7 @@ public class GMPlayer {
     private Player player;
     
     //todo register per-player invs here
-    public GMPlayer(Player p) {//todo rename maybe to Player or similar, add more methods
+    public GMPlayer(Player p) {
         player = p;
         playerFile = new File(GamesMaster.getInstance().getDataFolder() + File.separator + "playerdata",
                 this.player.getUniqueId().toString() + ".yml");

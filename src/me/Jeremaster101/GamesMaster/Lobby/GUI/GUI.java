@@ -23,7 +23,7 @@ public class GUI {
      * @param size inventory size
      * @param name name of GUI
      */
-    public GUI(GUISize size, String name) {//todo multi page gui and custom guis
+    public GUI(GUISize size, String name) {
         inventory = Bukkit.getServer().createInventory(null, size.getInteger(), name);
     }
     

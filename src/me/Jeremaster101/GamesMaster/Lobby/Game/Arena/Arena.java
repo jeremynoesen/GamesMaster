@@ -4,18 +4,17 @@ import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
-import me.Jeremaster101.GamesMaster.Message.Message;
+import me.Jeremaster101.GamesMaster.Message;
 import org.bukkit.entity.Player;
 
 public class Arena {//todo finish this class
     
+    private static ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
     private final LobbyHandler lh = new LobbyHandler();
     private String game;
     private String arena;
     private Player player;
-    
-    private static ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
-    private static ConfigManager gameConfig = Configs.getConfig(ConfigType.GAME);
+    private ConfigManager gameConfig = Configs.getConfig(ConfigType.GAME);
     
     
     public Arena(Player player, String game, String arena) {
@@ -109,11 +108,11 @@ public class Arena {//todo finish this class
         }
     }
     
-    public void setName(Player p, String game, String arena, String mapname) { //todo finish
+    public void setName(Player p, String game, String arena, String mapname) {
         
         if (exists()) {
             //finish
-            p.sendMessage(Message.SUCCESS_UPDATED_ARENA_NAME.replace("$NAME$", mapname));
+            p.sendMessage(Message.SUCCESS_SET_ARENA_NAME.replace("$NAME$", mapname));
         }
     }
     
@@ -121,7 +120,7 @@ public class Arena {//todo finish this class
         
         if (exists()) {
             //finish
-            player.sendMessage(Message.SUCCESS_UPDATED_ARENA_JOIN.replace("$JOIN$", join));
+            player.sendMessage(Message.SUCCESS_SET_ARENA_JOIN.replace("$JOIN$", join));
         }
     }
     
@@ -129,7 +128,7 @@ public class Arena {//todo finish this class
         
         if (exists()) {
             //finish
-            player.sendMessage(Message.SUCCESS_UPDATED_ARENA_PRIORITY.replace("$PRIORITY$", Integer.toString(priority)));
+            player.sendMessage(Message.SUCCESS_SET_ARENA_PRIORITY.replace("$PRIORITY$", Integer.toString(priority)));
         }
     }
     
@@ -137,7 +136,7 @@ public class Arena {//todo finish this class
         
         if (exists()) {
             //finish
-            player.sendMessage(Message.SUCCESS_UPDATED_ARENA_ENABLED.replace("$ENABLED$", Boolean.toString(enabled)));
+            player.sendMessage(Message.SUCCESS_SET_ARENA_ENABLED.replace("$ENABLED$", Boolean.toString(enabled)));
         }
     }
     
@@ -145,7 +144,7 @@ public class Arena {//todo finish this class
         
         if (exists()) {
             //finish
-            player.sendMessage(Message.SUCCESS_UPDATED_ARENA_HIDDEN.replace("$HIDDEN$", Boolean.toString(hidden)));
+            player.sendMessage(Message.SUCCESS_SET_ARENA_HIDDEN.replace("$HIDDEN$", Boolean.toString(hidden)));
         }
     }
     

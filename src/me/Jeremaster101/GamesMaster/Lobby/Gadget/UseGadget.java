@@ -6,7 +6,7 @@ import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIInventory;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIItem;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
-import me.Jeremaster101.GamesMaster.Message.Message;
+import me.Jeremaster101.GamesMaster.Message;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

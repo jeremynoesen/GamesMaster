@@ -9,7 +9,7 @@ import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
-import me.Jeremaster101.GamesMaster.Message.Message;
+import me.Jeremaster101.GamesMaster.Message;
 import me.Jeremaster101.GamesMaster.GMPlayer;
 import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryHandler;
 import org.bukkit.GameMode;
@@ -25,8 +25,8 @@ public class RegionHandler {//todo implement some of these methods into player c
     private final InventoryHandler ih = new InventoryHandler();
     private final LobbyHandler lh = new LobbyHandler();
     
-    private static ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
-    private static ConfigManager inventoryConfig = Configs.getConfig(ConfigType.INVENTORY);
+    private ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    private ConfigManager inventoryConfig = Configs.getConfig(ConfigType.INVENTORY);
     
     void fixGamemode(Player p) {
         

@@ -9,14 +9,11 @@ import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIInteract;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIListener;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyProtect;
-import me.Jeremaster101.GamesMaster.Message.Message;
 import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryFixer;
 import me.Jeremaster101.GamesMaster.Region.RegionListener;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.File;
 
 public class GamesMaster extends JavaPlugin{
 
@@ -82,7 +79,7 @@ public class GamesMaster extends JavaPlugin{
 
 //todo particles for players
 
-//todo add moderation tools
+//todo add moderation tools ! ! !
 
 //todo comment methods using javadoc style
 

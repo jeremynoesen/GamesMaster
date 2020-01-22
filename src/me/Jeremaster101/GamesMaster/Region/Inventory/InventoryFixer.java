@@ -19,7 +19,7 @@ public class InventoryFixer implements Listener { //this class is to combat PerW
     private final InventoryHandler ih = new InventoryHandler();
     private final LobbyHandler lh = new LobbyHandler();
     
-    private static ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    private ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
     
     @EventHandler
     public void onModeChange(PlayerGameModeChangeEvent e) {

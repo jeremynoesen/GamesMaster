@@ -5,7 +5,7 @@ import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
-import me.Jeremaster101.GamesMaster.Message.Message;
+import me.Jeremaster101.GamesMaster.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import java.util.List;
 import java.util.Objects;
 
-public class Region {//todo finish this class
+public class Region {
     
     private final LobbyHandler lh = new LobbyHandler();
     private String region;
@@ -21,13 +21,13 @@ public class Region {//todo finish this class
     
     static ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
     
-    public Region(Player player, String region) {//todo make worldguard region if installed
+    public Region(Player player, String region) {
         this.player = player;
         if (region != null) {
             this.region = region;
             if (regionConfig.getConfig().getConfigurationSection(region) == null) {
                 
-                WorldEditPlugin worldEdit = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");//todo make option if there is no worldedit
+                WorldEditPlugin worldEdit = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
                 com.sk89q.worldedit.regions.Region selection;
                 try {
                     selection = worldEdit.getSession(player).getSelection(worldEdit.getSession(player).getSelectionWorld());
@@ -55,7 +55,7 @@ public class Region {//todo finish this class
                         regionConfig.getConfig().set(regionName + ".location.max.z", maxz);
                         regionConfig.saveConfig();
                         
-                        player.sendMessage(Message.SUCCESS_REGION_SET.replace("$REGION$", region));
+                        player.sendMessage(Message.SUCCESS_REGION_CREATED.replace("$REGION$", region));
                         
                     } else {
                         player.sendMessage(Message.ERROR_WORLD);
@@ -128,7 +128,7 @@ public class Region {//todo finish this class
                         regionConfig.getConfig().set(regionName + ".location.max.z", maxz);
                         regionConfig.saveConfig();
                         
-                        player.sendMessage(Message.SUCCESS_UPDATED_REGION_BOUNDS.replace("$REGION$", region)); //todo match message names to actual methods
+                        player.sendMessage(Message.SUCCESS_SET_REGION_BOUNDS.replace("$REGION$", region));
                         
                     } else {
                         player.sendMessage(Message.ERROR_WORLD);
@@ -157,7 +157,7 @@ public class Region {//todo finish this class
             } else {
                 regionConfig.getConfig().set(region + ".inventory", inv);
                 regionConfig.saveConfig();
-                player.sendMessage(Message.SUCCESS_UPDATED_REGION_INV.replace("$REGION$", region).replace("$INV$", inv));
+                player.sendMessage(Message.SUCCESS_SET_REGION_INV.replace("$REGION$", region).replace("$INV$", inv));
             }
         }
     }
@@ -182,7 +182,7 @@ public class Region {//todo finish this class
             
             regionConfig.getConfig().set(region + ".gamemode", mode.toUpperCase());
             regionConfig.saveConfig();
-            player.sendMessage(Message.SUCCESS_UPDATED_REGION_MODE.replace("$REGION$", region).replace("$MODE$", mode.toLowerCase()));
+            player.sendMessage(Message.SUCCESS_SET_REGION_MODE.replace("$REGION$", region).replace("$MODE$", mode.toLowerCase()));
         }
     }
     
@@ -200,7 +200,7 @@ public class Region {//todo finish this class
             if (exists()) {
                 if (leave != null) {
                     regionConfig.getConfig().set(region + ".leave", leave);
-                    player.sendMessage(Message.SUCCESS_UPDATED_REGION_LEAVE.replace("$REGION$", region).replace("$CMD$", leave));
+                    player.sendMessage(Message.SUCCESS_SET_REGION_LEAVE.replace("$REGION$", region).replace("$CMD$", leave));
                 } else {
                     regionConfig.getConfig().set(region + ".leave", "null");
                     player.sendMessage(Message.SUCCESS_REMOVED_REGION_LEAVE.replace("$REGION$", region));
@@ -224,8 +224,9 @@ public class Region {//todo finish this class
     public void setEnabled(boolean enabled) {
         if (!region.equals("default")) {
             if (exists()) {
-                if (getGamemode() != null && getInventory() != null) { //todo finish
+                if (getGamemode() != null && getInventory() != null) {
                     regionConfig.getConfig().set(region + ".enabled", enabled);
+                    //message here
                 } else
                     player.sendMessage(Message.ERROR_CANT_ENABLE);
             }

@@ -4,7 +4,7 @@ import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.GamesMaster;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIItem;
+import me.Jeremaster101.GamesMaster.Lobby.GUI.OldGUIItem;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
 import me.Jeremaster101.GamesMaster.GMPlayer;
@@ -22,7 +22,7 @@ public class RegionListener implements Listener {
 
     private final RegionHandler rg = new RegionHandler();
     private final LobbyInventory li = new LobbyInventory();
-    private final GUIItem guiitem = new GUIItem();
+    private final OldGUIItem guiitem = new OldGUIItem();
     private final LobbyHandler lh = new LobbyHandler();
     
     private ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);

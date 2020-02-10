@@ -20,7 +20,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.List;
 import java.util.Set;
 
-public class RegionHandler {//todo implement some of these methods into player class
+public class RegionHandler {//todo implement these methods into player class
     
     private final InventoryHandler ih = new InventoryHandler();
     private final LobbyHandler lh = new LobbyHandler();

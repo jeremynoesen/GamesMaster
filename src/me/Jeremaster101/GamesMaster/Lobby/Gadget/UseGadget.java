@@ -3,8 +3,8 @@ package me.Jeremaster101.GamesMaster.Lobby.Gadget;
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Config.Configs;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIInventory;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIItem;
+import me.Jeremaster101.GamesMaster.Lobby.GUI.OldGUIInventory;
+import me.Jeremaster101.GamesMaster.Lobby.GUI.OldGUIItem;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Message;
 import org.bukkit.Sound;
@@ -20,9 +20,9 @@ public class UseGadget implements Listener {
     private final Firework firework = new Firework();
     private final PaintballGun paintballGun = new PaintballGun();
     private final SlimeLauncher slimeLauncher = new SlimeLauncher();
-    private final GUIInventory guiInv = new GUIInventory();
+    private final OldGUIInventory guiInv = new OldGUIInventory();
     private final FizzyLiftingDrink fizzyLiftingDrink = new FizzyLiftingDrink();
-    private final GUIItem guiitem = new GUIItem();
+    private final OldGUIItem guiitem = new OldGUIItem();
     private final Stormbreaker stormbreaker = new Stormbreaker();
     private final LobbyHandler lh = new LobbyHandler();
     
@@ -30,6 +30,7 @@ public class UseGadget implements Listener {
     
     //todo gold launchpads
     //todo beachball gadget
+    //todo lockable gadgets with config
 
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {

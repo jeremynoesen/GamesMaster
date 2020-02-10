@@ -2,7 +2,7 @@ package me.Jeremaster101.GamesMaster.Lobby;
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIColor;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIItem;
+import me.Jeremaster101.GamesMaster.Lobby.GUI.OldGUIItem;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -20,7 +20,7 @@ public class LobbyInventory {
     private final SlimeLauncher slimeLauncher = new SlimeLauncher();
     private final GrapplingHook grapplingHook = new GrapplingHook();
     private final FizzyLiftingDrink fizzyLiftingDrink = new FizzyLiftingDrink();
-    private final GUIItem guiitem = new GUIItem();
+    private final OldGUIItem guiitem = new OldGUIItem();
     private final Stormbreaker stormbreaker = new Stormbreaker();
     private final LobbyHandler lh = new LobbyHandler();
 

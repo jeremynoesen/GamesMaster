@@ -15,9 +15,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GUIInventory {
+public class OldGUIInventory {
 
-    private final GUIItem guiItem = new GUIItem();
+    private final OldGUIItem guiItem = new OldGUIItem();
     private final LobbyInventory lInv = new LobbyInventory();
     private final Firework firework = new Firework();
     private final PaintballGun paintballGun = new PaintballGun();

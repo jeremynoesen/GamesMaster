@@ -9,7 +9,7 @@ import java.io.InputStream;
  * enum to make getting separate configs easier
  */
 public enum ConfigType {
-    COMMAND("command.yml"), MESSAGE("messages.yml"), ARENA("arenas.yml"), GAME("games.yml"), LOBBY("lobby.yml"),
+    COMMAND("commands.yml"), MESSAGE("messages.yml"), ARENA("arenas.yml"), GAME("games.yml"), LOBBY("lobby.yml"),
     GUI("GUI.yml"), INVENTORY("inventories.yml"), REGION("regions.yml");
     
     public String fileName;

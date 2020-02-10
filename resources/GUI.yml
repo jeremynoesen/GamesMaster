@@ -1,0 +1,66 @@
+guis: #example, not to be kept
+  cosmetics:
+    display-name: "&9&lCOSMETICS"
+    size: "THREE_ROWS"
+    decorations:
+      1:
+        material: "DIRT"
+        display-name: "DECOR 1"
+        lore:
+          - "lore 1"
+          - "lore 2"
+      2:
+        material: "GRAVEL"
+        display-name: "DECOR 2"
+        lore:
+          - "lore 1"
+          - "lore 2"
+    buttons:
+      3:
+        material: "GOLD_BLOCK"
+        display-name: "BUTTON 1"
+        lore:
+          - "lore 1"
+          - "lore 2"
+        actions:
+          command: "say hi"
+          teleport:
+          gui:
+          high-pitch: true
+      4:
+        material: "IRON_BLOCK"
+        display-name: "BUTTON 2"
+        lore:
+          - "lore 1"
+          - "lore 2"
+        actions:
+          command:
+          teleport: "world 0 100 0 0 0"
+          gui:
+          high-pitch: true
+    toggles:
+      5:
+        untoggled:
+          material: "LAPIS_BLOCK"
+          display-name: "TOGGLE 1"
+          lore:
+            - "lore 1"
+            - "lore 2"
+          actions:
+            command: "say hi"
+            teleport:
+            gui:
+            high-pitch: true
+        toggled:
+          material: "LAPIS_ORE"
+            display-name: "TOGGLE 1"
+            lore:
+              - "lore 1"
+              - "lore 2"
+            actions:
+              command: "say bye"
+              teleport:
+              gui:
+              high-pitch: true
+
+items: []

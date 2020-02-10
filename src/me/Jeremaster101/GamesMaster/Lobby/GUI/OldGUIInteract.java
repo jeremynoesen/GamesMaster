@@ -1,4 +1,4 @@
-package me.Jeremaster101.GamesMaster.Lobby.GUI;
+/*package me.Jeremaster101.GamesMaster.Lobby.GUI;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
@@ -16,7 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
-public class GUIInteract implements Listener {//todo NOTE: THIS CLASS IS BEING REPLACED WITH THE NEW GUI SYSTEM
+public class GUIInteract implements Listener {
 
     private final Sound[] records = new Sound[]{
             Sound.MUSIC_DISC_13,
@@ -109,8 +109,8 @@ public class GUIInteract implements Listener {//todo NOTE: THIS CLASS IS BEING R
                         p.closeInventory();
                         p.playSound(p.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 2);
                         try {
-                            String[] cmd = arenaConfig.getConfig().get(/*guim.invNameToGame(e.getInventory()
-                                    .getName()) + */"." + arenas + ".join").toString().split(" ");
+                            String[] cmd = arenaConfig.getConfig().get(guim.invNameToGame(e.getInventory()
+                                    .getName()) + "." + arenas + ".join").toString().split(" ");
 
                             String xs = cmd[0];
                             String ys = cmd[1];
@@ -285,4 +285,4 @@ public class GUIInteract implements Listener {//todo NOTE: THIS CLASS IS BEING R
             }
         }
     }
-}
+}*/

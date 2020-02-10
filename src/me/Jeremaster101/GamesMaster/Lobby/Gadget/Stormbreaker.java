@@ -97,8 +97,7 @@ public class Stormbreaker implements Listener {
 
             @Override
             public void run() {
-                p.getWorld().spawnParticle(Particle.CRIT_MAGIC, p.getLocation().add(0, 1, 0), 5, 0, 0
-                        , 0, 0.33);
+                p.getWorld().spawnParticle(Particle.CRIT_MAGIC, p.getLocation().add(0, 1, 0), 5, 0, 0, 0, 0.33);
                 if (lh.activeGadget(p, stormbreakerReload())) {
                     if (!p.isGlowing() || !lh.isInLobby(p))
                         this.cancel();

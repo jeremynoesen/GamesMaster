@@ -2,7 +2,7 @@ package me.Jeremaster101.GamesMaster;
 
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUI;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIButton;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIItem;
+import me.Jeremaster101.GamesMaster.Lobby.GUI.OldGUIItem;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUISize;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class Testing implements Listener {
     
-    GUIItem item = new GUIItem();
+    OldGUIItem item = new OldGUIItem();
     
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent e) {
@@ -55,6 +55,7 @@ public class Testing implements Listener {
             });
             gui.addDecoration(new ItemStack(Material.BLUE_STAINED_GLASS_PANE, 1), 1);
             gui.openGUI(e.getPlayer());
+           
         }
     }
 }

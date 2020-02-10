@@ -1,11 +1,10 @@
 package me.Jeremaster101.GamesMaster;
 
-//import me.Jeremaster101.GamesMaster.Command.CommandExec;
+import me.Jeremaster101.GamesMaster.Command.CommandExec;
 import me.Jeremaster101.GamesMaster.Command.CommandListener;
 import me.Jeremaster101.GamesMaster.Command.CommandTabComplete;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Config.Configs;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIInteract;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIListener;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyProtect;
@@ -15,17 +14,21 @@ import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class GamesMaster extends JavaPlugin{
-
+public class GamesMaster extends JavaPlugin {
+    
     public static GamesMaster plugin;
-    private final Permission adminPerms = new Permission("gamesmaster.admin");
-
+    private final Permission adminPerms = new Permission("gamesmaster.admin"); //todo more permissions
+    
+    public static GamesMaster getInstance() {
+        return plugin;
+    }
+    
     public void onEnable() {
         plugin = this;
         
         getConfig().options().copyDefaults(true);
         saveConfig();
-    
+        
         Configs.getConfig(ConfigType.GUI).saveDefaultConfig();
         Configs.getConfig(ConfigType.LOBBY).saveDefaultConfig();
         Configs.getConfig(ConfigType.GAME).saveDefaultConfig();
@@ -34,18 +37,18 @@ public class GamesMaster extends JavaPlugin{
         Configs.getConfig(ConfigType.REGION).saveDefaultConfig();
         Configs.getConfig(ConfigType.COMMAND).saveDefaultConfig();
         Configs.getConfig(ConfigType.MESSAGE).saveDefaultConfig();
-    
+        
         Message.reloadMessages();
-    
+        
         Message msg = new Message();
-
+        
         GamesMaster.plugin.getServer().getConsoleSender().sendMessage(msg.STARTUP);
-
+        
         PluginManager pm = getServer().getPluginManager();
-
+        
         pm.registerEvents(new Misc(), plugin);
         pm.registerEvents(new RegionListener(), plugin);
-        pm.registerEvents(new GUIInteract(), plugin);
+        //pm.registerEvents(new GUIInteract(), plugin);
         pm.registerEvents(new CommandListener(), plugin);
         pm.registerEvents(new PaintballGun(), plugin);
         pm.registerEvents(new DoubleJump(), plugin);
@@ -58,22 +61,18 @@ public class GamesMaster extends JavaPlugin{
         //pm.registerEvents(new AngryBird(), plugin); //todo add more gadgets
         //pm.registerEvents(new FloatyBoat(), plugin); //todo add mounts
         pm.registerEvents(new Testing(), plugin);
-    
+        
         pm.addPermission(adminPerms);
-
-        //getCommand("gamesmaster").setExecutor(new CommandExec());
+        
+        getCommand("gamesmaster").setExecutor(new CommandExec());
         getCommand("gamesmaster").setTabCompleter(new CommandTabComplete());
-
+        
         LobbyProtect lp = new LobbyProtect();
         lp.cleanLobby();
     }
-
+    
     public void onDisable() {
         plugin = null;
-    }
-    
-    public static GamesMaster getInstance() {
-        return plugin;
     }
 }
 
@@ -92,3 +91,5 @@ public class GamesMaster extends JavaPlugin{
 //todo random join command, join and leave commands for games
 
 //todo vault support for gagdet buying
+
+//todo put things static again to avoid making multiple instances of unchanging classes

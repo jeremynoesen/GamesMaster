@@ -90,8 +90,8 @@ public class PaintballGun implements Listener {
                             bl = hitLoc.getBlock().getRelative(x, y, z);
                         }
                         if (bl.getType() != Material.AIR &&
-                                bl.getType() != Material.SIGN &&
-                                bl.getType() != Material.WALL_SIGN &&
+                                bl.getType() != Material.LEGACY_SIGN &&
+                                bl.getType() != Material.LEGACY_WALL_SIGN &&
                                 bl.getType() != Material.BARRIER &&
                                 bl.getType() != Material.STONE_BUTTON &&
                                 bl.getType() != Material.ACACIA_BUTTON &&

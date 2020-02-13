@@ -1,4 +1,4 @@
-guis: #example, not to be kept
+guis: #example, not to be kept.
   cosmetics:
     display-name: "&9&lCOSMETICS"
     size: "THREE_ROWS"

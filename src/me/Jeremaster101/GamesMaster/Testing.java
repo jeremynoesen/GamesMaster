@@ -1,9 +1,6 @@
 package me.Jeremaster101.GamesMaster;
 
-import me.Jeremaster101.GamesMaster.Lobby.GUI.GUI;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIButton;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.OldGUIItem;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.GUISize;
+import me.Jeremaster101.GamesMaster.Lobby.GUI.*;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,7 +15,6 @@ public class Testing implements Listener {
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent e) {
         if (e.isSneaking()) {
-            //test game item
         
         /*e.getPlayer().getInventory().setItemInMainHand(item.game("&3&lTest", "DIAMOND", "HideAndSeek is a unique " +
                 "gamemode where players are disguised as blocks."));
@@ -27,7 +23,7 @@ public class Testing implements Listener {
     
             //test new gui builder and buttons
     
-            GUI gui = new GUI(GUISize.ONE_ROW, "TEST");
+            /*GUI gui = new GUI(GUIType.COSMETICS, GUISize.ONE_ROW, "TEST");
             ItemStack itemStack = new ItemStack(Material.DIRT, 1);
             ItemStack itemStack1 = new ItemStack(Material.SPONGE, 1);
             gui.addToggle(itemStack, itemStack1, 0, new GUIButton() {
@@ -55,6 +51,13 @@ public class Testing implements Listener {
             });
             gui.addDecoration(new ItemStack(Material.BLUE_STAINED_GLASS_PANE, 1), 1);
             gui.openGUI(e.getPlayer());
+            
+             */
+            
+            GUIBuilder.build(GUIType.COSMETICS);
+            
+            GUI gui = GUI.getGUI(GUIType.COSMETICS);
+            gui.open(e.getPlayer());
            
         }
     }

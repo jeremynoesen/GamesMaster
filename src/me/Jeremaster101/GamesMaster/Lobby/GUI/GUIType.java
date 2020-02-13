@@ -2,6 +2,7 @@ package me.Jeremaster101.GamesMaster.Lobby.GUI;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
 public enum GUIType {
@@ -15,15 +16,15 @@ public enum GUIType {
     }
     
     public ConfigurationSection getConfigSection() {
-        return guiConfig.getConfig().getConfigurationSection("gui." + type);
+        return guiConfig.getConfig().getConfigurationSection("guis." + type);
     }
     
     public String getDisplayName() {
-        return guiConfig.getConfig().getString("gui." + type + ".display-name");
+        return ChatColor.translateAlternateColorCodes('&', guiConfig.getConfig().getString("guis." + type + ".display-name"));
     }
     
     public GUISize getSize() {
-        return GUISize.valueOf(guiConfig.getConfig().getString("gui." + type + ".size"));
+        return GUISize.valueOf(guiConfig.getConfig().getString("guis." + type + ".size"));
     }
     
     

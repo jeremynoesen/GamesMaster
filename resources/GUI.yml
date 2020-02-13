@@ -23,10 +23,8 @@ guis: #example, not to be kept.
           - "lore 1"
           - "lore 2"
         actions:
-          command: "say hi"
-          teleport:
-          gui:
-          high-pitch: true
+          left-click:
+            command: "say hi"
       4:
         material: "IRON_BLOCK"
         display-name: "BUTTON 2"
@@ -34,10 +32,8 @@ guis: #example, not to be kept.
           - "lore 1"
           - "lore 2"
         actions:
-          command:
-          teleport: "world 0 100 0 0 0"
-          gui:
-          high-pitch: true
+          left-click:
+            teleport: "world 0 100 0 0 0"
     toggles:
       5:
         untoggled:
@@ -47,20 +43,18 @@ guis: #example, not to be kept.
             - "lore 1"
             - "lore 2"
           actions:
-            command: "say hi"
-            teleport:
-            gui:
-            high-pitch: true
+            left-click:
+              command: "say hi"
+              toggle: true
         toggled:
           material: "LAPIS_ORE"
-            display-name: "TOGGLE 1"
-            lore:
-              - "lore 1"
-              - "lore 2"
-            actions:
+          display-name: "TOGGLE 1"
+          lore:
+            - "lore 1"
+            - "lore 2"
+          actions:
+            left-click:
               command: "say bye"
-              teleport:
-              gui:
-              high-pitch: true
+              toggle: true
 
 items: []

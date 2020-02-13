@@ -14,6 +14,7 @@ import java.util.HashSet;
 public class GUI {
     
     private static HashMap<Inventory, GUI> guis = new HashMap<>(); //todo be able to get inv by string identifier too
+    private static HashMap<GUIType, GUI> guiTypes = new HashMap<>();
     private Inventory inventory;
     private HashSet<Integer> decorations = new HashSet<>();
     private HashSet<Integer> toggled = new HashSet<>();
@@ -41,6 +42,14 @@ public class GUI {
      */
     public static GUI getGUI(Inventory inventory) {
         return guis.get(inventory);
+    }
+    
+    /**
+     * @param type guitype to get
+     * @return gui of desired type
+     */
+    public static GUI getGUI(GUIType type) {
+        return guiTypes.get(type);
     }
     
     /**
@@ -81,6 +90,7 @@ public class GUI {
     public void open(Player player) {
         player.openInventory(inventory);
         guis.put(inventory, this);
+        guiTypes.put(type, this);
     }
     
     /**
@@ -88,6 +98,7 @@ public class GUI {
      */
     public void save() {
         guis.put(inventory, this);
+        guiTypes.put(type, this);
     }
     
     /**

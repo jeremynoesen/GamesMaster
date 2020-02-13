@@ -4,57 +4,38 @@ guis: #example, not to be kept.
     size: "THREE_ROWS"
     decorations:
       1:
-        material: "DIRT"
-        display-name: "DECOR 1"
-        lore:
-          - "lore 1"
-          - "lore 2"
+        item: "test"
       2:
-        material: "GRAVEL"
-        display-name: "DECOR 2"
-        lore:
-          - "lore 1"
-          - "lore 2"
+        item: "test"
     buttons:
       3:
-        material: "GOLD_BLOCK"
-        display-name: "BUTTON 1"
-        lore:
-          - "lore 1"
-          - "lore 2"
+        item: "test"
         actions:
           left-click:
             command: "say hi"
       4:
-        material: "IRON_BLOCK"
-        display-name: "BUTTON 2"
-        lore:
-          - "lore 1"
-          - "lore 2"
+        item: "test"
         actions:
           left-click:
             teleport: "world 0 100 0 0 0"
     toggles:
       5:
         untoggled:
-          material: "LAPIS_BLOCK"
-          display-name: "TOGGLE 1"
-          lore:
-            - "lore 1"
-            - "lore 2"
+          item: "test"
           actions:
             left-click:
               command: "say hi"
               toggle: true
         toggled:
-          material: "LAPIS_ORE"
-          display-name: "TOGGLE 1"
-          lore:
-            - "lore 1"
-            - "lore 2"
+          item: "test"
           actions:
             left-click:
               command: "say bye"
               toggle: true
 
-items: []
+items:
+  test:
+    material: "DIRT"
+    display-name: "&lTEST"
+    lore:
+      - "&eTEST"

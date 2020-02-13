@@ -2,7 +2,6 @@ package me.Jeremaster101.GamesMaster.Lobby.GUI;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -10,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * class used to create the guis
  */
-public class GUIBuilder { //todo test this using a test class
+public class GUIBuilder {
     
     /**
      * create the guis based on the config values and saves it
@@ -19,14 +18,13 @@ public class GUIBuilder { //todo test this using a test class
      */
     public static void build(GUIType type) {
         GUI gui = new GUI(type, type.getSize(), type.getDisplayName());
-    
+        
         ConfigurationSection sec = type.getConfigSection();
         
         for (int i = 0; i < gui.getSize().getInteger() - 1; i++) {
             try {
                 ConfigurationSection decorations = sec.getConfigurationSection("decorations." + i);
-                ItemStack decorItem = new GUIItem(Material.getMaterial(decorations.getString("material")),
-                        decorations.getString("display-name"), decorations.getStringList("lore")).toItemStack();
+                ItemStack decorItem = GUIItem.getItem(decorations.getString("item"));
                 gui.addDecoration(decorItem, i);
             } catch (NullPointerException e) {
                 continue;
@@ -36,14 +34,13 @@ public class GUIBuilder { //todo test this using a test class
         for (int i = 0; i < gui.getSize().getInteger() - 1; i++) {
             try {
                 ConfigurationSection buttons = sec.getConfigurationSection("buttons." + i);
-                ItemStack buttonItem = new GUIItem(Material.getMaterial(buttons.getString("material")),
-                        buttons.getString("display-name"), buttons.getStringList("lore")).toItemStack();
+                ItemStack buttonItem = GUIItem.getItem(buttons.getString("item"));
                 GUIButton button = new GUIButton() {
                     @Override
                     public boolean onLeftClick(Player player) {
                         return runActions(buttons.getConfigurationSection("actions.left-click"), player);
                     }
-        
+                    
                     @Override
                     public boolean onRightClick(Player player) {
                         return runActions(buttons.getConfigurationSection("actions.right-click"), player);
@@ -58,34 +55,32 @@ public class GUIBuilder { //todo test this using a test class
         for (int i = 0; i < gui.getSize().getInteger() - 1; i++) {
             try {
                 ConfigurationSection toggles = sec.getConfigurationSection("toggles." + i);
-                ItemStack untoggledItem = new GUIItem(Material.getMaterial(toggles.getString("untoggled.material")),
-                        toggles.getString("untoggled.display-name"), toggles.getStringList("untoggled.lore")).toItemStack();
-                ItemStack toggledItem = new GUIItem(Material.getMaterial(toggles.getString("toggled.material")),
-                        toggles.getString("toggled.display-name"), toggles.getStringList("toggledlore")).toItemStack();
+                ItemStack untoggledItem = GUIItem.getItem(toggles.getString("untoggled.item"));
+                ItemStack toggledItem = GUIItem.getItem(toggles.getString("toggled.item"));
                 int finalI = i;
                 GUIButton untogggled = new GUIButton() {
                     @Override
                     public boolean onLeftClick(Player player) {
-                        if(toggles.getBoolean("untoggled.actions.left-click.toggle")) gui.toggle(finalI);
+                        if (toggles.getBoolean("untoggled.actions.left-click.toggle")) gui.toggle(finalI);
                         return runActions(toggles.getConfigurationSection("untoggled.actions.left-click"), player);
                     }
-        
+                    
                     @Override
                     public boolean onRightClick(Player player) {
-                        if(toggles.getBoolean("untoggled.actions.right-click.toggle")) gui.toggle(finalI);
+                        if (toggles.getBoolean("untoggled.actions.right-click.toggle")) gui.toggle(finalI);
                         return runActions(toggles.getConfigurationSection("untoggled.actions.right-click"), player);
                     }
                 };
                 GUIButton toggled = new GUIButton() {
                     @Override
                     public boolean onLeftClick(Player player) {
-                        if(toggles.getBoolean("toggled.actions.left-click.toggle")) gui.toggle(finalI);
+                        if (toggles.getBoolean("toggled.actions.left-click.toggle")) gui.toggle(finalI);
                         return runActions(toggles.getConfigurationSection("toggled.actions.left-click"), player);
                     }
-        
+                    
                     @Override
                     public boolean onRightClick(Player player) {
-                        if(toggles.getBoolean("toggled.actions.right-click.toggle")) gui.toggle(finalI);
+                        if (toggles.getBoolean("toggled.actions.right-click.toggle")) gui.toggle(finalI);
                         return runActions(toggles.getConfigurationSection("toggled.actions.right-click"), player);
                     }
                 };
@@ -121,9 +116,10 @@ public class GUIBuilder { //todo test this using a test class
         }
         
         if (section.getString("gui") != null) {
-            //todo get gui by string or guitype
+            GUI gui = GUI.getGUI(GUIType.valueOf(section.getString("gui")));
+            gui.open(player);
         }
-            return true;
+        return true;
     }
     
 }

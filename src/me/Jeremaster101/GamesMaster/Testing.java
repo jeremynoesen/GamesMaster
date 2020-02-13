@@ -54,7 +54,8 @@ public class Testing implements Listener {
             
              */
             
-            GUIBuilder.build(GUIType.COSMETICS);
+            GUIItem.craftItems();
+            GUIBuilder.build(GUIType.COSMETICS); //todo possibly build all GUIs in one method
             
             GUI gui = GUI.getGUI(GUIType.COSMETICS);
             gui.open(e.getPlayer());

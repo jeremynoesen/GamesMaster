@@ -5,7 +5,10 @@ import me.Jeremaster101.GamesMaster.Command.CommandListener;
 import me.Jeremaster101.GamesMaster.Command.CommandTabComplete;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Config.Configs;
+import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIBuilder;
+import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIItem;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIListener;
+import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIType;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyProtect;
 import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryFixer;
@@ -69,6 +72,10 @@ public class GamesMaster extends JavaPlugin {
         
         LobbyProtect lp = new LobbyProtect();
         lp.cleanLobby();
+    
+        //testing
+        GUIItem.craftItems();
+        GUIBuilder.build(GUIType.COSMETICS); //todo possibly build all GUIs in one method
     }
     
     public void onDisable() {

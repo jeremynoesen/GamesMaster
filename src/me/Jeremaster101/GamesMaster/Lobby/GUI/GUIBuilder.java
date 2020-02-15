@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 /**
  * class used to create the guis
  */
-public class GUIBuilder {
+public class GUIBuilder { //todo gui to customize gui in game
     
     /**
      * create the guis based on the config values and saves it
@@ -89,7 +89,6 @@ public class GUIBuilder {
                 continue;
             }
         }
-        //todo gui to customize gui in game
         gui.save();
     }
     

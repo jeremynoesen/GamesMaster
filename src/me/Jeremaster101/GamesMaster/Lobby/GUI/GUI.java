@@ -11,9 +11,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class GUI {
+public class GUI { //todo save guis for gadgets and cosmetics per player
     
-    private static HashMap<Inventory, GUI> guis = new HashMap<>(); //todo be able to get inv by string identifier too
+    private static HashMap<Inventory, GUI> guis = new HashMap<>();
     private static HashMap<GUIType, GUI> guiTypes = new HashMap<>();
     private Inventory inventory;
     private HashSet<Integer> decorations = new HashSet<>();
@@ -67,6 +67,34 @@ public class GUI {
     }
     
     /**
+     * @return slots that are decorations
+     */
+    public HashSet<Integer> getDecorations() {
+        return decorations;
+    }
+    
+    /**
+     * @param decorations decorations to set for gui
+     */
+    public void setDecorations(HashSet<Integer> decorations) {
+        this.decorations = decorations;
+    }
+    
+    /**
+     * @return all buttons with associated actions for the gui
+     */
+    public HashMap<Integer, HashMap<ItemStack, GUIButton>> getButtons() {
+        return buttons;
+    }
+    
+    /**
+     * @param buttons buttons to set to the gui
+     */
+    public void setButtons(HashMap<Integer, HashMap<ItemStack, GUIButton>> buttons) {
+        this.buttons = buttons;
+    }
+    
+    /**
      * @return type of gui
      */
     public GUIType getType() {
@@ -89,8 +117,7 @@ public class GUI {
      */
     public void open(Player player) {
         player.openInventory(inventory);
-        guis.put(inventory, this);
-        guiTypes.put(type, this);
+        save();
     }
     
     /**
@@ -98,7 +125,7 @@ public class GUI {
      */
     public void save() {
         guis.put(inventory, this);
-        guiTypes.put(type, this);
+        if (type != null) guiTypes.put(type, this);
     }
     
     /**
@@ -107,6 +134,14 @@ public class GUI {
     public Inventory getInventory() {
         save();
         return inventory;
+    }
+    
+    /**
+     * @param inventory inventory to set gui to have
+     */
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+        save();
     }
     
     /**

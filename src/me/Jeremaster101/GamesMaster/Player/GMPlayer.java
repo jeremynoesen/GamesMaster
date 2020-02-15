@@ -1,5 +1,7 @@
-package me.Jeremaster101.GamesMaster;
+package me.Jeremaster101.GamesMaster.Player;
 
+import me.Jeremaster101.GamesMaster.GamesMaster;
+import me.Jeremaster101.GamesMaster.Lobby.GUI.GUI;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -11,6 +13,9 @@ public class GMPlayer {
     private File playerFile;
     private YamlConfiguration playerData;
     private Player player;
+    private GUI gadgets;
+    private GUI cosmetics;
+    private GUI preferences;
     
     //todo register per-player invs here
     public GMPlayer(Player p) {

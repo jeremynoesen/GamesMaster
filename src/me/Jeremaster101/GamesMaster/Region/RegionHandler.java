@@ -10,7 +10,7 @@ import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Message;
-import me.Jeremaster101.GamesMaster.GMPlayer;
+import me.Jeremaster101.GamesMaster.Player.GMPlayer;
 import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryHandler;
 import org.bukkit.GameMode;
 import org.bukkit.Location;

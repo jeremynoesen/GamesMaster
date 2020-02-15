@@ -5,7 +5,7 @@ import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
-import me.Jeremaster101.GamesMaster.GMPlayer;
+import me.Jeremaster101.GamesMaster.Player.GMPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

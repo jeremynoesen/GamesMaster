@@ -4,7 +4,7 @@ import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Config.Configs;
 import me.Jeremaster101.GamesMaster.Message;
-import me.Jeremaster101.GamesMaster.GMPlayer;
+import me.Jeremaster101.GamesMaster.Player.GMPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;

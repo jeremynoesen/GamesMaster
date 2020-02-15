@@ -1,12 +1,9 @@
 package me.Jeremaster101.GamesMaster;
 
 import me.Jeremaster101.GamesMaster.Lobby.GUI.*;
-import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
-import org.bukkit.inventory.ItemStack;
 
 public class Testing implements Listener {
     
@@ -19,8 +16,8 @@ public class Testing implements Listener {
         /*e.getPlayer().getInventory().setItemInMainHand(item.game("&3&lTest", "DIAMOND", "HideAndSeek is a unique " +
                 "gamemode where players are disguised as blocks."));
         e.getPlayer().updateInventory();*/
-    
-    
+            
+            
             //test new gui builder and buttons
     
             /*GUI gui = new GUI(GUIType.COSMETICS, GUISize.ONE_ROW, "TEST");
@@ -54,12 +51,9 @@ public class Testing implements Listener {
             
              */
             
-            GUIItem.craftItems();
-            GUIBuilder.build(GUIType.COSMETICS); //todo possibly build all GUIs in one method
-            
             GUI gui = GUI.getGUI(GUIType.COSMETICS);
             gui.open(e.getPlayer());
-           
+            
         }
     }
 }

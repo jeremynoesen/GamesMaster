@@ -67,7 +67,7 @@ public class Region {
     
     public static Region getRegion(Player player, String region) {
         if (regionConfig.getConfig().get(region) != null) {
-            return new Region(player, region);
+            return new Region(player, region); //todo in this and similar classes, store in hashmap rather than making new instances every time
         } else {
             player.sendMessage(Message.ERROR_UNKNOWN_REGION);
             return null;

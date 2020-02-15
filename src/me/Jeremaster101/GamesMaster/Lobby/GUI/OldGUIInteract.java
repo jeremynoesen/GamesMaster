@@ -8,7 +8,7 @@ import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
 import me.Jeremaster101.GamesMaster.Message;
-import me.Jeremaster101.GamesMaster.GMPlayer;
+import me.Jeremaster101.GamesMaster.Player.GMPlayer;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

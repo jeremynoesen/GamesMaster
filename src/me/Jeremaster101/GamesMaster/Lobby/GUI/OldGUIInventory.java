@@ -44,11 +44,11 @@ public class OldGUIInventory {
         } else
             cosmetics.setItem(3, guiItem.gadgetUI());
         cosmetics.setItem(4, guiItem.filler(GUIColor.WHITE));
-        if (gmplayer.isMusicMuted()) {
+        /*if (gmplayer.isMusicMuted()) {
             cosmetics.setItem(5, guiItem.musicUImuted());
         } else {
             cosmetics.setItem(5, guiItem.musicUI());
-        }
+        }*/
         cosmetics.setItem(6, guiItem.filler(GUIColor.WHITE));
         cosmetics.setItem(7, guiItem.filler(GUIColor.CYAN));
         cosmetics.setItem(8, guiItem.filler(GUIColor.CYAN));

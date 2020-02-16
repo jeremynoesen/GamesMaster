@@ -7,8 +7,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 
+/**
+ * events for clicking in guis
+ */
 public class GUIListener implements Listener {
     
+    /**
+     * listener for clicking in guis to make buttons work
+     *
+     * @param e inventory click event
+     */
     @EventHandler
     public void onClick(InventoryClickEvent e) {
         GUI gui = GUI.getGUI(e.getClickedInventory());
@@ -18,6 +26,11 @@ public class GUIListener implements Listener {
         }
     }
     
+    /**
+     * prevent players from moving items in guis
+     *
+     * @param e inventory move item event
+     */
     @EventHandler
     public void onMove(InventoryMoveItemEvent e) {
         if (e.getInitiator().getHolder() instanceof Player ||

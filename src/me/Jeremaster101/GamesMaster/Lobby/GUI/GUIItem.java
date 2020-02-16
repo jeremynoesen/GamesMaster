@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * item creation from config
+ */
 public class GUIItem {
     
     public static HashMap<String, ItemStack> items = new HashMap<>();

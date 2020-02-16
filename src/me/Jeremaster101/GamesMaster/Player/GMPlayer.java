@@ -1,79 +1,76 @@
 package me.Jeremaster101.GamesMaster.Player;
 
-import me.Jeremaster101.GamesMaster.GamesMaster;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.GUI;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.HashMap;
 
+/**
+ * custom player object for gamesmaster, handles per player data and such
+ */
 public class GMPlayer {
     
-    private File playerFile;
-    private YamlConfiguration playerData;
+    private static HashMap<Player, GMPlayer> gmplayers = new HashMap<>();
+    private PlayerData data;
+    private PlayerPreferences preferences;
+    private PlayerGUI gui;
     private Player player;
-    private GUI gadgets;
-    private GUI cosmetics;
-    private GUI preferences;
+    private String currentRegion;
     
-    //todo register per-player invs here
-    public GMPlayer(Player p) {
-        player = p;
-        playerFile = new File(GamesMaster.getInstance().getDataFolder() + File.separator + "playerdata",
-                this.player.getUniqueId().toString() + ".yml");
-        playerData = YamlConfiguration.loadConfiguration(playerFile);
+    /**
+     * create new instances of classes that handle player options, guis, and preferences
+     *
+     * @param player player to create GMPlayer object
+     */
+    public GMPlayer(Player player) {
+        this.player = player;
+        data = new PlayerData(player);
+        preferences = new PlayerPreferences(player);
+        gui = new PlayerGUI(player);
+        currentRegion = data.getDataFile().getString("current-region");
     }
     
-    public static GMPlayer getPlayerData(Player player) {
-        return new GMPlayer(player);
+    /**
+     * @param player player to get GMPlayer for
+     * @return GMPlayer from the player
+     */
+    public static GMPlayer getPlayer(Player player) {
+        return gmplayers.get(player);
     }
     
-    public YamlConfiguration getDataFile() {
-        return playerData;
+    /**
+     * @return instance of PlayerData for the player
+     */
+    public PlayerData getData() {
+        return data;
     }
     
-    public void reloadPlayerData() {
-        playerData = YamlConfiguration.loadConfiguration(playerFile);
+    /**
+     * @return instance of PlayerPreferences for the player
+     */
+    public PlayerPreferences getPreferences() {
+        return preferences;
     }
     
-    public void savePlayerData() {
-        try {
-            playerData.save(playerFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    /**
+     * @return instance of PlayerGUI for the player
+     */
+    public PlayerGUI getGUI() {
+        return gui;
     }
     
-    public void resetPlayerData() {
-        playerFile.delete();
-        try {
-            playerData.save(playerFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        playerFile = new File(GamesMaster.getInstance().getDataFolder() + File.separator + "playerdata",
-                this.player.getUniqueId().toString() + ".yml");
-        playerData = YamlConfiguration.loadConfiguration(playerFile);
-    }
-    
+    /**
+     * @return name of current region the player is in
+     */
     public String getCurrentRegion() {
-        if (playerData.get("current-region") != null)
-            return playerData.get("current-region").toString();
-        else
-            return null;
+        return currentRegion;
     }
     
+    /**
+     * @param region name of region to set as current
+     */
     public void setCurrentRegion(String region) {
-        playerData.set("current-region", region);
+        currentRegion = region;
+        data.getDataFile().set("current-region", region);
     }
     
-    public boolean isMusicMuted() {//todo allow self music
-        if (playerData.get("lobby-options.music-muted") == null) return false;
-        else return playerData.getBoolean("lobby-options.music-muted");
-    }
-    
-    public void setMusicMuted(boolean muted) {
-        playerData.set("lobby-options.music-muted", muted);
-    }
 }

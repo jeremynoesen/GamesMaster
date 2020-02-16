@@ -18,7 +18,12 @@ public class PlayerGUI {
     private GUI preferencesGUI;
     private Player player;
     
-    PlayerGUI(Player player) {
+    /**
+     * copy guis from template
+     *
+     * @param player player to show gui
+     */
+    public PlayerGUI(Player player) {
         gadgetsGUI = copyFromTemplate(gadgetsTemplate);
         cosmeticsGUI = copyFromTemplate(cosmeticsTemplate);
         preferencesGUI = copyFromTemplate(preferencesTemplate);

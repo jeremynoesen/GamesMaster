@@ -26,6 +26,9 @@ public class GamesMaster extends JavaPlugin {
         return plugin;
     }
     
+    /**
+     * register plugin events, make items, build guis, save default configs, register permissions, and load messages
+     */
     public void onEnable() {
         plugin = this;
         
@@ -51,7 +54,6 @@ public class GamesMaster extends JavaPlugin {
         
         pm.registerEvents(new Misc(), plugin);
         pm.registerEvents(new RegionListener(), plugin);
-        //pm.registerEvents(new GUIInteract(), plugin);
         pm.registerEvents(new CommandListener(), plugin);
         pm.registerEvents(new PaintballGun(), plugin);
         pm.registerEvents(new DoubleJump(), plugin);
@@ -75,9 +77,13 @@ public class GamesMaster extends JavaPlugin {
     
         //testing
         GUIItem.craftItems();
+        //GUIBuilder.buildAll();
         GUIBuilder.build(GUIType.COSMETICS); //todo possibly build all GUIs in one method
     }
     
+    /**
+     * disable plugin
+     */
     public void onDisable() {
         plugin = null;
     }

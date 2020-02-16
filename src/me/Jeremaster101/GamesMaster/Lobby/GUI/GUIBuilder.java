@@ -1,5 +1,6 @@
 package me.Jeremaster101.GamesMaster.Lobby.GUI;
 
+import me.Jeremaster101.GamesMaster.Player.PlayerGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -10,6 +11,13 @@ import org.bukkit.inventory.ItemStack;
  * class used to create the guis
  */
 public class GUIBuilder { //todo gui to customize gui in game
+    
+    /**
+     * builds all GUIs at once
+     */
+    public static void buildAll() {
+        for(GUIType type : GUIType.values()) build(type);
+    }
     
     /**
      * create the guis based on the config values and saves it
@@ -98,7 +106,7 @@ public class GUIBuilder { //todo gui to customize gui in game
      * @param section config section for gui
      * @param player  player to perform actions
      */
-    private static boolean runActions(ConfigurationSection section, Player player) {
+    private static boolean runActions(ConfigurationSection section, Player player) {//todo actions for music, gadgets, etc.
         
         if (section == null) return false;
         
@@ -115,8 +123,8 @@ public class GUIBuilder { //todo gui to customize gui in game
         }
         
         if (section.getString("gui") != null) {
-            GUI gui = GUI.getGUI(GUIType.valueOf(section.getString("gui")));
-            gui.open(player);
+            PlayerGUI pgui = new PlayerGUI(player);
+            pgui.open(GUIType.valueOf(section.getString("gui")));
         }
         return true;
     }

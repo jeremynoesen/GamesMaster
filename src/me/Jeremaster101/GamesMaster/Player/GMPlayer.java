@@ -1,11 +1,12 @@
 package me.Jeremaster101.GamesMaster.Player;
 
+import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIType;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
 /**
- * custom player object for gamesmaster, handles per player data and such
+ * custom player object for gamesmaster, handles per player data, preferences, and guis
  */
 public class GMPlayer {
     
@@ -17,7 +18,7 @@ public class GMPlayer {
     private String currentRegion;
     
     /**
-     * create new instances of classes that handle player options, guis, and preferences
+     * create new instances of classes that handle player options, guis, and preferences. also load current region
      *
      * @param player player to create GMPlayer object
      */
@@ -27,6 +28,7 @@ public class GMPlayer {
         preferences = new PlayerPreferences(player);
         gui = new PlayerGUI(player);
         currentRegion = data.getDataFile().getString("current-region");
+        gmplayers.put(player, this);
     }
     
     /**
@@ -52,10 +54,20 @@ public class GMPlayer {
     }
     
     /**
-     * @return instance of PlayerGUI for the player
+     * update the saved player preferences
+     *
+     * @param preferences player preferences
      */
-    public PlayerGUI getGUI() {
-        return gui;
+    public void setPreferences(PlayerPreferences preferences) {
+        this.preferences = preferences;
+        gmplayers.put(player, this);
+    }
+    
+    /**
+     * open the gui of specified type
+     */
+    public void openGUI(GUIType type) {
+        gui.open(type);
     }
     
     /**
@@ -71,6 +83,8 @@ public class GMPlayer {
     public void setCurrentRegion(String region) {
         currentRegion = region;
         data.getDataFile().set("current-region", region);
+        data.savePlayerData();
+        gmplayers.put(player, this);
     }
     
 }

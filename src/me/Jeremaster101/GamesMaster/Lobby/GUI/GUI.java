@@ -11,7 +11,10 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class GUI { //todo save guis for gadgets and cosmetics per player
+/**
+ * class to make GUIs
+ */
+public class GUI {
     
     private static HashMap<Inventory, GUI> guis = new HashMap<>();
     private static HashMap<GUIType, GUI> guiTypes = new HashMap<>();
@@ -117,7 +120,6 @@ public class GUI { //todo save guis for gadgets and cosmetics per player
      */
     public void open(Player player) {
         player.openInventory(inventory);
-        save();
     }
     
     /**
@@ -132,7 +134,6 @@ public class GUI { //todo save guis for gadgets and cosmetics per player
      * @return inventory of GUI
      */
     public Inventory getInventory() {
-        save();
         return inventory;
     }
     
@@ -141,7 +142,6 @@ public class GUI { //todo save guis for gadgets and cosmetics per player
      */
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
-        save();
     }
     
     /**
@@ -167,7 +167,8 @@ public class GUI { //todo save guis for gadgets and cosmetics per player
      * @param untoggledButton button actions for the untoggled button
      * @param toggledButton   button actions for the toggled button
      */
-    public void addToggle(ItemStack untoggledItem, ItemStack toggledItem, int slot, GUIButton untoggledButton, GUIButton toggledButton) {
+    public void addToggle(ItemStack untoggledItem, ItemStack toggledItem, int slot, GUIButton untoggledButton,
+                          GUIButton toggledButton) {
         HashMap<ItemStack, GUIButton> items = new HashMap<>();
         items.put(untoggledItem, untoggledButton);
         items.put(toggledItem, toggledButton);

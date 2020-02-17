@@ -56,7 +56,7 @@ public class RegionListener implements Listener {
 
         if (lh.isGamesWorld(to.getWorld())) {
     
-            GMPlayer gmplayer = GMPlayer.getPlayerData(p);
+            GMPlayer gmplayer = GMPlayer.getPlayer(p);
     
             new BukkitRunnable() {
                 public void run() {
@@ -102,7 +102,7 @@ public class RegionListener implements Listener {
 
         if (lh.isGamesWorld(from.getWorld())) {
     
-            GMPlayer gmplayer = GMPlayer.getPlayerData(p);
+            GMPlayer gmplayer = GMPlayer.getPlayer(p);
     
             new BukkitRunnable() {
                 public void run() {

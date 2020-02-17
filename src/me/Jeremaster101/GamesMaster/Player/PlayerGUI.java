@@ -21,9 +21,9 @@ public class PlayerGUI {
      * @param player player to show gui
      */
     public PlayerGUI(Player player) {
-        gadgetsGUI = GUIBuilder.buildPrivateGUI(GUIType.GADGET);
-        cosmeticsGUI = GUIBuilder.buildPrivateGUI(GUIType.COSMETICS);
-        preferencesGUI = GUIBuilder.buildPrivateGUI(GUIType.PREFERENCES);
+        gadgetsGUI = GUIBuilder.buildPrivateGUI(GUIType.GADGET, player);
+        cosmeticsGUI = GUIBuilder.buildPrivateGUI(GUIType.COSMETICS, player);
+        preferencesGUI = GUIBuilder.buildPrivateGUI(GUIType.PREFERENCES, player);
         this.player = player;
     }
     

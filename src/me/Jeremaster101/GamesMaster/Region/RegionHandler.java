@@ -30,7 +30,7 @@ public class RegionHandler {//todo implement these methods into player class
     
     void fixGamemode(Player p) {
         
-        GMPlayer gmplayer = GMPlayer.getPlayerData(p);
+        GMPlayer gmplayer = GMPlayer.getPlayer(p);
         if (gmplayer.getCurrentRegion() != null && p.getWorld().getName().equals(GamesMaster.getInstance().getConfig().get("games-world").toString())) {
             GameMode mode = GameMode.valueOf((regionConfig.getConfig()
                     .getString(gmplayer.getCurrentRegion() + ".gamemode")));
@@ -92,7 +92,7 @@ public class RegionHandler {//todo implement these methods into player class
     
     @SuppressWarnings("deprecation")
     void loadRegion(Player p, String rg) {
-        GMPlayer gmplayer = GMPlayer.getPlayerData(p);
+        GMPlayer gmplayer = GMPlayer.getPlayer(p);
         Set<String> regs = regionConfig.getConfig().getConfigurationSection("regions").getKeys(false);
         List<String> invs = inventoryConfig.getConfig().getStringList("inventories");
         

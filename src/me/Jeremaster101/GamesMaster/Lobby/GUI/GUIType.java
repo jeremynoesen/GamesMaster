@@ -9,7 +9,8 @@ import org.bukkit.configuration.ConfigurationSection;
  * Types of GUIs
  */
 public enum GUIType {
-    MUSIC("music"), COSMETICS("cosmetics"), GAME_LIST("game-list"), GAME("game"), GADGET("gadget"), PREFERENCES("preferences");
+    MUSIC("music"), COSMETICS("cosmetics"), GAME_LIST("game-list"), GAME("game"), GADGET("gadget"), PREFERENCES(
+            "preferences");
     
     public String type;
     private ConfigManager guiConfig = new ConfigManager(ConfigType.GUI);

@@ -13,20 +13,38 @@ import org.bukkit.inventory.ItemStack;
 public class GUIBuilder { //todo gui to customize gui in game
     
     /**
-     * builds all GUIs at once
+     * builds all default GUIs at once
      */
     public static void buildAll() {
-        for(GUIType type : GUIType.values()) build(type);
+        for (GUIType type : GUIType.values()) buildPublicGUI(type);
     }
     
     /**
-     * create the guis based on the config values and saves it
+     * create the guis based on the config values and save it as the type default
      *
      * @param type type of gui to build
      */
-    public static void build(GUIType type) {
+    public static void buildPublicGUI(GUIType type) {
         GUI gui = new GUI(type, type.getSize(), type.getDisplayName());
-        
+        build(type, gui);
+    }
+    
+    /**
+     * create the guis based on the config values and save it as a separate gui
+     *
+     * @param type type of gui to build
+     */
+    public static GUI buildPrivateGUI(GUIType type) {
+        GUI gui = new GUI(null, type.getSize(), type.getDisplayName());
+        build(type, gui);
+        return gui;
+    }
+    
+    /**
+     * @param type type to build
+     * @param gui gui object to build it to
+     */
+    private static void build(GUIType type, GUI gui) {
         ConfigurationSection sec = type.getConfigSection();
         
         for (int i = 0; i < gui.getSize().getInteger() - 1; i++) {

@@ -78,7 +78,7 @@ public class GamesMaster extends JavaPlugin {
         //testing
         GUIItem.craftItems();
         //GUIBuilder.buildAll();
-        GUIBuilder.build(GUIType.COSMETICS); //todo possibly build all GUIs in one method
+        GUIBuilder.buildPublicGUI(GUIType.COSMETICS); //todo possibly build all GUIs in one method
     }
     
     /**

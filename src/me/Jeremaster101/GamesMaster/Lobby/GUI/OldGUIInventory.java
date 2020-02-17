@@ -34,7 +34,7 @@ public class OldGUIInventory {
     public Inventory cosmeticUI(Player p) {
         Inventory cosmetics = Bukkit.createInventory(p, 9, ChatColor.DARK_AQUA + "" + ChatColor.BOLD + "Cosmetics");
     
-        GMPlayer gmplayer = GMPlayer.getPlayerData(p);
+        //GMPlayer gmplayer = GMPlayer.getPlayerData(p);
     
         cosmetics.setItem(0, guiItem.filler(GUIColor.CYAN));
         cosmetics.setItem(1, guiItem.filler(GUIColor.CYAN));

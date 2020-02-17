@@ -1,7 +1,6 @@
 package me.Jeremaster101.GamesMaster.Lobby.GUI;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -60,13 +59,6 @@ public class GUI {
      */
     public String getDisplayName() {
         return name;
-    }
-    
-    /**
-     * @return name of gui without colors
-     */
-    public String getName() {
-        return ChatColor.stripColor(name);
     }
     
     /**
@@ -173,7 +165,7 @@ public class GUI {
         items.put(untoggledItem, untoggledButton);
         items.put(toggledItem, toggledButton);
         buttons.put(slot, items);
-        if (toggled.contains(slot)) toggled.remove(slot);
+        if (isToggled(slot)) toggled.remove(slot);
         inventory.setItem(slot, untoggledItem);
     }
     

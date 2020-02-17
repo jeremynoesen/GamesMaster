@@ -1,6 +1,9 @@
 package me.Jeremaster101.GamesMaster;
 
 import me.Jeremaster101.GamesMaster.Lobby.GUI.*;
+import me.Jeremaster101.GamesMaster.Player.GMPlayer;
+import me.Jeremaster101.GamesMaster.Player.PlayerGUI;
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
@@ -50,9 +53,9 @@ public class Testing implements Listener {
             gui.openGUI(e.getPlayer());
             
              */
-            
-            GUI gui = GUI.getGUI(GUIType.COSMETICS);
-            gui.open(e.getPlayer());
+    
+            PlayerGUI pgui = new PlayerGUI(e.getPlayer());
+            pgui.open(GUIType.COSMETICS);
             
         }
     }

@@ -2,8 +2,7 @@ package me.Jeremaster101.GamesMaster;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
-import me.Jeremaster101.GamesMaster.GamesMaster;
+import me.Jeremaster101.GamesMaster.Config.Config;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -13,9 +12,9 @@ import java.util.List;
 
 public class Message {
     
-    private static ConfigManager messageConfig = Configs.getConfig(ConfigType.MESSAGE);
-    private static ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
-    private static ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
+    private static ConfigManager messageConfig = Config.getConfig(ConfigType.MESSAGE);
+    private static ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
+    private static ConfigManager arenaConfig = Config.getConfig(ConfigType.ARENA);
     
     
     public static String PREFIX;

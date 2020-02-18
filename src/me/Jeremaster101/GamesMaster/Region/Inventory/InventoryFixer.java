@@ -2,7 +2,7 @@ package me.Jeremaster101.GamesMaster.Region.Inventory;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
+import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import org.bukkit.GameMode;
@@ -19,7 +19,7 @@ public class InventoryFixer implements Listener { //this class is to combat PerW
     private final InventoryHandler ih = new InventoryHandler();
     private final LobbyHandler lh = new LobbyHandler();
     
-    private ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    private ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
     
     @EventHandler
     public void onModeChange(PlayerGameModeChangeEvent e) {

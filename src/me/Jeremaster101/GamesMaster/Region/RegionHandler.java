@@ -6,7 +6,7 @@ import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
+import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Message;
@@ -25,8 +25,8 @@ public class RegionHandler {//todo implement these methods into player class
     private final InventoryHandler ih = new InventoryHandler();
     private final LobbyHandler lh = new LobbyHandler();
     
-    private ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
-    private ConfigManager inventoryConfig = Configs.getConfig(ConfigType.INVENTORY);
+    private ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
+    private ConfigManager inventoryConfig = Config.getConfig(ConfigType.INVENTORY);
     
     void fixGamemode(Player p) {
         

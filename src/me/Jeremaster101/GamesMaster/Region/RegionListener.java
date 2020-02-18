@@ -2,7 +2,7 @@ package me.Jeremaster101.GamesMaster.Region;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
+import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.OldGUIItem;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
@@ -25,7 +25,7 @@ public class RegionListener implements Listener {
     private final OldGUIItem guiitem = new OldGUIItem();
     private final LobbyHandler lh = new LobbyHandler();
     
-    private ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    private ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent e) {

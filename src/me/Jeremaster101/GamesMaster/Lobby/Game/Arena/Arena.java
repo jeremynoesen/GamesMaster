@@ -2,19 +2,19 @@ package me.Jeremaster101.GamesMaster.Lobby.Game.Arena;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
+import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Message;
 import org.bukkit.entity.Player;
 
 public class Arena {//todo finish this class
     
-    private static ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
+    private static ConfigManager arenaConfig = Config.getConfig(ConfigType.ARENA);
     private final LobbyHandler lh = new LobbyHandler();
     private String game;
     private String arena;
     private Player player;
-    private ConfigManager gameConfig = Configs.getConfig(ConfigType.GAME);
+    private ConfigManager gameConfig = Config.getConfig(ConfigType.GAME);
     
     
     public Arena(Player player, String game, String arena) {

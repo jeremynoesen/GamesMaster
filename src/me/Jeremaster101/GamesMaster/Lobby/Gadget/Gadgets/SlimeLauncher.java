@@ -1,38 +1,29 @@
-package me.Jeremaster101.GamesMaster.Lobby.Gadget;
+package me.Jeremaster101.GamesMaster.Lobby.Gadget.Gadgets;
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
+import me.Jeremaster101.GamesMaster.Lobby.Gadget.GadgetItem;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Slime;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+/**
+ * slime launcher gadget
+ */
 public class SlimeLauncher {
-
-    LobbyHandler lh = new LobbyHandler();
-
-    public ItemStack slimeLauncher() {
-        ItemStack s = new ItemStack(Material.SLIME_BALL, 1);
-        ItemMeta sm = s.getItemMeta();
-        sm.setDisplayName(ChatColor.GREEN + "" + ChatColor.BOLD + "Slime Launcher");
-        s.setItemMeta(sm);
-        return s;
-    }
-
-    public ItemStack slimeLauncherReload() {
-        ItemStack s = new ItemStack(Material.SLIME_BALL, 1);
-        ItemMeta sm = s.getItemMeta();
-        sm.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Slime Launcher");
-        s.setItemMeta(sm);
-        return s;
-    }
-
-    void useSlimeLauncher(Player p) {
-        lh.setGadget(p, slimeLauncherReload());
+    
+    private static LobbyHandler lh = new LobbyHandler();
+    
+    /**
+     * launches a slime and handles its physics and effects
+     *
+     * @param p player to use slime launcher
+     */
+    public static void use(Player p) {
+        lh.setGadget(p, GadgetItem.SLIME_LAUNCHER_RELOAD.getItem());
         Slime s = p.getLocation().getWorld()
                 .spawn(p.getEyeLocation().add(p.getLocation().getDirection()).subtract(0, 0.25, 0), Slime.class);
         s.setSize(1);
@@ -75,8 +66,8 @@ public class SlimeLauncher {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (lh.activeGadget(p, slimeLauncherReload())) {
-                    lh.setGadget(p, slimeLauncher());
+                if (lh.activeGadget(p, GadgetItem.SLIME_LAUNCHER_RELOAD.getItem())) {
+                    lh.setGadget(p, GadgetItem.SLIME_LAUNCHER.getItem());
                 }
             }
         }.runTaskLater(GamesMaster.getInstance(), 30);

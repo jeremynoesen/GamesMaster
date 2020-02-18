@@ -1,8 +1,8 @@
-package me.Jeremaster101.GamesMaster.Lobby.Gadget;
+package me.Jeremaster101.GamesMaster.Lobby.Gadget.Gadgets;
 
-import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.GamesMaster;
-import org.bukkit.ChatColor;
+import me.Jeremaster101.GamesMaster.Lobby.Gadget.GadgetItem;
+import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Arrow;
@@ -13,30 +13,27 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
+/**
+ * grappling hook gadget
+ */
 public class GrapplingHook implements Listener {
-
+    
     private final LobbyHandler lh = new LobbyHandler();
-
-    public ItemStack grapplingHook() {
-        ItemStack s = new ItemStack(Material.FISHING_ROD, 1);
-        ItemMeta sm = s.getItemMeta();
-        sm.setUnbreakable(true);
-        sm.setDisplayName(ChatColor.WHITE + "" + ChatColor.BOLD + "Grappling Hook");
-        s.setItemMeta(sm);
-        return s;
-    }
-
+    
+    /**
+     * listens for when a player shoots the grappling hook
+     *
+     * @param e projectile launch event
+     */
     @SuppressWarnings("deprecation")
     @EventHandler
     public void onThrow(ProjectileLaunchEvent e) {
         if (e.getEntity().getShooter() instanceof Player && e.getEntity() instanceof FishHook) {
             Player p = (Player) e.getEntity().getShooter();
             FishHook f = (FishHook) e.getEntity();
-            if (p.getInventory().getItemInMainHand().equals(grapplingHook())) {
+            if (p.getInventory().getItemInMainHand().equals(GadgetItem.GRAPPLING_HOOK.getItem())) {
                 f.setBounce(false);
                 Arrow a = p.launchProjectile(Arrow.class);
                 a.setVelocity(a.getVelocity().multiply(0.75));
@@ -59,28 +56,33 @@ public class GrapplingHook implements Listener {
             }
         }
     }
-
+    
+    /**
+     * listens for when the hook hits an object
+     *
+     * @param e projectile hit event
+     */
     @EventHandler(ignoreCancelled = true)
     public void onHit(ProjectileHitEvent e) {
         if (e.getEntity() instanceof Arrow && e.getEntity().getCustomName() != null && e.getEntity().getCustomName().equals("grapplingHook")
                 && e.getEntity().getShooter() != null && e.getEntity().getShooter() instanceof Player && e.getHitEntity() == null) {
             Player p = (Player) e.getEntity().getShooter();
-
+            
             for (Player all : lh.getPlayersInLobby()) {
                 all.stopSound(Sound.ENTITY_ARROW_HIT);
             }
-
+            
             if (e.getHitEntity() == null && e.getHitBlock().getType() == Material.BARRIER) {
                 e.getEntity().remove();
                 return;
             }
-
+            
             new BukkitRunnable() {
                 int i = 0;
-
+                
                 @Override
                 public void run() {
-
+                    
                     if (p.getWorld().equals(e.getEntity().getWorld())) {
                         i++;
                         p.getWorld().playSound(p.getLocation(), Sound.ENTITY_TNT_PRIMED, 0.35f, 2);
@@ -98,7 +100,12 @@ public class GrapplingHook implements Listener {
             p.getWorld().playSound(e.getEntity().getLocation(), Sound.ITEM_TRIDENT_HIT_GROUND, 3, 1.5f);
         }
     }
-
+    
+    /**
+     * prevent hook from harming players
+     *
+     * @param e entity damage by entity event
+     */
     @EventHandler
     public void onEntityHit(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Arrow && e.getDamager().getCustomName() != null && e.getDamager().getCustomName().equals("grapplingHook")) {

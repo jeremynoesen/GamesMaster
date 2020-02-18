@@ -2,7 +2,7 @@ package me.Jeremaster101.GamesMaster.Lobby;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
+import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class LobbyHandler {
     
-    private ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    private ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
     
     int gadgetSlot = 4;
 

@@ -10,7 +10,7 @@ import java.io.InputStream;
  */
 public enum ConfigType {
     COMMAND("commands.yml"), MESSAGE("messages.yml"), ARENA("arenas.yml"), GAME("games.yml"), LOBBY("lobby.yml"),
-    GUI("GUI.yml"), INVENTORY("inventories.yml"), REGION("regions.yml");
+    GUI("GUI.yml"), INVENTORY("inventories.yml"), REGION("regions.yml"), GADGET("gadgets.yml");
     
     public String fileName;
     

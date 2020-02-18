@@ -2,7 +2,7 @@ package me.Jeremaster101.GamesMaster.Region.Inventory;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
+import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
 import me.Jeremaster101.GamesMaster.Player.GMPlayer;
@@ -18,7 +18,7 @@ import java.util.Collection;
 
 public class InventoryHandler {
     
-    private ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    private ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
     
     public void loadInv(Player p, String region) {
         GMPlayer gmplayer = GMPlayer.getPlayer(p);

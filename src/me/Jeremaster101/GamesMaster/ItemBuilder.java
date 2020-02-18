@@ -1,8 +1,6 @@
-package me.Jeremaster101.GamesMaster.Lobby.GUI;
+package me.Jeremaster101.GamesMaster;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
-import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -13,17 +11,17 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * item creation from config
+ * class to construct items
  */
-public class GUIItem {
-    
-    public static HashMap<String, ItemStack> items = new HashMap<>();
+public class ItemBuilder {
     
     /**
-     * create items based on config values and store them in the hashmap
+     * build items from configs
+     *
+     * @param config config where items are stored
+     * @param items  hashmap to put items in
      */
-    public static void craftItems() {
-        ConfigManager config = Configs.getConfig(ConfigType.GUI);
+    public static void buildItems(ConfigManager config, HashMap<String, ItemStack> items) {
         for (String name : config.getConfig().getConfigurationSection("items").getKeys(false)) {
             Material material = Material.getMaterial(config.getConfig().getString("items." + name + ".material"));
             String displayName = config.getConfig().getString("items." + name + ".display-name");
@@ -38,13 +36,4 @@ public class GUIItem {
             items.put(name, item);
         }
     }
-    
-    /**
-     * @param name item name
-     * @return gui item
-     */
-    public static ItemStack getItem(String name) {
-        return items.get(name);
-    }
-    
 }

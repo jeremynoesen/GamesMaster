@@ -2,10 +2,10 @@ package me.Jeremaster101.GamesMaster.Lobby.GUI;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
+import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
+import me.Jeremaster101.GamesMaster.Lobby.Gadget.Gadgets.*;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
-import me.Jeremaster101.GamesMaster.Player.GMPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -19,7 +19,7 @@ public class OldGUIInventory {
 
     private final OldGUIItem guiItem = new OldGUIItem();
     private final LobbyInventory lInv = new LobbyInventory();
-    private final Firework firework = new Firework();
+    private final FireworkCannon fireworkCannon = new FireworkCannon();
     private final PaintballGun paintballGun = new PaintballGun();
     private final SlimeLauncher slimeLauncher = new SlimeLauncher();
     private final GrapplingHook grapplingHook = new GrapplingHook();
@@ -27,8 +27,8 @@ public class OldGUIInventory {
     private final Stormbreaker stormbreaker = new Stormbreaker();
     private final UnlockGadget ug = new UnlockGadget();
     
-    private ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
-    private ConfigManager gameConfig = Configs.getConfig(ConfigType.GAME);
+    private ConfigManager arenaConfig = Config.getConfig(ConfigType.ARENA);
+    private ConfigManager gameConfig = Config.getConfig(ConfigType.GAME);
     
     
     public Inventory cosmeticUI(Player p) {
@@ -72,8 +72,8 @@ public class OldGUIInventory {
             gadgets.setItem(4, guiItem.paintballGunEnabled());
         } else
             gadgets.setItem(4, guiItem.paintballGunDisabled());
-        if (p.getInventory().getItem(4) != null && (p.getInventory().getItem(4).equals(firework.firework()) ||
-                p.getInventory().getItem(4).equals(firework.fireworkReload()))) {
+        if (p.getInventory().getItem(4) != null && (p.getInventory().getItem(4).equals(fireworkCannon.firework()) ||
+                p.getInventory().getItem(4).equals(fireworkCannon.fireworkReload()))) {
             gadgets.setItem(2, guiItem.fireworkEnabled());
         } else
             gadgets.setItem(2, guiItem.fireworkDisabled());

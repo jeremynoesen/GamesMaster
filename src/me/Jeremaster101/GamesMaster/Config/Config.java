@@ -3,7 +3,7 @@ package me.Jeremaster101.GamesMaster.Config;
 /**
  * initialize all configs
  */
-public class Configs {
+public class Config {
     
     private static ConfigManager gui = new ConfigManager(ConfigType.GUI);
     private static ConfigManager game = new ConfigManager(ConfigType.GAME);
@@ -13,6 +13,7 @@ public class Configs {
     private static ConfigManager command = new ConfigManager(ConfigType.COMMAND);
     private static ConfigManager message = new ConfigManager(ConfigType.MESSAGE);
     private static ConfigManager inventory = new ConfigManager(ConfigType.INVENTORY);
+    private static ConfigManager gadget = new ConfigManager(ConfigType.GADGET);
     
     /**
      * @param type config type
@@ -23,7 +24,7 @@ public class Configs {
         switch (type) {
             case GUI:
                 return gui;
-            
+                
             case GAME:
                 return game;
             
@@ -44,6 +45,9 @@ public class Configs {
             
             case INVENTORY:
                 return inventory;
+                
+            case GADGET:
+                return gadget;
             
         }
         

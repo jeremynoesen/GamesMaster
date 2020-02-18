@@ -2,7 +2,7 @@ package me.Jeremaster101.GamesMaster.Command;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
+import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.Message;
 import org.bukkit.entity.Player;
 
@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CommandHandler {
     
-    ConfigManager commandConfig = Configs.getConfig(ConfigType.COMMAND);
+    ConfigManager commandConfig = Config.getConfig(ConfigType.COMMAND);
 
     public void blockCmd(Player p, String cmd) {
         List<String> blockedcmds = commandConfig.getConfig().getStringList("blocked-cmds");

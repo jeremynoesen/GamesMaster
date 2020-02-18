@@ -4,12 +4,16 @@ import me.Jeremaster101.GamesMaster.Command.CommandExec;
 import me.Jeremaster101.GamesMaster.Command.CommandListener;
 import me.Jeremaster101.GamesMaster.Command.CommandTabComplete;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
+import me.Jeremaster101.GamesMaster.Config.Config;
+import me.Jeremaster101.GamesMaster.Lobby.DoubleJump;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIBuilder;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIItem;
+import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIItemBuilder;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIListener;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIType;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
+import me.Jeremaster101.GamesMaster.Lobby.Gadget.Gadgets.GrapplingHook;
+import me.Jeremaster101.GamesMaster.Lobby.Gadget.Gadgets.PaintballGun;
+import me.Jeremaster101.GamesMaster.Lobby.Gadget.Gadgets.Stormbreaker;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyProtect;
 import me.Jeremaster101.GamesMaster.Region.Inventory.InventoryFixer;
 import me.Jeremaster101.GamesMaster.Region.RegionListener;
@@ -35,14 +39,14 @@ public class GamesMaster extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
         
-        Configs.getConfig(ConfigType.GUI).saveDefaultConfig();
-        Configs.getConfig(ConfigType.LOBBY).saveDefaultConfig();
-        Configs.getConfig(ConfigType.GAME).saveDefaultConfig();
-        Configs.getConfig(ConfigType.ARENA).saveDefaultConfig();
-        Configs.getConfig(ConfigType.INVENTORY).saveDefaultConfig();
-        Configs.getConfig(ConfigType.REGION).saveDefaultConfig();
-        Configs.getConfig(ConfigType.COMMAND).saveDefaultConfig();
-        Configs.getConfig(ConfigType.MESSAGE).saveDefaultConfig();
+        Config.getConfig(ConfigType.GUI).saveDefaultConfig();
+        Config.getConfig(ConfigType.LOBBY).saveDefaultConfig();
+        Config.getConfig(ConfigType.GAME).saveDefaultConfig();
+        Config.getConfig(ConfigType.ARENA).saveDefaultConfig();
+        Config.getConfig(ConfigType.INVENTORY).saveDefaultConfig();
+        Config.getConfig(ConfigType.REGION).saveDefaultConfig();
+        Config.getConfig(ConfigType.COMMAND).saveDefaultConfig();
+        Config.getConfig(ConfigType.MESSAGE).saveDefaultConfig();
         
         Message.reloadMessages();
         
@@ -63,8 +67,6 @@ public class GamesMaster extends JavaPlugin {
         pm.registerEvents(new InventoryFixer(), plugin);
         pm.registerEvents(new Stormbreaker(), plugin);
         pm.registerEvents(new GUIListener(), plugin);
-        //pm.registerEvents(new AngryBird(), plugin); //todo add more gadgets
-        //pm.registerEvents(new FloatyBoat(), plugin); //todo add mounts
         pm.registerEvents(new Testing(), plugin);
         
         pm.addPermission(adminPerms);
@@ -76,7 +78,7 @@ public class GamesMaster extends JavaPlugin {
         lp.cleanLobby();
     
         //testing
-        GUIItem.craftItems();
+        GUIItemBuilder.craftItems();
         //GUIBuilder.buildAll();
         GUIBuilder.buildPublicGUI(GUIType.COSMETICS); //todo possibly build all GUIs in one method
     }

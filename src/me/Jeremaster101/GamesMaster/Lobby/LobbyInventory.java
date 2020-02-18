@@ -3,7 +3,7 @@ package me.Jeremaster101.GamesMaster.Lobby;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIColor;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.OldGUIItem;
-import me.Jeremaster101.GamesMaster.Lobby.Gadget.*;
+import me.Jeremaster101.GamesMaster.Lobby.Gadget.Gadgets.*;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -15,7 +15,7 @@ import java.util.List;
 
 public class LobbyInventory {
 
-    private final Firework firework = new Firework();
+    private final FireworkCannon fireworkCannon = new FireworkCannon();
     private final PaintballGun paintballGun = new PaintballGun();
     private final SlimeLauncher slimeLauncher = new SlimeLauncher();
     private final GrapplingHook grapplingHook = new GrapplingHook();
@@ -29,8 +29,8 @@ public class LobbyInventory {
             paintballGun.paintballGunReload(),
             slimeLauncher.slimeLauncher(),
             slimeLauncher.slimeLauncherReload(),
-            firework.firework(),
-            firework.fireworkReload(),
+            fireworkCannon.firework(),
+            fireworkCannon.fireworkReload(),
             grapplingHook.grapplingHook(),
             fizzyLiftingDrink.fizzyLiftingDrink(),
             fizzyLiftingDrink.fizzyLiftingDrinkReload(),

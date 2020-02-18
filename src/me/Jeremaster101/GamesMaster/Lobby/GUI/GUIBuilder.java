@@ -1,7 +1,6 @@
 package me.Jeremaster101.GamesMaster.Lobby.GUI;
 
 import me.Jeremaster101.GamesMaster.Player.GMPlayer;
-import me.Jeremaster101.GamesMaster.Player.PlayerGUI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -51,7 +50,7 @@ public class GUIBuilder { //todo gui to customize gui in game
         for (int i = 0; i < gui.getSize().getInteger() - 1; i++) {
             try {
                 ConfigurationSection decorations = sec.getConfigurationSection("decorations." + i);
-                ItemStack decorItem = GUIItem.getItem(decorations.getString("item"));
+                ItemStack decorItem = GUIItemBuilder.getItem(decorations.getString("item"));
                 gui.addDecoration(decorItem, i);
             } catch (NullPointerException e) {
                 continue;
@@ -61,7 +60,7 @@ public class GUIBuilder { //todo gui to customize gui in game
         for (int i = 0; i < gui.getSize().getInteger() - 1; i++) {
             try {
                 ConfigurationSection buttons = sec.getConfigurationSection("buttons." + i);
-                ItemStack buttonItem = GUIItem.getItem(buttons.getString("item"));
+                ItemStack buttonItem = GUIItemBuilder.getItem(buttons.getString("item"));
                 GUIButton button = new GUIButton() {
                     @Override
                     public boolean onLeftClick(Player player) {
@@ -82,8 +81,8 @@ public class GUIBuilder { //todo gui to customize gui in game
         for (int i = 0; i < gui.getSize().getInteger() - 1; i++) {
             try {
                 ConfigurationSection toggles = sec.getConfigurationSection("toggles." + i);
-                ItemStack untoggledItem = GUIItem.getItem(toggles.getString("untoggled.item"));
-                ItemStack toggledItem = GUIItem.getItem(toggles.getString("toggled.item"));
+                ItemStack untoggledItem = GUIItemBuilder.getItem(toggles.getString("untoggled.item"));
+                ItemStack toggledItem = GUIItemBuilder.getItem(toggles.getString("toggled.item"));
                 int finalI = i;
                 GUIButton untogggled = new GUIButton() {
                     @Override
@@ -185,6 +184,30 @@ public class GUIBuilder { //todo gui to customize gui in game
             if(preference.equals("effects-visible")) {
                 if(enabled) {
                     if(!gmplayer.getPreferences().areEffectsVisible()) gui.toggle(slot);
+                } else {
+                    if(gmplayer.getPreferences().areEffectsVisible()) gui.toggle(slot);
+                }
+            }
+    
+            if(preference.equals("public-music")) {
+                if(enabled) {
+                    if(!gmplayer.getPreferences().isMusicPublic()) gui.toggle(slot);
+                } else {
+                    if(gmplayer.getPreferences().isMusicPublic()) gui.toggle(slot);
+                }
+            }
+    
+            if(preference.equals("gadget-interaction")) {
+                if(enabled) {
+                    if(!gmplayer.getPreferences().canGadgetInteract()) gui.toggle(slot);
+                } else {
+                    if(gmplayer.getPreferences().canGadgetInteract()) gui.toggle(slot);
+                }
+            }
+    
+            if(preference.equals("players-visible")) {
+                if(enabled) {
+                    if(!gmplayer.getPreferences().arePlayersVisible()) gui.toggle(slot);
                 } else {
                     if(gmplayer.getPreferences().areEffectsVisible()) gui.toggle(slot);
                 }

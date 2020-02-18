@@ -2,7 +2,7 @@ package me.Jeremaster101.GamesMaster.Command;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
+import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Region.RegionHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
@@ -20,7 +20,7 @@ public class CommandListener implements Listener {
     private final LobbyInventory li = new LobbyInventory();
     private final LobbyHandler lh = new LobbyHandler();
     
-    ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
+    ConfigManager arenaConfig = Config.getConfig(ConfigType.ARENA);
     
     
     @EventHandler
@@ -101,7 +101,7 @@ public class CommandListener implements Listener {
         }
 
         try {
-            for (String blockedcmd : Configs.getConfig(ConfigType.COMMAND).getConfig().getStringList("blocked-cmds")) {
+            for (String blockedcmd : Config.getConfig(ConfigType.COMMAND).getConfig().getStringList("blocked-cmds")) {
                 for (String word : e.getMessage().split(" ")) {
                     if (word.equals("/" + blockedcmd) && !p.isOp() && lh.isGamesWorld(p.getWorld())) {
                         e.setCancelled(true);

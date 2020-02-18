@@ -1,6 +1,5 @@
-package me.Jeremaster101.GamesMaster.Lobby.Gadget;
+package me.Jeremaster101.GamesMaster.Lobby;
 
-import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import org.bukkit.GameMode;
 import org.bukkit.Particle;
 import org.bukkit.Sound;

@@ -2,7 +2,7 @@ package me.Jeremaster101.GamesMaster.Region.Inventory;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
+import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.Message;
 import me.Jeremaster101.GamesMaster.Player.GMPlayer;
 import org.bukkit.Bukkit;
@@ -13,7 +13,7 @@ import java.util.List;
 
 public class InventoryCreation {
     
-    private ConfigManager inventoryConfig = Configs.getConfig(ConfigType.INVENTORY);
+    private ConfigManager inventoryConfig = Config.getConfig(ConfigType.INVENTORY);
 
     public void addInventories(String inv, Player player) {
         List<String> invs = inventoryConfig.getConfig().getStringList("inventories");

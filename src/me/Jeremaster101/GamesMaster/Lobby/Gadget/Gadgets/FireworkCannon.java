@@ -1,6 +1,7 @@
-package me.Jeremaster101.GamesMaster.Lobby.Gadget;
+package me.Jeremaster101.GamesMaster.Lobby.Gadget.Gadgets;
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
+import me.Jeremaster101.GamesMaster.Lobby.Gadget.GadgetItem;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -16,27 +17,11 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Random;
 
-public class Firework {
+public class FireworkCannon {
 
-    LobbyHandler lh = new LobbyHandler();
+    private static LobbyHandler lh = new LobbyHandler();
 
-    public ItemStack firework() {
-        ItemStack s = new ItemStack(Material.FIREWORK_ROCKET, 1);
-        ItemMeta sm = s.getItemMeta();
-        sm.setDisplayName(ChatColor.RED + "" + ChatColor.BOLD + "Fireworks");
-        s.setItemMeta(sm);
-        return s;
-    }
-
-    public ItemStack fireworkReload() {
-        ItemStack s = new ItemStack(Material.FIREWORK_ROCKET, 1);
-        ItemMeta sm = s.getItemMeta();
-        sm.setDisplayName(ChatColor.DARK_RED + "" + ChatColor.BOLD + "Fireworks");
-        s.setItemMeta(sm);
-        return s;
-    }
-
-    private Color getColor(int i) {
+    private static Color getColor(int i) {
         Color c = null;
         if (i == 1) {
             c = Color.AQUA;
@@ -69,9 +54,10 @@ public class Firework {
         return c;
     }
 
-    void useFirework(Player p) {
-        lh.setGadget(p, fireworkReload());
-        org.bukkit.entity.Firework fw = (org.bukkit.entity.Firework) p.getWorld().spawnEntity(p.getEyeLocation().add(p.getLocation().getDirection().normalize()),
+    public static void use(Player p) {
+        lh.setGadget(p, GadgetItem.FIREWORK_CANNON_RELOAD.getItem());
+        org.bukkit.entity.Firework fw = (org.bukkit.entity.Firework) p.getWorld().spawnEntity(p.getEyeLocation()
+                        .add(p.getLocation().getDirection().normalize()),
                 EntityType.FIREWORK);
         FireworkMeta fwm = fw.getFireworkMeta();
         Random r = new Random();
@@ -92,8 +78,8 @@ public class Firework {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (lh.activeGadget(p, fireworkReload())) {
-                    lh.setGadget(p, firework());
+                if (lh.activeGadget(p, GadgetItem.FIREWORK_CANNON_RELOAD.getItem())) {
+                    lh.setGadget(p, GadgetItem.FIREWORK_CANNON.getItem());
                 }
             }
         }.runTaskLater(GamesMaster.getInstance(), 10);

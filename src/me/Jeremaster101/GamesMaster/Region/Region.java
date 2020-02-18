@@ -3,7 +3,7 @@ package me.Jeremaster101.GamesMaster.Region;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
+import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Message;
 import org.bukkit.Bukkit;
@@ -19,7 +19,7 @@ public class Region {
     private String region;
     private Player player;
     
-    static ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
+    static ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
     
     public Region(Player player, String region) {
         this.player = player;
@@ -151,7 +151,7 @@ public class Region {
     public void setInventory(String inv) {
         
         if (exists()) {
-            List<String> invs = Configs.getConfig(ConfigType.INVENTORY).getConfig().getStringList("inventories");
+            List<String> invs = Config.getConfig(ConfigType.INVENTORY).getConfig().getStringList("inventories");
             if (invs == null || !invs.contains(inv)) {
                 player.sendMessage(Message.ERROR_UNKNOWN_INV);
             } else {

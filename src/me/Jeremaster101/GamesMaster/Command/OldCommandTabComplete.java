@@ -2,7 +2,7 @@ package me.Jeremaster101.GamesMaster.Command;
 
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Configs;
+import me.Jeremaster101.GamesMaster.Config.Config;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -13,10 +13,10 @@ import java.util.List;
 
 public class OldCommandTabComplete implements TabCompleter {
     
-    ConfigManager arenaConfig = Configs.getConfig(ConfigType.ARENA);
-    ConfigManager inventoryConfig = Configs.getConfig(ConfigType.INVENTORY);
-    ConfigManager regionConfig = Configs.getConfig(ConfigType.REGION);
-    ConfigManager commandConfig = Configs.getConfig(ConfigType.COMMAND);
+    ConfigManager arenaConfig = Config.getConfig(ConfigType.ARENA);
+    ConfigManager inventoryConfig = Config.getConfig(ConfigType.INVENTORY);
+    ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
+    ConfigManager commandConfig = Config.getConfig(ConfigType.COMMAND);
     
     
     

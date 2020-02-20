@@ -67,27 +67,7 @@ public class RegionHandler {//todo implement these methods into player class
             return false;
         }
     }
-    
-    public String getRegion(Player player) {
-        
-        Set<String> regs = regionConfig.getConfig().getConfigurationSection("regions")
-                .getKeys(false);
-        if (LobbyHandler.isGamesWorld(player.getWorld())) {
-            int end = 0;
-            for (String rg : regs) {
-                if (regs.size() > 0) {
-                    if (isInRegion(player.getLocation(), rg)) {
-                        return rg;
-                    } else
-                        end++;
-                    if (end == regs.size()) {
-                        return "default";
-                    }
-                }
-            }
-        }
-        return "default";
-    }
+
     
     void loadRegion(Player p, String rg) {
         GMPlayer gmplayer = GMPlayer.getPlayer(p);

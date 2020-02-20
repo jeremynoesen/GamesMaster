@@ -1,186 +1,120 @@
 package me.Jeremaster101.GamesMaster.Player;
 
-import me.Jeremaster101.GamesMaster.Config.Config;
-import me.Jeremaster101.GamesMaster.Config.ConfigManager;
-import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.GamesMaster;
-import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
-import org.bukkit.GameMode;
-import org.bukkit.Material;
+import me.Jeremaster101.GamesMaster.Region.Inventory.Inventory;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 public class PlayerInventory {
     
-    Player player;
+    private static HashMap<Player, HashMap<Inventory, PlayerInventory>> savedInventories;
+    private Player player;
+    private int exp;
+    private double health;
+    private int hunger;
+    private float saturation;
+    private float exhaustion;
+    private int air;
+    private float fall;
+    private int fire;
+    private int slot;
+    private Collection<PotionEffect> effects;
+    private ItemStack[] contents;
+    private Inventory inventory;
     
-    public PlayerInventory(Player player) {
+    public PlayerInventory(Player player, Inventory inventory) {
         this.player = player;
+        this.inventory = inventory;
     }
     
-    private ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
+    public static PlayerInventory getPlayerInventory(Player player, Inventory inventory) {
+        return savedInventories.get(player).get(inventory);
+    }
     
-    public void load(String region) {
-        GMPlayer gmplayer = GMPlayer.getPlayer(player);
-        PlayerData data = gmplayer.getPlayerData();
-        org.bukkit.inventory.PlayerInventory inv = player.getInventory();
-        String inventory = "inventories." + regionConfig.getConfig().get(region + ".inventory").toString();
-        GameMode mode = GameMode.valueOf((regionConfig.getConfig()
-                .getString(region + ".gamemode").toUpperCase()));
-        
-        if (region.equals("lobby")) {
-            (new LobbyInventory()).loadLobbyInv(player);
-            
-        } else if (!regionConfig.getConfig().get(region + ".inventory").toString().equals("none") &&
-                (gmplayer.getCurrentRegion() == null || !regionConfig.getConfig().get(region + ".inventory")
-                        .toString().equals(regionConfig.getConfig().get(gmplayer.getCurrentRegion()
-                                + ".inventory").toString()))) {
-            
-            if (data.getDataFile().get(inventory + ".experience") != null) {
-                player.getPlayer().giveExpLevels(-1000000000);
-                player.getPlayer().giveExp(data.getDataFile().getInt(inventory + ".experience"));
-            } else
-                player.getPlayer().giveExpLevels(-1000000000);
-            
-            if (data.getDataFile().get(inventory + ".health") != null) {
-                player.getPlayer().setHealth(data.getDataFile().getDouble(inventory + ".health"));
-            } else
-                player.getPlayer().setHealth(20);
-            
-            if (data.getDataFile().get(inventory + ".hunger.hunger") != null) {
-                player.getPlayer().setFoodLevel(data.getDataFile().getInt(inventory + ".hunger.hunger"));
-            } else
-                player.getPlayer().setFoodLevel(20);
-            
-            if (data.getDataFile().get(inventory + ".hunger.saturation") != null) {
-                player.getPlayer().setSaturation(Float.parseFloat(data.getDataFile().get(inventory + ".hunger.saturation").toString()));
-            } else
-                player.getPlayer().setSaturation(5);
-            
-            if (data.getDataFile().get(inventory + ".hunger.exhaustion") != null) {
-                player.getPlayer().setExhaustion(Float.parseFloat(data.getDataFile().get(inventory + ".hunger.exhaustion").toString()));
-            } else
-                player.getPlayer().setExhaustion(0);
-            
-            if (data.getDataFile().get(inventory + ".remaining-air") != null) {
-                player.getPlayer().setRemainingAir(data.getDataFile().getInt(inventory + ".remaining-air"));
-            } else
-                player.getPlayer().setRemainingAir(player.getMaximumAir());
-            
-            if (data.getDataFile().get(inventory + ".fall-distance") != null) {
-                player.getPlayer().setFallDistance(Float.parseFloat(data.getDataFile().get(inventory + ".fall-distance").toString()));
-            } else
-                player.getPlayer().setFallDistance(0);
-            
-            if (data.getDataFile().get(inventory + ".fire-ticks") != null) {
-                player.getPlayer().setFireTicks(data.getDataFile().getInt(inventory + ".fire-ticks"));
-            } else
-                player.getPlayer().setFireTicks(0);
-            
-            if (data.getDataFile().get(inventory + ".selected-slot") != null) {
-                player.getPlayer().getInventory().setHeldItemSlot(data.getDataFile().getInt(inventory + ".selected-slot"));
-            } else
-                player.getPlayer().getInventory().setHeldItemSlot(0);
-            
-            for (PotionEffect allEffects : player.getActivePotionEffects()) {
-                player.removePotionEffect(allEffects.getType());
-            }
-            
-            if (data.getDataFile().get(inventory + ".effects", null) != null) {
-                for (int effect = 0; effect < data.getDataFile().getConfigurationSection(inventory + ".effects").getKeys(false)
-                        .size(); effect++) {
-                    PotionEffect peffect = (PotionEffect) data.getDataFile().get(inventory + ".effects." + effect);
-                    player.addPotionEffect(peffect);
-                }
-            }
-            
-            for (int slotcounter = 0; slotcounter < inv.getSize(); slotcounter++) {
-                ItemStack slot = new ItemStack(Material.AIR, 0);
-                if (data.getDataFile().get(inventory + ".contents." + slotcounter, null) != null) {
-                    slot = (ItemStack) data.getDataFile().get(inventory + ".contents." + slotcounter);
-                    inv.setItem(slotcounter, slot);
-                } else {
-                    inv.setItem(slotcounter, slot);
-                }
-            }
-        }
-        
-        if (player.getGameMode() != mode) {
-            player.setGameMode(mode);
-        }
-        
-        if (mode.equals(GameMode.SURVIVAL)) {
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    player.setAllowFlight(false);
-                    player.setFlying(false);
-                }
-            }.runTaskLater(GamesMaster.getInstance(), 1);
-        }
-        
-        gmplayer.setCurrentRegion(region);
-        
+    public void load() {
+        player.giveExpLevels(-1000000000);
+        player.giveExpLevels(exp);
+        player.setHealth(health);
+        player.setFoodLevel(hunger);
+        player.setSaturation(saturation);
+        player.setExhaustion(exhaustion);
+        player.setRemainingAir(air);
+        player.setFallDistance(fall);
+        player.setFireTicks(fire);
+        player.getInventory().setHeldItemSlot(slot);
+        player.getInventory().setContents(contents);
+        player.addPotionEffects(effects);
         player.updateInventory();
-        
-        data.savePlayerData();
     }
     
-    public void save(String region) {
+    public void save() {
         PlayerData data = GMPlayer.getPlayer(player).getPlayerData();
-        String inventory = "inventories." + regionConfig.getConfig().get(region + ".inventory").toString();
+        String inventory = "inventories." + this.inventory.getName();
+        exp = player.getTotalExperience();
         if (player.getPlayer().getTotalExperience() > 0) {
-            data.getDataFile().set(inventory + ".experience", player.getPlayer().getTotalExperience());
+            data.getDataFile().set(inventory + ".experience", player.getTotalExperience());
         } else
             data.getDataFile().set(inventory + ".experience", null);
         
+        health = player.getHealth();
         if (player.getPlayer().getHealth() < 20) {
-            data.getDataFile().set(inventory + ".health", player.getPlayer().getHealth());
+            data.getDataFile().set(inventory + ".health", player.getHealth());
         } else
             data.getDataFile().set(inventory + ".health", null);
         
+        hunger = player.getFoodLevel();
         if (player.getPlayer().getFoodLevel() < 20) {
-            data.getDataFile().set(inventory + ".hunger.hunger", player.getPlayer().getFoodLevel());
+            data.getDataFile().set(inventory + ".hunger.hunger", player.getFoodLevel());
         } else
             data.getDataFile().set(inventory + ".hunger.hunger", null);
         
+        saturation = player.getSaturation();
         if (player.getPlayer().getSaturation() != 5) {
-            data.getDataFile().set(inventory + ".hunger.saturation", player.getPlayer().getSaturation());
+            data.getDataFile().set(inventory + ".hunger.saturation", player.getSaturation());
         } else
             data.getDataFile().set(inventory + ".hunger.saturation", null);
         
+        exhaustion = player.getExhaustion();
         if (player.getPlayer().getExhaustion() > 0) {
-            data.getDataFile().set(inventory + ".hunger.exhaustion", player.getPlayer().getExhaustion());
+            data.getDataFile().set(inventory + ".hunger.exhaustion", player.getExhaustion());
         } else
             data.getDataFile().set(inventory + ".hunger.exhaustion", null);
         
+        air = player.getRemainingAir();
         if (player.getPlayer().getRemainingAir() < player.getMaximumAir()) {
-            data.getDataFile().set(inventory + ".remaining-air", player.getPlayer().getRemainingAir());
+            data.getDataFile().set(inventory + ".remaining-air", player.getRemainingAir());
         } else
             data.getDataFile().set(inventory + ".remaining-air", null);
         
+        fall = player.getFallDistance();
         if (player.getPlayer().getFallDistance() > 0) {
-            data.getDataFile().set(inventory + ".fall-distance", player.getPlayer().getFallDistance());
+            data.getDataFile().set(inventory + ".fall-distance", player.getFallDistance());
         } else
             data.getDataFile().set(inventory + ".fall-distance", null);
         
+        fire = player.getFireTicks();
         if (player.getPlayer().getFireTicks() > -20) {
-            data.getDataFile().set(inventory + ".fire-ticks", player.getPlayer().getFireTicks());
+            data.getDataFile().set(inventory + ".fire-ticks", player.getFireTicks());
         } else
             data.getDataFile().set(inventory + ".fire-ticks", null);
         
+        slot = player.getInventory().getHeldItemSlot();
         data.getDataFile().set(inventory + ".selected-slot", player.getInventory().getHeldItemSlot());
         
         data.getDataFile().set(inventory + ".effects", null);
         int currenteffect = 0;
+        Collection<PotionEffect> effects = new ArrayList<>(player.getActivePotionEffects());
         for (PotionEffect effect : player.getActivePotionEffects()) {
             data.getDataFile().set(inventory + ".effects." + currenteffect, effect);
             currenteffect++;
         }
+        this.effects = effects;
         
         data.getDataFile().set(inventory + ".contents", null);
         int currentslot = 0;
@@ -188,8 +122,13 @@ public class PlayerInventory {
             data.getDataFile().set(inventory + ".contents." + currentslot, stack);
             currentslot++;
         }
+        contents = player.getInventory().getContents();
         
         data.savePlayerData();
+        
+        HashMap<Inventory, PlayerInventory> playerInv = new HashMap<>();
+        playerInv.put(this.inventory, this);
+        savedInventories.put(player, playerInv);
     }
     
     public void copy() {

@@ -17,7 +17,7 @@ public class RegionBuilder {
     /**
      * builds all regions in region config
      */
-    public void buildAll() {
+    public static void buildAll() {
         for(String region : regionConfig.getConfig().getKeys(false)) {
             build(region);
         }
@@ -28,7 +28,7 @@ public class RegionBuilder {
      *
      * @param name region to build
      */
-    public void build(String name) {
+    public static void build(String name) {
         Region region = new Region(name);
         
         if (name.equals("default")) {

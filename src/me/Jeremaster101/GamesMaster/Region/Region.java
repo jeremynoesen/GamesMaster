@@ -6,24 +6,26 @@ import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
+import me.Jeremaster101.GamesMaster.Region.Inventory.Inventory;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Objects;
 
 /**
  * regions used in the plugin
  */
 public class Region { //todo when using with commands, check for default when running command
-    
+    //todo REDO OTHER CLASSES THIS WAY
     private static ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
     private static HashMap<String, Region> regions = new HashMap<>();
     private String region;
-    private String inventory;
+    private Inventory inventory;
     private String leave;
     private GameMode mode;
     private boolean enabled;
@@ -46,6 +48,13 @@ public class Region { //todo when using with commands, check for default when ru
      */
     public static Region getRegion(String name) {
         return regions.get(name);
+    }
+    
+    /**
+     * @return all regions
+     */
+    public static Collection<Region> getRegions() {
+        return regions.values();
     }
     
     /**
@@ -149,23 +158,20 @@ public class Region { //todo when using with commands, check for default when ru
     /**
      * @return name of inventory used
      */
-    public String getInventory() { //todo return inv object
+    public Inventory getInventory() {
         return inventory;
     }
     
     /**
      * set inventory for region
      *
-     * @param inv inventory to set
+     * @param inventory inventory to set
      */
-    public void setInventory(String inv) {
-        List<String> invs = Config.getConfig(ConfigType.INVENTORY).getConfig().getStringList("inventories"); //todo change
-        if (invs != null && invs.contains(inv)) {
-            regionConfig.getConfig().set(region + ".inventory", inv);
-            regionConfig.saveConfig();
-            this.inventory = inv;
-            save();
-        }
+    public void setInventory(Inventory inventory) {
+        regionConfig.getConfig().set(region + ".inventory", inventory.getName());
+        regionConfig.saveConfig();
+        this.inventory = inventory;
+        save();
     }
     
     /**
@@ -223,6 +229,31 @@ public class Region { //todo when using with commands, check for default when ru
             this.enabled = enabled;
             save();
         }
+    }
+    
+    /**
+     * @param location location to check
+     * @return true if location is in region
+     */
+    public boolean containsLocation(Location location) {
+        double x = location.getX();
+        double y = location.getY();
+        double z = location.getZ();
+        double minx = bounds[0][0];
+        double miny = bounds[0][1];
+        double minz = bounds[0][2];
+        double maxx = bounds[1][0];
+        double maxy = bounds[1][1];
+        double maxz = bounds[1][2];
+        
+        if (minx < x && x < maxx) {
+            if (miny < y && y < maxy) {
+                if (minz < z && z < maxz) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     
 }

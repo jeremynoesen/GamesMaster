@@ -9,6 +9,7 @@ import me.Jeremaster101.GamesMaster.Lobby.Gadget.GadgetItem;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.GadgetItemBuilder;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
+import me.Jeremaster101.GamesMaster.Region.Inventory.Inventory;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -39,7 +40,6 @@ public class GMPlayer {
         preferences = new PlayerPreferences(player);
         gui = new PlayerGUI(player);
         currentRegion = data.getDataFile().getString("current-region");
-        inventory = new PlayerInventory(player);
         region = new PlayerRegion(player);
         gmplayers.put(player, this);
     }
@@ -76,8 +76,8 @@ public class GMPlayer {
         gmplayers.put(player, this);
     }
     
-    public PlayerInventory getInventory() {
-        return inventory;
+    public PlayerInventory getInventory(Inventory inventory) {
+        return PlayerInventory.getPlayerInventory(player, inventory);
     }
     
     public PlayerRegion getRegionHandler() {

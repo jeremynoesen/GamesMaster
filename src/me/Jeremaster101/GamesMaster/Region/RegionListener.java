@@ -21,16 +21,15 @@ public class RegionListener implements Listener {
     
     private final RegionHandler rg = new RegionHandler();
     private final LobbyInventory li = new LobbyInventory();
-    private final LobbyHandler lh = new LobbyHandler();
     
-    private ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
+    private static ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
     
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         new BukkitRunnable() {
             public void run() {
-                if (lh.isGamesWorld(p.getWorld())) {
+                if (LobbyHandler.isGamesWorld(p.getWorld())) {
                     rg.fixGamemode(p);
                     //todo teleport to games spawn (set in a config)
                 }
@@ -67,6 +66,7 @@ public class RegionListener implements Listener {
                                     .equals()) || //todo game ui item with custom slot
                                     (p.getInventory().getItem(6) != null && p.getInventory().getItem(6)
                                             .equals())) { //todo cosmetic ui item with slot
+                                //todo simplify
                                 li.clearLobbyInv(p);
                                 new BukkitRunnable() {
                                     @Override
@@ -98,7 +98,7 @@ public class RegionListener implements Listener {
             }.runTaskLater(GamesMaster.getInstance(), 3);
         }
         
-        if (lh.isGamesWorld(from.getWorld())) {
+        if (LobbyHandler.isGamesWorld(from.getWorld())) {
             
             GMPlayer gmplayer = GMPlayer.getPlayer(p);
             

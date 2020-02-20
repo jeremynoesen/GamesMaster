@@ -13,6 +13,7 @@ public class PlayerGUI {
     private GUI gadgetsGUI;
     private GUI cosmeticsGUI;
     private GUI preferencesGUI;
+    private GUI musicGUI;
     private Player player;
     
     /**
@@ -24,6 +25,7 @@ public class PlayerGUI {
         gadgetsGUI = GUIBuilder.buildPrivateGUI(GUIType.GADGET, player);
         cosmeticsGUI = GUIBuilder.buildPrivateGUI(GUIType.COSMETICS, player);
         preferencesGUI = GUIBuilder.buildPrivateGUI(GUIType.PREFERENCES, player);
+        musicGUI = GUIBuilder.buildPrivateGUI(GUIType.MUSIC, player);
         this.player = player;
     }
     
@@ -44,7 +46,7 @@ public class PlayerGUI {
                 preferencesGUI.open(player);
                 break;
             case MUSIC:
-                GUI.getGUI(GUIType.MUSIC).open(player);
+                musicGUI.open(player);
                 break;
             case GAME:
                 GUI.getGUI(GUIType.GAME).open(player);

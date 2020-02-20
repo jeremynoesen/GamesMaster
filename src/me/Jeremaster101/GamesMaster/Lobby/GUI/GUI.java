@@ -23,7 +23,7 @@ public class GUI {
     private HashMap<Integer, HashMap<ItemStack, GUIButton>> buttons = new HashMap<>();
     private GUISize size;
     private String name;
-    private GUIType type;
+    private GUIType type = null;
     
     /**
      * create a new GUI of specified size and name
@@ -31,11 +31,10 @@ public class GUI {
      * @param size inventory size
      * @param name name of GUI
      */
-    public GUI(GUIType type, GUISize size, String name) {
+    public GUI(GUISize size, String name) {
         inventory = Bukkit.getServer().createInventory(null, size.getInteger(), name);
         this.size = size;
         this.name = name;
-        this.type = type;
     }
     
     /**
@@ -94,6 +93,15 @@ public class GUI {
      */
     public GUIType getType() {
         return type;
+    }
+    
+    /**
+     * assign a type to the gui
+     *
+     * @param type type to set gui to
+     */
+    public void setType(GUIType type) {
+        this.type = type;
     }
     
     /**

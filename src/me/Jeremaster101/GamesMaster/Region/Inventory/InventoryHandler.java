@@ -22,7 +22,7 @@ public class InventoryHandler {
     
     public void loadInv(Player p, String region) {
         GMPlayer gmplayer = GMPlayer.getPlayer(p);
-        PlayerData data = gmplayer.getData();
+        PlayerData data = gmplayer.getPlayerData();
         org.bukkit.inventory.PlayerInventory inv = p.getInventory();
         String inventory = "inventories." + regionConfig.getConfig().get(region + ".inventory").toString();
         GameMode mode = GameMode.valueOf((regionConfig.getConfig()
@@ -127,7 +127,7 @@ public class InventoryHandler {
     }
     
     public void saveInv(Player p, String region) {
-        PlayerData data = GMPlayer.getPlayer(p).getData();
+        PlayerData data = GMPlayer.getPlayer(p).getPlayerData();
         String inventory = "inventories." + regionConfig.getConfig().get(region + ".inventory").toString();
         if (p.getPlayer().getTotalExperience() > 0) {
             data.getDataFile().set(inventory + ".experience", p.getPlayer().getTotalExperience());

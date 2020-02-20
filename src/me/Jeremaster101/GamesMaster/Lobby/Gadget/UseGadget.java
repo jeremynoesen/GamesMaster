@@ -1,13 +1,13 @@
 package me.Jeremaster101.GamesMaster.Lobby.Gadget;
 
+import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Config;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.OldGUIInventory;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.OldGUIItem;
+import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIType;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.Gadgets.*;
-import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
+import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
 import me.Jeremaster101.GamesMaster.Message;
+import me.Jeremaster101.GamesMaster.Player.GMPlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,10 +16,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class UseGadget implements Listener {
-    
-    private final OldGUIInventory guiInv = new OldGUIInventory();
-    private final OldGUIItem guiitem = new OldGUIItem();
-    private final LobbyHandler lh = new LobbyHandler();
     
     ConfigManager gameConfig = Config.getConfig(ConfigType.GAME);
     
@@ -32,7 +28,7 @@ public class UseGadget implements Listener {
      * @param player player using gadget
      */
     private void useGadget(Gadget gadget, Player player) {
-        switch(gadget) {
+        switch (gadget) {
             case FIREWORK_CANNON:
                 FireworkCannon.use(player);
                 break;
@@ -57,29 +53,32 @@ public class UseGadget implements Listener {
      * @param e player interact event
      */
     @EventHandler
-    public void onInteract(PlayerInteractEvent e) {//todo redo with configurable items and lockables
+    public void onInteract(PlayerInteractEvent e) {//todo configurable items and lockables
         Player p = e.getPlayer();
+        GMPlayer gmp = GMPlayer.getPlayer(p);
         Action a = e.getAction();
-        if (lh.isInLobby(p)) {
+        if (gmp.isInLobby()) {
             if (a == Action.RIGHT_CLICK_BLOCK || a == Action.RIGHT_CLICK_AIR) {
                 
-                if(false/*get gadget slot*/) {
-                    //check if null
-                    e.setCancelled(true);
-                    useGadget(Gadget.valueOf(GadgetItemBuilder.getName(p.getInventory().getItemInMainHand())), p);
+                if (p.getInventory().getHeldItemSlot() == LobbyInventory.getGadgetSlot()) {
+                    if (p.getInventory().getItem(LobbyInventory.getGadgetSlot()) != null) {
+                        e.setCancelled(true);
+                        useGadget(Gadget.valueOf(GadgetItemBuilder.getName(p.getInventory().getItemInMainHand())), p);
+                    }
                 }
                 
-                if (p.getInventory().getItemInMainHand().equals(guiitem.cosmeticUI())) {
+                //todo move to diff class
+                if (p.getInventory().getItemInMainHand().equals()) {//todo lobby item
                     e.setCancelled(true);
-                    p.openInventory(guiInv.cosmeticUI(p));
-                    p.playSound(p.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 1, 1);
+                    gmp.openGUI(GUIType.COSMETICS);
+                    p.playSound(p.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 1, 1); //todo custom
                 }
                 
-                if (p.getInventory().getItemInMainHand().equals(guiitem.gameUI())) {
+                if (p.getInventory().getItemInMainHand().equals()) { //todo lobby item
                     e.setCancelled(true);
                     if (gameConfig.getConfig().getConfigurationSection("games") != null &&
                             gameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() > 0) {
-                        p.openInventory(guiInv.gameUI());
+                        gmp.openGUI(GUIType.GAME);
                         p.playSound(p.getLocation(), Sound.BLOCK_BEACON_ACTIVATE, 2, 2);
                     } else {
                         p.playSound(p.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 2, 2);

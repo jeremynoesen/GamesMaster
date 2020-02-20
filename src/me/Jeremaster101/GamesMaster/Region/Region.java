@@ -1,237 +1,228 @@
 package me.Jeremaster101.GamesMaster.Region;
 
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
+import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
-import me.Jeremaster101.GamesMaster.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
-public class Region {
+/**
+ * regions used in the plugin
+ */
+public class Region { //todo when using with commands, check for default when running command
     
-    private final LobbyHandler lh = new LobbyHandler();
+    private static ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
+    private static HashMap<String, Region> regions = new HashMap<>();
     private String region;
-    private Player player;
+    private String inventory;
+    private String leave;
+    private GameMode mode;
+    private boolean enabled;
+    private double bounds[][];
+    private World world;
     
-    static ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
-    
-    public Region(Player player, String region) {
-        this.player = player;
-        if (region != null) {
-            this.region = region;
-            if (regionConfig.getConfig().getConfigurationSection(region) == null) {
-                
-                WorldEditPlugin worldEdit = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
-                com.sk89q.worldedit.regions.Region selection;
-                try {
-                    selection = worldEdit.getSession(player).getSelection(worldEdit.getSession(player).getSelectionWorld());
-                } catch (Exception e) {
-                    player.sendMessage(Message.ERROR_NULL_BOUNDS);
-                    return;
-                }
-                
-                if (selection != null) {
-                    if (Objects.requireNonNull(selection.getWorld()).getName().equals(lh.gamesWorld().getName())) {
-                        String regionName = region;
-                        double minx = selection.getMinimumPoint().getX();
-                        double miny = selection.getMinimumPoint().getY();
-                        double minz = selection.getMinimumPoint().getZ();
-                        double maxx = selection.getMaximumPoint().getX();
-                        double maxy = selection.getMaximumPoint().getY();
-                        double maxz = selection.getMaximumPoint().getZ();
-                        
-                        regionConfig.getConfig().set(regionName + ".enabled", false);
-                        regionConfig.getConfig().set(regionName + ".location.min.x", minx);
-                        regionConfig.getConfig().set(regionName + ".location.min.y", miny);
-                        regionConfig.getConfig().set(regionName + ".location.min.z", minz);
-                        regionConfig.getConfig().set(regionName + ".location.max.x", maxx);
-                        regionConfig.getConfig().set(regionName + ".location.max.y", maxy);
-                        regionConfig.getConfig().set(regionName + ".location.max.z", maxz);
-                        regionConfig.saveConfig();
-                        
-                        player.sendMessage(Message.SUCCESS_REGION_CREATED.replace("$REGION$", region));
-                        
-                    } else {
-                        player.sendMessage(Message.ERROR_WORLD);
-                    }
-                }
-            }
-        }
+    /**
+     * create a new region object by name
+     *
+     * @param name name of region to create
+     */
+    public Region(String name) {
+        this.region = name;
+        regions.put(name, this);
     }
     
-    public static Region getRegion(Player player, String region) {
-        if (regionConfig.getConfig().get(region) != null) {
-            return new Region(player, region); //todo in this and similar classes, store in hashmap rather than making new instances every time
-        } else {
-            player.sendMessage(Message.ERROR_UNKNOWN_REGION);
-            return null;
-        }
+    /**
+     * @param name name of region to retrieve
+     * @return the region of specified name
+     */
+    public static Region getRegion(String name) {
+        return regions.get(name);
     }
     
-    boolean exists() {
-        if (regionConfig.getConfig().get(region) != null)
-            return true;
-        else player.sendMessage(Message.ERROR_UNKNOWN_REGION);
-        return false;
+    /**
+     * save the region to the hashmap
+     */
+    public void save() {
+        regions.put(region, this);
     }
     
+    /**
+     * remove the region from the hashmap and config
+     */
     public void remove() {
+        regionConfig.getConfig().set(region, null);
+        regionConfig.saveConfig();
+        regions.put(region, null);
+    }
+    
+    /**
+     * @return name of the region
+     */
+    public String getName() {
+        return region;
+    }
+    
+    /**
+     * set bounds of region using worldedit
+     */
+    public void setBoundsWithWorldEdit(Player player) {
         
-        if (region.equals("default")) {
-            player.sendMessage(Message.ERROR_DEFAULT_REGION.replace("$ACTION$", "remove"));
-        } else {
-            if (exists()) {
-                regionConfig.getConfig().set(region, null);
-                regionConfig.saveConfig();
-                player.sendMessage(Message.SUCCESS_REGION_REMOVED.replace("$REGION$", region));
-            } else {
-                player.sendMessage(Message.ERROR_UNKNOWN_REGION.replace("$REGION$", region));
+        WorldEditPlugin worldEdit = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
+        
+        com.sk89q.worldedit.regions.Region selection;
+        try {
+            selection = worldEdit.getSession(player).getSelection(worldEdit.getSession(player).getSelectionWorld());
+        } catch (Exception e) {
+            return;
+        }
+        
+        if (selection != null) {
+            if (Objects.requireNonNull(selection.getWorld()).getName().equals(LobbyHandler.gamesWorld().getName())) {
+                double minx = selection.getMinimumPoint().getX();
+                double miny = selection.getMinimumPoint().getY();
+                double minz = selection.getMinimumPoint().getZ();
+                double maxx = selection.getMaximumPoint().getX();
+                double maxy = selection.getMaximumPoint().getY();
+                double maxz = selection.getMaximumPoint().getZ();
+                World world = BukkitAdapter.adapt(selection.getWorld());
+                
+                setBounds(minx, miny, minz, maxx, maxy, maxz, world);
+                
             }
         }
     }
     
-    public void setBounds() {
+    /**
+     * set region bounds through parameters
+     *
+     * @param minx  minimum x bound
+     * @param miny  minimum y bound
+     * @param minz  minimum z bound
+     * @param maxx  maximum x bound
+     * @param maxy  maximum y bound
+     * @param maxz  maximum z bound
+     * @param world world region is in
+     */
+    public void setBounds(double minx, double miny, double minz, double maxx, double maxy, double maxz, World world) {
+        regionConfig.getConfig().set(region + ".location.min.x", minx);
+        regionConfig.getConfig().set(region + ".location.min.y", miny);
+        regionConfig.getConfig().set(region + ".location.min.z", minz);
+        regionConfig.getConfig().set(region + ".location.max.x", maxx);
+        regionConfig.getConfig().set(region + ".location.max.y", maxy);
+        regionConfig.getConfig().set(region + ".location.max.z", maxz);
+        regionConfig.getConfig().set(region + ".location.world", world.getName());
+        regionConfig.saveConfig();
         
-        if (exists()) {
-            if (!region.equals("default")) {
-                WorldEditPlugin worldEdit = (WorldEditPlugin) Bukkit.getServer().getPluginManager().getPlugin("WorldEdit");
-                
-                com.sk89q.worldedit.regions.Region selection;
-                try {
-                    selection = worldEdit.getSession(player).getSelection(worldEdit.getSession(player).getSelectionWorld());
-                } catch (Exception e) {
-                    player.sendMessage(Message.ERROR_NULL_BOUNDS);
-                    return;
-                }
-                
-                if (selection != null) {
-                    if (Objects.requireNonNull(selection.getWorld()).getName().equals(lh.gamesWorld().getName())) {
-                        String regionName = region;
-                        double minx = selection.getMinimumPoint().getX();
-                        double miny = selection.getMinimumPoint().getY();
-                        double minz = selection.getMinimumPoint().getZ();
-                        double maxx = selection.getMaximumPoint().getX();
-                        double maxy = selection.getMaximumPoint().getY();
-                        double maxz = selection.getMaximumPoint().getZ();
-                        
-                        regionConfig.getConfig().set(regionName + ".location.min.x", minx);
-                        regionConfig.getConfig().set(regionName + ".location.min.y", miny);
-                        regionConfig.getConfig().set(regionName + ".location.min.z", minz);
-                        regionConfig.getConfig().set(regionName + ".location.max.x", maxx);
-                        regionConfig.getConfig().set(regionName + ".location.max.y", maxy);
-                        regionConfig.getConfig().set(regionName + ".location.max.z", maxz);
-                        regionConfig.saveConfig();
-                        
-                        player.sendMessage(Message.SUCCESS_SET_REGION_BOUNDS.replace("$REGION$", region));
-                        
-                    } else {
-                        player.sendMessage(Message.ERROR_WORLD);
-                    }
-                } else {
-                    player.sendMessage(Message.ERROR_NULL_BOUNDS);
-                }
-            } else
-                player.sendMessage(Message.ERROR_DEFAULT_REGION);
-        }
+        bounds[0][0] = minx;
+        bounds[0][1] = miny;
+        bounds[0][2] = minz;
+        bounds[1][0] = maxx;
+        bounds[1][1] = maxy;
+        bounds[1][2] = maxz;
+        this.world = world;
+        save();
     }
     
-    public String getInventory() {
-        if (exists() && regionConfig.getConfig().get(region + ".inventory") != null) {
-            return regionConfig.getConfig().getString(region + ".inventory");
-        }
-        return null;
+    /**
+     * @return array that holds bounds of region
+     */
+    public double[][] getBounds() {
+        return bounds;
     }
     
+    /**
+     * @return world region is in
+     */
+    public World getWorld() {
+        return world;
+    }
+    
+    /**
+     * @return name of inventory used
+     */
+    public String getInventory() { //todo return inv object
+        return inventory;
+    }
+    
+    /**
+     * set inventory for region
+     *
+     * @param inv inventory to set
+     */
     public void setInventory(String inv) {
-        
-        if (exists()) {
-            List<String> invs = Config.getConfig(ConfigType.INVENTORY).getConfig().getStringList("inventories");
-            if (invs == null || !invs.contains(inv)) {
-                player.sendMessage(Message.ERROR_UNKNOWN_INV);
-            } else {
-                regionConfig.getConfig().set(region + ".inventory", inv);
-                regionConfig.saveConfig();
-                player.sendMessage(Message.SUCCESS_SET_REGION_INV.replace("$REGION$", region).replace("$INV$", inv));
-            }
-        }
-    }
-    
-    public GameMode getGamemode() {
-        if (exists() && regionConfig.getConfig().get(region + ".gamemode") != null) {
-            return GameMode.valueOf(regionConfig.getConfig().getString(region + ".gamemode"));
-        }
-        return null;
-    }
-    
-    public void setGamemode(String mode) {
-        
-        if (exists()) {
-            
-            try {
-                GameMode.valueOf(mode.toUpperCase());
-            } catch (Exception e) {
-                player.sendMessage(Message.ERROR_GAMEMODE);
-                return;
-            }
-            
-            regionConfig.getConfig().set(region + ".gamemode", mode.toUpperCase());
+        List<String> invs = Config.getConfig(ConfigType.INVENTORY).getConfig().getStringList("inventories"); //todo change
+        if (invs != null && invs.contains(inv)) {
+            regionConfig.getConfig().set(region + ".inventory", inv);
             regionConfig.saveConfig();
-            player.sendMessage(Message.SUCCESS_SET_REGION_MODE.replace("$REGION$", region).replace("$MODE$", mode.toLowerCase()));
+            this.inventory = inv;
+            save();
         }
     }
     
+    /**
+     * @return gamemode for the region
+     */
+    public GameMode getGamemode() {
+        return mode;
+    }
+    
+    /**
+     * @param mode gamemode to set for region
+     */
+    public void setGamemode(GameMode mode) {
+        regionConfig.getConfig().set(region + ".gamemode", mode.toString());
+        regionConfig.saveConfig();
+        this.mode = mode;
+        save();
+    }
+    
+    /**
+     * @return leave command for region
+     */
     public String getLeave() {
-        if (!region.equals("default")) {
-            if (exists() && regionConfig.getConfig().get(region + ".leave") != null) {
-                return regionConfig.getConfig().getString(region + ".leave");
-            }
-        }
-        return null;
+        return leave;
     }
     
+    /**
+     * set what happens to a player when they leave a region
+     *
+     * @param leave string command or location
+     */
     public void setLeave(String leave) {
-        if (!region.equals("default")) {
-            if (exists()) {
-                if (leave != null) {
-                    regionConfig.getConfig().set(region + ".leave", leave);
-                    player.sendMessage(Message.SUCCESS_SET_REGION_LEAVE.replace("$REGION$", region).replace("$CMD$", leave));
-                } else {
-                    regionConfig.getConfig().set(region + ".leave", "null");
-                    player.sendMessage(Message.SUCCESS_REMOVED_REGION_LEAVE.replace("$REGION$", region));
-                }
-                regionConfig.saveConfig();
-            }
-        } else
-            player.sendMessage(Message.ERROR_DEFAULT_REGION);
+        if (leave != null) regionConfig.getConfig().set(region + ".leave", leave);
+        else regionConfig.getConfig().set(region + ".leave", "null");
+        regionConfig.saveConfig();
+        this.leave = leave;
+        save();
     }
     
+    /**
+     * @return true if the region is enabled
+     */
     public boolean isEnabled() {
-        if (!region.equals("default")) {
-            if (exists() && regionConfig.getConfig().get(region + ".enabled") != null) {
-                return regionConfig.getConfig().getBoolean(region + ".enabled");
-            }
-        } else
-            return true;
-        return false;
+        return enabled;
     }
     
+    /**
+     * enable a region if it is fully set up
+     *
+     * @param enabled boolean to enable region
+     */
     public void setEnabled(boolean enabled) {
-        if (!region.equals("default")) {
-            if (exists()) {
-                if (getGamemode() != null && getInventory() != null) {
-                    regionConfig.getConfig().set(region + ".enabled", enabled);
-                    //message here
-                } else
-                    player.sendMessage(Message.ERROR_CANT_ENABLE);
-            }
-        } else
-            player.sendMessage(Message.ERROR_DEFAULT_REGION);
+        if (getGamemode() != null && getInventory() != null && getBounds() != null && getWorld() != null) {
+            regionConfig.getConfig().set(region + ".enabled", enabled);
+            this.enabled = enabled;
+            save();
+        }
     }
     
 }

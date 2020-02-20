@@ -19,7 +19,7 @@ public enum GadgetItem {
     SLIME_LAUNCHER_RELOAD("SLIME_LAUNCHER_RELOAD"),
     STORMBREAKER_RELOAD("STORMBREAKER_RELOAD");
     
-    public String itemName;
+    private String itemName;
     
     GadgetItem(String itemName) {
         this.itemName = itemName;

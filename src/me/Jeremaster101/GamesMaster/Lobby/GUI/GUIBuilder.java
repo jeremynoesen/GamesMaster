@@ -1,11 +1,18 @@
 package me.Jeremaster101.GamesMaster.Lobby.GUI;
 
+import me.Jeremaster101.GamesMaster.Message;
 import me.Jeremaster101.GamesMaster.Player.GMPlayer;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
 
 /**
  * class used to create the guis
@@ -13,19 +20,13 @@ import org.bukkit.inventory.ItemStack;
 public class GUIBuilder { //todo gui to customize gui in game
     
     /**
-     * builds all default GUIs at once
-     */
-    public static void buildAll() {
-        for (GUIType type : GUIType.values()) buildPublicGUI(type);
-    }
-    
-    /**
      * create the guis based on the config values and save it as the type default
      *
      * @param type type of gui to build
      */
     public static void buildPublicGUI(GUIType type) {
-        GUI gui = new GUI(type, type.getSize(), type.getDisplayName());
+        GUI gui = new GUI(type.getSize(), type.getDisplayName());
+        gui.setType(type);
         build(type, gui, null);
     }
     
@@ -35,7 +36,7 @@ public class GUIBuilder { //todo gui to customize gui in game
      * @param type type of gui to build
      */
     public static GUI buildPrivateGUI(GUIType type, Player player) {
-        GUI gui = new GUI(null, type.getSize(), type.getDisplayName());
+        GUI gui = new GUI(type.getSize(), type.getDisplayName());
         build(type, gui, player);
         return gui;
     }
@@ -213,6 +214,21 @@ public class GUIBuilder { //todo gui to customize gui in game
                 }
             }
         }
+    }
+    
+    private static ItemStack game(String displayname, String icon, String description) { //todo use for making game ui
+        ItemStack s = new ItemStack(Material.getMaterial(icon.toUpperCase()));
+        ItemMeta sm = s.getItemMeta();
+        sm.setDisplayName(Message.colorize(displayname));
+        ArrayList<String> lore = new ArrayList<>();
+        String wrapped = WordUtils.wrap(description, 24, "\n", true);
+        lore.add("");
+        for (String line : wrapped.split("\n")) lore.add(ChatColor.WHITE + line);
+        lore.add("");
+        lore.add(ChatColor.GREEN + "Click to join");
+        sm.setLore(lore);
+        s.setItemMeta(sm);
+        return s;
     }
     
 }

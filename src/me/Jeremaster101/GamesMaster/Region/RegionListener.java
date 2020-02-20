@@ -1,10 +1,9 @@
 package me.Jeremaster101.GamesMaster.Region;
 
+import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
-import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.GamesMaster;
-import me.Jeremaster101.GamesMaster.Lobby.GUI.OldGUIItem;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
 import me.Jeremaster101.GamesMaster.Player.GMPlayer;
@@ -18,15 +17,14 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class RegionListener implements Listener {
-
-
+    
+    
     private final RegionHandler rg = new RegionHandler();
     private final LobbyInventory li = new LobbyInventory();
-    private final OldGUIItem guiitem = new OldGUIItem();
     private final LobbyHandler lh = new LobbyHandler();
     
     private ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
-
+    
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
@@ -46,68 +44,68 @@ public class RegionListener implements Listener {
             }
         }.runTaskLater(GamesMaster.getInstance(), 10);
     }
-
+    
     @SuppressWarnings("deprecation")
     @EventHandler(priority = EventPriority.HIGH)
     public void onTeleport(PlayerTeleportEvent e) {
         Player p = e.getPlayer();
         Location to = e.getTo();
         Location from = e.getFrom();
-
-        if (lh.isGamesWorld(to.getWorld())) {
-    
+        
+        if (LobbyHandler.isGamesWorld(to.getWorld())) {
+            
             GMPlayer gmplayer = GMPlayer.getPlayer(p);
-    
+            
             new BukkitRunnable() {
                 public void run() {
-
+                    
                     String region = rg.getRegion(p);
-
-                                if (gmplayer.getCurrentRegion() != null) {
-                                    if (!region.equals("lobby") && gmplayer.getCurrentRegion().equals("lobby")) {
-                                        if ((p.getInventory().getItem(2) != null && p.getInventory().getItem(2)
-                                                .equals(guiitem.gameUI())) ||
-                                                (p.getInventory().getItem(6) != null && p.getInventory().getItem(6)
-                                                        .equals(guiitem.cosmeticUI()))) {
-                                            li.clearLobbyInv(p);
-                                            new BukkitRunnable() {
-                                                @Override
-                                                public void run() {
-                                                    rg.loadRegion(p, region);
-                                                }
-                                            }.runTaskLater(GamesMaster.getInstance(), 5);
-                                        } else
-                                            rg.loadRegion(p, region);
-                                    } else
+                    
+                    if (gmplayer.getCurrentRegion() != null) {
+                        if (!region.equals("lobby") && gmplayer.getCurrentRegion().equals("lobby")) {
+                            if ((p.getInventory().getItem(2) != null && p.getInventory().getItem(2)
+                                    .equals()) || //todo game ui item with custom slot
+                                    (p.getInventory().getItem(6) != null && p.getInventory().getItem(6)
+                                            .equals())) { //todo cosmetic ui item with slot
+                                li.clearLobbyInv(p);
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
                                         rg.loadRegion(p, region);
-
-                                    if (to.getWorld() != from.getWorld()) {
-                                        rg.fixGamemode(p);
-                                        if (rg.equals("lobby") && gmplayer.getCurrentRegion().equals("lobby"))
-                                            new BukkitRunnable() {
-                                                @Override
-                                                public void run() {
-                                                    li.loadLobbyInv(p);
-                                                }
-                                            }.runTaskLater(GamesMaster.getInstance(), 3);
                                     }
-
-                                } else {
-                                    rg.loadRegion(p, region);
-                                }
-                            }
-
+                                }.runTaskLater(GamesMaster.getInstance(), 5);
+                            } else
+                                rg.loadRegion(p, region);
+                        } else
+                            rg.loadRegion(p, region);
+                        
+                        if (to.getWorld() != from.getWorld()) {
+                            rg.fixGamemode(p);
+                            if (rg.equals("lobby") && gmplayer.getCurrentRegion().equals("lobby"))
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        li.loadLobbyInv(p);
+                                    }
+                                }.runTaskLater(GamesMaster.getInstance(), 3);
+                        }
+                        
+                    } else {
+                        rg.loadRegion(p, region);
+                    }
+                }
+                
             }.runTaskLater(GamesMaster.getInstance(), 3);
         }
-
+        
         if (lh.isGamesWorld(from.getWorld())) {
-    
+            
             GMPlayer gmplayer = GMPlayer.getPlayer(p);
-    
+            
             new BukkitRunnable() {
                 public void run() {
                     String region = rg.getRegion(p);
-
+                    
                     String curleave = "null";
                     String arleave = "null";
                     if (gmplayer.getCurrentRegion() != null && regionConfig.getConfig().get(
@@ -116,12 +114,12 @@ public class RegionListener implements Listener {
                                 ".leave").toString();
                     if (regionConfig.getConfig().get(region + ".leave") != null)
                         arleave = regionConfig.getConfig().get(region + ".leave").toString();
-
+                    
                     if (!curleave.equals(arleave) && !curleave.equals("null")) {
                         if (!lh.isGamesWorld(to.getWorld())) {
-
+                            
                             p.performCommand(curleave);
-
+                            
                             new BukkitRunnable() {
                                 @Override
                                 public void run() {

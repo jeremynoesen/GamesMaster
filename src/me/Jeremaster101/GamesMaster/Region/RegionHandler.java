@@ -23,10 +23,9 @@ import java.util.Set;
 public class RegionHandler {//todo implement these methods into player class
     
     private final InventoryHandler ih = new InventoryHandler();
-    private final LobbyHandler lh = new LobbyHandler();
     
-    private ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
-    private ConfigManager inventoryConfig = Config.getConfig(ConfigType.INVENTORY);
+    private static ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
+    private static ConfigManager inventoryConfig = Config.getConfig(ConfigType.INVENTORY);
     
     void fixGamemode(Player p) {
         
@@ -49,7 +48,7 @@ public class RegionHandler {//todo implement these methods into player class
         }
     }
     
-    public boolean isInRegion(Location l, String rg) {
+    public static boolean isInRegion(Location l, String rg) {
         
         try {
             double maxx = regionConfig.getConfig().getDouble(rg + ".location.max.x");
@@ -62,8 +61,8 @@ public class RegionHandler {//todo implement these methods into player class
             double toy = l.getBlock().getLocation().getY();
             double toz = l.getBlock().getLocation().getZ();
             
-            return (l.getWorld().getName().equals(GamesMaster.getInstance().getConfig().get("games-world").toString())) &&
-                    (tox <= maxx) && (tox >= minx) && (toy <= maxy) && (toy >= miny) && (toz <= maxz) && (toz >= minz);
+            return (l.getWorld().equals(LobbyHandler.gamesWorld()) &&
+                    (tox <= maxx) && (tox >= minx) && (toy <= maxy) && (toy >= miny) && (toz <= maxz) && (toz >= minz));
         } catch (Exception e) {
             return false;
         }
@@ -73,7 +72,7 @@ public class RegionHandler {//todo implement these methods into player class
         
         Set<String> regs = regionConfig.getConfig().getConfigurationSection("regions")
                 .getKeys(false);
-        if (lh.isGamesWorld(player.getWorld())) {
+        if (LobbyHandler.isGamesWorld(player.getWorld())) {
             int end = 0;
             for (String rg : regs) {
                 if (regs.size() > 0) {
@@ -90,7 +89,6 @@ public class RegionHandler {//todo implement these methods into player class
         return "default";
     }
     
-    @SuppressWarnings("deprecation")
     void loadRegion(Player p, String rg) {
         GMPlayer gmplayer = GMPlayer.getPlayer(p);
         Set<String> regs = regionConfig.getConfig().getConfigurationSection("regions").getKeys(false);
@@ -100,16 +98,16 @@ public class RegionHandler {//todo implement these methods into player class
             if (gmplayer.getCurrentRegion() == null || !regs.contains(gmplayer.getCurrentRegion())) {
                 if (invs != null && invs.contains(regionConfig.getConfig()
                         .get(rg + ".inventory").toString()))
-                    ih.loadInv(p, rg);
+                    gmplayer.getInventory().load(rg);
             } else if (!gmplayer.getCurrentRegion().equals(rg)) {
                 
                 if (invs != null && invs.contains(regionConfig.getConfig().get(gmplayer.getCurrentRegion()
                         + ".inventory").toString()) && !regionConfig.getConfig().get(gmplayer.getCurrentRegion() +
                         ".inventory").toString().equals("none"))
-                    ih.saveInv(p, gmplayer.getCurrentRegion());
+                    gmplayer.getInventory().save(gmplayer.getCurrentRegion());
                 
                 if (invs != null && invs.contains(regionConfig.getConfig().get(rg + ".inventory").toString()))
-                    ih.loadInv(p, rg);
+                    gmplayer.getInventory().load(rg);
             }
     }
     

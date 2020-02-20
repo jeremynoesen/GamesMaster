@@ -1,5 +1,6 @@
 package me.Jeremaster101.GamesMaster.Lobby;
 
+import me.Jeremaster101.GamesMaster.Player.GMPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -17,7 +18,8 @@ public class DoubleJump implements Listener {
     @EventHandler
     public void onPlayerToggleFlight(PlayerToggleFlightEvent e) {
         Player p = e.getPlayer();
-        if (lh.isInLobby(p)) {
+        GMPlayer gmp = GMPlayer.getPlayer(p);
+        if (gmp.isInLobby()) {
             if (p.getGameMode() == GameMode.SURVIVAL) {
                 e.setCancelled(true);
                 p.setAllowFlight(false);
@@ -34,7 +36,8 @@ public class DoubleJump implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         Player p = e.getPlayer();
-        if (lh.isInLobby(p)) {
+        GMPlayer gmp = GMPlayer.getPlayer(p);
+        if (gmp.isInLobby()) {
             p.setFallDistance(0);
             if (p.isOnGround()) {
                 p.setAllowFlight(true);

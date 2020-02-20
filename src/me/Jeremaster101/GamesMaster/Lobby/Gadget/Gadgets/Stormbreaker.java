@@ -3,6 +3,7 @@ package me.Jeremaster101.GamesMaster.Lobby.Gadget.Gadgets;
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Lobby.Gadget.GadgetItem;
 import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
+import me.Jeremaster101.GamesMaster.Player.GMPlayer;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -20,8 +21,6 @@ import java.lang.reflect.InvocationTargetException;
  * stormbreaker gadget
  */
 public class Stormbreaker implements Listener {
-    
-    private static final LobbyHandler lh = new LobbyHandler();
     
     /**
      * sends fake lighting to players so it doesnt flash the whole world
@@ -89,14 +88,14 @@ public class Stormbreaker implements Listener {
      * @param p player to use stormbreaker
      */
     public static void use(Player p) {
-        
+        GMPlayer gmp = GMPlayer.getPlayer(p);
         p.setGlowing(true);
         p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 1000, 3, true, false));
-        lh.setGadget(p, GadgetItem.STORMBREAKER_RELOAD.getItem());
+        gmp.setGadgetItem(GadgetItem.STORMBREAKER_RELOAD);
         p.setVelocity(p.getVelocity().setY(2.5));
         p.getWorld().playSound(p.getLocation(), Sound.BLOCK_BEACON_DEACTIVATE, 10, 0);
         
-        for (Player all : lh.getPlayersInLobby()) {
+        for (Player all : LobbyHandler.getPlayersInLobby()) {
             all.setPlayerWeather(WeatherType.DOWNFALL);
         }
         
@@ -105,8 +104,8 @@ public class Stormbreaker implements Listener {
             @Override
             public void run() {
                 p.getWorld().spawnParticle(Particle.CRIT_MAGIC, p.getLocation().add(0, 1, 0), 5, 0, 0, 0, 0.33);
-                if (lh.activeGadget(p, GadgetItem.STORMBREAKER_RELOAD.getItem())) {
-                    if (!p.isGlowing() || !lh.isInLobby(p))
+                if (gmp.getGadgetItem() == GadgetItem.STORMBREAKER_RELOAD) {
+                    if (!p.isGlowing() || !gmp.isInLobby())
                         this.cancel();
                 }
             }
@@ -115,7 +114,7 @@ public class Stormbreaker implements Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (lh.isInLobby(p)) {
+                if (gmp.isInLobby()) {
                     
                     if (p.getInventory().getItemInMainHand() == null || !p.getInventory().getItemInMainHand()
                             .equals(GadgetItem.STORMBREAKER_RELOAD.getItem())) {
@@ -123,16 +122,16 @@ public class Stormbreaker implements Listener {
                         p.removePotionEffect(PotionEffectType.SPEED);
                         p.setGlowing(false);
                         
-                        for (Player all : lh.getPlayersInLobby()) {
+                        for (Player all : LobbyHandler.getPlayersInLobby()) {
                             all.setPlayerWeather(WeatherType.CLEAR);
                         }
                         
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                if (lh.isInLobby(p))
-                                    if (lh.activeGadget(p, GadgetItem.STORMBREAKER_RELOAD.getItem())) {
-                                        lh.setGadget(p, GadgetItem.STORMBREAKER.getItem());
+                                if (gmp.isInLobby())
+                                    if (gmp.getGadgetItem() == GadgetItem.STORMBREAKER_RELOAD) {
+                                        gmp.setGadgetItem(GadgetItem.STORMBREAKER);
                                     }
                             }
                         }.runTaskLater(GamesMaster.getInstance(), 200);
@@ -143,7 +142,7 @@ public class Stormbreaker implements Listener {
                         p.setGlowing(false);
                         p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 255, true, false));
                         
-                        for (Player all : lh.getPlayersInLobby()) {
+                        for (Player all : LobbyHandler.getPlayersInLobby()) {
                             sendLightningPacket(all, p.getLocation());
                         }
                         
@@ -186,7 +185,7 @@ public class Stormbreaker implements Listener {
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
-                                        if (lh.isInLobby(p))
+                                        if (gmp.isInLobby())
                                             p.getWorld().playEffect(playermidmid.add(0, -1, 0),
                                                     Effect.STEP_SOUND, playermidmid.getBlock().getRelative(0, -1, 0).getType());
                                         p.getWorld().spawnParticle(Particle.CRIT_MAGIC, playermidmid, 10, 0, 0, 0,
@@ -197,7 +196,7 @@ public class Stormbreaker implements Listener {
                                     @Override
                                     public void run() {
                                         
-                                        for (Player all : lh.getPlayersInLobby()) {
+                                        for (Player all : LobbyHandler.getPlayersInLobby()) {
                                             //sendLightningPacket(all, mid);//todo make stormbreaker branch out to other mobs
                                         }
                                         
@@ -207,7 +206,7 @@ public class Stormbreaker implements Listener {
                                         //p.getWorld().playSound(mid, Sound.ENTITY_LIGHTNING_BOLT_IMPACT
                                         //        , 5, 1);
                                         
-                                        if (lh.isInLobby(p))
+                                        if (gmp.isInLobby())
                                             p.getWorld().playEffect(mid.add(0, -1, 0),
                                                     Effect.STEP_SOUND, mid.getBlock().getRelative(0, -1, 0).getType());
                                     }
@@ -215,7 +214,7 @@ public class Stormbreaker implements Listener {
                                 new BukkitRunnable() {
                                     @Override
                                     public void run() {
-                                        if (lh.isInLobby(p))
+                                        if (gmp.isInLobby())
                                             p.getWorld().playEffect(midnearmid.add(0, -1, 0),
                                                     Effect.STEP_SOUND, midnearmid.getBlock().getRelative(0, -1, 0).getType());
                                         p.getWorld().spawnParticle(Particle.CRIT_MAGIC, midnearmid, 10, 0, 0, 0, 0.25);
@@ -226,7 +225,7 @@ public class Stormbreaker implements Listener {
                                     @Override
                                     public void run() {
                                         
-                                        for (Player all : lh.getPlayersInLobby()) {
+                                        for (Player all : LobbyHandler.getPlayersInLobby()) {
                                             sendLightningPacket(all, near.getLocation());
                                         }
                                         
@@ -236,7 +235,7 @@ public class Stormbreaker implements Listener {
                                         p.getWorld().spawnParticle(Particle.CRIT_MAGIC, near.getLocation(), 20, 0, 0, 0,
                                                 1);
                                         
-                                        if (lh.isInLobby(p)) {
+                                        if (gmp.isInLobby()) {
                                             p.getWorld().playEffect(near.getLocation().add(0, -1, 0),
                                                     Effect.STEP_SOUND,
                                                     near.getLocation().getBlock().getRelative(0, -1, 0).getType());
@@ -276,7 +275,7 @@ public class Stormbreaker implements Listener {
                                     @Override
                                     public void run() {
                                         
-                                        for (Player all : lh.getPlayersInLobby()) {
+                                        for (Player all : LobbyHandler.getPlayersInLobby()) {
                                             sendLightningPacket(all, near.getLocation());
                                         }
                                         
@@ -287,7 +286,7 @@ public class Stormbreaker implements Listener {
                                                 1);
                                         
                                         
-                                        if (lh.isInLobby(p)) {
+                                        if (gmp.isInLobby()) {
                                             
                                             p.getWorld().playEffect(near.getLocation().add(0, -1, 0),
                                                     Effect.STEP_SOUND,
@@ -314,7 +313,7 @@ public class Stormbreaker implements Listener {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                for (Player all : lh.getPlayersInLobby()) {
+                                for (Player all : LobbyHandler.getPlayersInLobby()) {
                                     all.setPlayerWeather(WeatherType.CLEAR);
                                 }
                                 
@@ -323,9 +322,9 @@ public class Stormbreaker implements Listener {
                         new BukkitRunnable() {
                             @Override
                             public void run() {
-                                if (lh.isInLobby(p))
-                                    if (lh.activeGadget(p, GadgetItem.STORMBREAKER_RELOAD.getItem())) {
-                                        lh.setGadget(p, GadgetItem.STORMBREAKER.getItem());
+                                if (gmp.isInLobby())
+                                    if (gmp.getGadgetItem() == GadgetItem.STORMBREAKER_RELOAD) {
+                                        gmp.setGadgetItem(GadgetItem.STORMBREAKER);
                                     }
                             }
                         }.runTaskLater(GamesMaster.getInstance(), 200);
@@ -344,14 +343,15 @@ public class Stormbreaker implements Listener {
      */
     @EventHandler
     public void onWorldChange(PlayerChangedWorldEvent e) {
-        if (lh.isGamesWorld(e.getFrom())) {
+        if (LobbyHandler.isGamesWorld(e.getFrom())) {
             e.getPlayer().setGlowing(false);
             e.getPlayer().resetPlayerWeather();
             
             if (e.getPlayer().getInventory().getItem(4) != null && e.getPlayer().getInventory().getItem(4)
                     .equals(GadgetItem.STORMBREAKER_RELOAD.getItem())) {
-                for (Player all : lh.getPlayersInLobby()) {
-                    if (lh.isInLobby(all)) {
+                for (Player all : LobbyHandler.getPlayersInLobby()) {
+                    GMPlayer gmp = GMPlayer.getPlayer(all);
+                    if (gmp.isInLobby()) {
                         all.setPlayerWeather(WeatherType.CLEAR);
                     }
                 }

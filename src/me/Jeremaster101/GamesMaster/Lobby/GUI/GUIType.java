@@ -12,7 +12,7 @@ public enum GUIType {
     MUSIC("music"), COSMETICS("cosmetics"), GAME_LIST("game-list"), GAME("game"), GADGET("gadget"), PREFERENCES(
             "preferences");
     
-    public String type;
+    private String type;
     private ConfigManager guiConfig = new ConfigManager(ConfigType.GUI);
     
     GUIType(String type) {

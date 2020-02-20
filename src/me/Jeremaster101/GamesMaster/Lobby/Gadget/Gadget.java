@@ -11,7 +11,7 @@ public enum Gadget {
     SLIME_LAUNCHER("SLIME_LAUNCHER"),
     STORMBREAKER("STORMBREAKER");
     
-    public String itemName;
+    private String itemName;
     
     Gadget(String itemName) {
         this.itemName = itemName;

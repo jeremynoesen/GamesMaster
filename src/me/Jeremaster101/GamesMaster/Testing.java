@@ -10,8 +10,6 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 
 public class Testing implements Listener {
     
-    OldGUIItem item = new OldGUIItem();
-    
     @EventHandler
     public void onSneak(PlayerToggleSneakEvent e) {
         if (e.isSneaking()) {

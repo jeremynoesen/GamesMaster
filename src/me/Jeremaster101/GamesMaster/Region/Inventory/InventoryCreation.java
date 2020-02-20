@@ -42,15 +42,15 @@ public class InventoryCreation {
             for (Player allOn : Bukkit.getOnlinePlayers()) {
                 GMPlayer gmplayer = GMPlayer.getPlayer(allOn);
                 if (gmplayer.getCurrentRegion() != null) {
-                    gmplayer.getData().getDataFile().set("inventories." + inv, null);
-                    gmplayer.getData().savePlayerData();
+                    gmplayer.getPlayerData().getDataFile().set("inventories." + inv, null);
+                    gmplayer.getPlayerData().savePlayerData();
                 }
             }
             for (OfflinePlayer allOff : Bukkit.getOfflinePlayers()) {
                 GMPlayer gmplayer = GMPlayer.getPlayer(allOff.getPlayer());
                 if (gmplayer.getCurrentRegion() != null) {
-                    gmplayer.getData().getDataFile().set("inventories." + inv, null);
-                    gmplayer.getData().savePlayerData();
+                    gmplayer.getPlayerData().getDataFile().set("inventories." + inv, null);
+                    gmplayer.getPlayerData().savePlayerData();
                 }
             }
         } else {

@@ -22,20 +22,20 @@ public class PlayerPreferences {
      */
     public PlayerPreferences(Player player) {
         gmplayer = GMPlayer.getPlayer(player);
-        data = gmplayer.getData().getDataFile();
+        data = gmplayer.getPlayerData().getDataFile();
         music = data.getBoolean("preferences.public-music");
         players = data.getBoolean("preferences.players-visible");
         gadgets = data.getBoolean("preferences.gadget-interaction");
         effects = data.getBoolean("preferences.effects-visible");
-        gmplayer.setPreferences(this);
+        gmplayer.savePreferences(this);
     }
     
     /**
      * save player prefs to file and update in GMPlayer
      */
     private void save() {
-        gmplayer.getData().savePlayerData();
-        gmplayer.setPreferences(this);
+        gmplayer.getPlayerData().savePlayerData();
+        gmplayer.savePreferences(this);
     }
     
     /**

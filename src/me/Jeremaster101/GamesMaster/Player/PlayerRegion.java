@@ -1,5 +1,9 @@
 package me.Jeremaster101.GamesMaster.Player;
 
+import com.sk89q.worldedit.LocalSession;
+import com.sk89q.worldedit.WorldEdit;
+import com.sk89q.worldedit.bukkit.BukkitAdapter;
+import com.sk89q.worldedit.math.BlockVector3;
 import me.Jeremaster101.GamesMaster.Config.Config;
 import me.Jeremaster101.GamesMaster.Config.ConfigManager;
 import me.Jeremaster101.GamesMaster.Config.ConfigType;
@@ -11,9 +15,9 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.List;
-import java.util.Set;
-
+/**
+ * handling of player region data
+ */
 public class PlayerRegion {
     
     private Player player;
@@ -52,7 +56,7 @@ public class PlayerRegion {
      */
     public Region getCurrentRegion() {
         if (LobbyHandler.isGamesWorld(player.getWorld())) {
-            for (Region region : Region.getRegions().values()) {
+            for (Region region : Region.getRegions()) {
                 if (region.containsLocation(player.getLocation()))
                     return region;
             }
@@ -82,29 +86,43 @@ public class PlayerRegion {
         }
     }
     
-    void loadRegion(Player player, Region region) {
+    /**
+     * loads a region inventory and gamemode
+     *
+     * @param region region to load
+     */
+    public void loadRegion(Region region) {
         GMPlayer gmplayer = GMPlayer.getPlayer(player);
-        Set<String> regs = regionConfig.getConfig().getConfigurationSection("regions").getKeys(false);
-        List<String> invs = inventoryConfig.getConfig().getStringList("inventories");
         
-        if (regs.size() > 0)
-            if (getLoadedRegion() == null || !Region.getRegions().contains(getLoadedRegion())) {
-                if (Inventory.getInventories().contains(region.getInventory())) {
-                    gmplayer.getInventory().load();
-                    player.setGameMode(region.getGamemode());
-                }
-            } else if (!gmplayer.getRegionHandler().getLoadedRegion().equals(region)) {
-                
-                if (invs != null && invs.contains(regionConfig.getConfig().get(gmplayer.getCurrentRegion()
-                        + ".inventory").toString()) && !regionConfig.getConfig().get(gmplayer.getCurrentRegion() +
-                        ".inventory").toString().equals("none"))
-                    gmplayer.getInventory().save(gmplayer.getCurrentRegion());
-                
-                if (invs != null && invs.contains(regionConfig.getConfig().get(region + ".inventory").toString())) {
-                    gmplayer.getInventory()..load();
-                    player.setGameMode(region.getGamemode());
-                }
+        if (getLoadedRegion() == null || !Region.getRegions().contains(getLoadedRegion())) {
+            if (Inventory.getInventories().contains(region.getInventory())) {
+                gmplayer.getInventory(region.getInventory()).load();
+                player.setGameMode(region.getGamemode());
             }
+        } else if (!gmplayer.getRegionHandler().getLoadedRegion().equals(region)) {
+            if (region.getInventory() != null && Inventory.getInventories().contains(region.getInventory()))
+                gmplayer.getInventory(region.getInventory()).save();
+            
+            if (Inventory.getInventories().contains(region.getInventory())) {
+                gmplayer.getInventory(region.getInventory()).load();
+                player.setGameMode(region.getGamemode());
+            }
+        }
+    }
+    
+    /**
+     * select the bounds of a region using worldedit
+     *
+     * @param region region to select
+     */
+    public void selectRegion(Region region) {
+        double[][] bounds = region.getBounds();
+        BlockVector3 min = BlockVector3.at(bounds[0][0], bounds[0][1], bounds[0][2]);
+        BlockVector3 max = BlockVector3.at(bounds[1][0], bounds[1][1], bounds[1][2]);
+        com.sk89q.worldedit.entity.Player weplayer = BukkitAdapter.adapt(player);
+        LocalSession ls = WorldEdit.getInstance().getSessionManager().get(weplayer);
+        ls.getRegionSelector(weplayer.getWorld()).selectPrimary(max, null);
+        ls.getRegionSelector(weplayer.getWorld()).selectSecondary(min, null);
     }
     
 }

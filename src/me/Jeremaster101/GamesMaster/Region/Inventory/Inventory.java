@@ -73,7 +73,7 @@ public class Inventory {
         
         for (Player allOn : Bukkit.getOnlinePlayers()) {
             GMPlayer gmplayer = GMPlayer.getPlayer(allOn);
-            if (gmplayer.getCurrentRegion() != null) {
+            if (gmplayer.getRegionHandler().getLoadedRegion() != null) {
                 gmplayer.getPlayerData().getDataFile().set("inventories." + name, null);
                 gmplayer.getPlayerData().savePlayerData();
             }
@@ -81,7 +81,7 @@ public class Inventory {
         
         for (OfflinePlayer allOff : Bukkit.getOfflinePlayers()) {
             GMPlayer gmplayer = GMPlayer.getPlayer(allOff.getPlayer());
-            if (gmplayer.getCurrentRegion() != null) {
+            if (gmplayer.getRegionHandler().getLoadedRegion() != null) {
                 gmplayer.getPlayerData().getDataFile().set("inventories." + name, null);
                 gmplayer.getPlayerData().savePlayerData();
             }

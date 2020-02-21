@@ -2,6 +2,7 @@ package me.Jeremaster101.GamesMaster.Player;
 
 import me.Jeremaster101.GamesMaster.GamesMaster;
 import me.Jeremaster101.GamesMaster.Region.Inventory.Inventory;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -11,9 +12,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+/**
+ * class to handle inventory saves
+ */
 public class PlayerInventory {
     
-    private static HashMap<Player, HashMap<Inventory, PlayerInventory>> savedInventories;
+    private static HashMap<Player, HashMap<Inventory, PlayerInventory>> savedInventories = new HashMap<>();
     private Player player;
     private int exp;
     private double health;
@@ -24,8 +28,8 @@ public class PlayerInventory {
     private float fall;
     private int fire;
     private int slot;
-    private Collection<PotionEffect> effects;
-    private ItemStack[] contents;
+    private Collection<PotionEffect> effects = new ArrayList<>();
+    private HashMap<Integer, ItemStack> contents = new HashMap<>();
     private Inventory inventory;
     
     public PlayerInventory(Player player, Inventory inventory) {
@@ -33,10 +37,77 @@ public class PlayerInventory {
         this.inventory = inventory;
     }
     
+    /**
+     * @param player player to get inventory for
+     * @param inventory inventory type to get
+     * @return PlayerInventory of the type
+     */
     public static PlayerInventory getPlayerInventory(Player player, Inventory inventory) {
         return savedInventories.get(player).get(inventory);
     }
     
+    /**
+     * add a new inventory to the loaded list of inventories
+     *
+     * @param player player to add an inventory for
+     * @param inventory inventory type
+     * @param playerInventory player specific inventory
+     */
+    public static void addPlayerInventory(Player player, Inventory inventory, PlayerInventory playerInventory) {
+        HashMap<Inventory, PlayerInventory> playerInv = new HashMap<>();
+        playerInv.put(inventory, playerInventory);
+        savedInventories.put(player, playerInv);
+    }
+    
+    //the following setters are used for PlayerInventoryBuilder
+    
+    void setAir(int air) {
+        this.air = air;
+    }
+    
+    void setExhaustion(float exhaustion) {
+        this.exhaustion = exhaustion;
+    }
+    
+    void setExp(int exp) {
+        this.exp = exp;
+    }
+    
+    void setContents(HashMap<Integer, ItemStack> contents) {
+        this.contents = contents;
+    }
+    
+    void setEffects(Collection<PotionEffect> effects) {
+        this.effects = effects;
+    }
+    
+    void setFall(float fall) {
+        this.fall = fall;
+    }
+    
+    void setFire(int fire) {
+        this.fire = fire;
+    }
+    
+    void setHealth(double health) {
+        this.health = health;
+    }
+    
+    void setHunger(int hunger) {
+        this.hunger = hunger;
+    }
+    
+    void setSaturation(float saturation) {
+        this.saturation = saturation;
+    }
+    
+    void setSlot(int slot) {
+        this.slot = slot;
+    }
+    
+    /**
+     * loads player inventory
+     */
     public void load() {
         player.giveExpLevels(-1000000000);
         player.giveExpLevels(exp);
@@ -48,11 +119,14 @@ public class PlayerInventory {
         player.setFallDistance(fall);
         player.setFireTicks(fire);
         player.getInventory().setHeldItemSlot(slot);
-        player.getInventory().setContents(contents);
         player.addPotionEffects(effects);
+        for (int i = 0; i < contents.keySet().size(); i++) player.getInventory().setItem(i, contents.get(i));
         player.updateInventory();
     }
     
+    /**
+     * saves player inventory to file and hashmap
+     */
     public void save() {
         PlayerData data = GMPlayer.getPlayer(player).getPlayerData();
         String inventory = "inventories." + this.inventory.getName();
@@ -116,13 +190,13 @@ public class PlayerInventory {
         }
         this.effects = effects;
         
-        data.getDataFile().set(inventory + ".contents", null);
         int currentslot = 0;
         for (ItemStack stack : player.getInventory().getContents()) {
             data.getDataFile().set(inventory + ".contents." + currentslot, stack);
+            if (stack == null) contents.put(currentslot, new ItemStack(Material.AIR, 0));
+            else contents.put(currentslot, stack);
             currentslot++;
         }
-        contents = player.getInventory().getContents();
         
         data.savePlayerData();
         
@@ -131,7 +205,10 @@ public class PlayerInventory {
         savedInventories.put(player, playerInv);
     }
     
-    public void copy() {
+    /**
+     * quickly copies and pastes the player's inventory, used for pwi fix
+     */
+    public void reload() {
         ItemStack[] contents = player.getInventory().getContents();
         int exp = player.getTotalExperience();
         double health = player.getHealth();

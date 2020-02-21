@@ -1,16 +1,7 @@
 package me.Jeremaster101.GamesMaster.Player;
 
-import me.Jeremaster101.GamesMaster.Config.Config;
-import me.Jeremaster101.GamesMaster.Config.ConfigManager;
-import me.Jeremaster101.GamesMaster.Config.ConfigType;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.GUIType;
-import me.Jeremaster101.GamesMaster.Lobby.Gadget.Gadget;
-import me.Jeremaster101.GamesMaster.Lobby.Gadget.GadgetItem;
-import me.Jeremaster101.GamesMaster.Lobby.Gadget.GadgetItemBuilder;
-import me.Jeremaster101.GamesMaster.Lobby.LobbyHandler;
-import me.Jeremaster101.GamesMaster.Lobby.LobbyInventory;
 import me.Jeremaster101.GamesMaster.Region.Inventory.Inventory;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -27,7 +18,7 @@ public class GMPlayer {
     private PlayerInventory inventory;
     private PlayerRegion region;
     private Player player;
-    private String currentRegion;
+    private PlayerLobby lobby;
     
     /**
      * create new instances of classes that handle player options, guis, and preferences. also load current region
@@ -39,8 +30,8 @@ public class GMPlayer {
         data = new PlayerData(player);
         preferences = new PlayerPreferences(player);
         gui = new PlayerGUI(player);
-        currentRegion = data.getDataFile().getString("current-region");
         region = new PlayerRegion(player);
+        lobby = new PlayerLobby(player);
         gmplayers.put(player, this);
     }
     
@@ -67,6 +58,13 @@ public class GMPlayer {
     }
     
     /**
+     * @return lobby handler for the player
+     */
+    public PlayerLobby getLobbyHandler() {
+        return lobby;
+    }
+    
+    /**
      * update the saved player preferences
      *
      * @param preferences player preferences
@@ -76,14 +74,26 @@ public class GMPlayer {
         gmplayers.put(player, this);
     }
     
+    /**
+     * @param inventory inventory to get
+     * @return inventory of specified type
+     */
     public PlayerInventory getInventory(Inventory inventory) {
         return PlayerInventory.getPlayerInventory(player, inventory);
     }
     
+    /**
+     * @return region handler for the player
+     */
     public PlayerRegion getRegionHandler() {
         return region;
     }
     
+    /**
+     * update player region data
+     *
+     * @param region PlayerRegion object
+     */
     public void updateRegionHandler(PlayerRegion region) {
         this.region = region;
         gmplayers.put(player, this);
@@ -94,67 +104,6 @@ public class GMPlayer {
      */
     public void openGUI(GUIType type) {
         gui.open(type);
-    }
-    
-    /**
-     * @return name of current region the player is in
-     */
-    public String getCurrentRegion() {
-        return currentRegion;
-    }
-    
-    /**
-     * @param region name of region to set as current
-     */
-    public void setCurrentRegion(String region) {
-        currentRegion = region;
-        data.getDataFile().set("current-region", region);
-        data.savePlayerData();
-        gmplayers.put(player, this);
-    }
-    
-    /**
-     * @return true if the player is in the lobby
-     */
-    public boolean isInLobby() {
-        Location l = player.getLocation();
-        
-        try {
-            ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
-            double maxx = regionConfig.getConfig().getDouble("lobby.location.max.x");
-            double maxy = regionConfig.getConfig().getDouble("lobby.location.max.y");
-            double maxz = regionConfig.getConfig().getDouble("lobby.location.max.z");
-            double minx = regionConfig.getConfig().getDouble("lobby.location.min.x");
-            double miny = regionConfig.getConfig().getDouble("lobby.location.min.y");
-            double minz = regionConfig.getConfig().getDouble("lobby.location.min.z");
-            double tox = l.getBlock().getLocation().getX();
-            double toy = l.getBlock().getLocation().getY();
-            double toz = l.getBlock().getLocation().getZ();
-            
-            return (LobbyHandler.isGamesWorld(l.getWorld()) &&
-                    (tox <= maxx) && (tox >= minx) && (toy <= maxy) && (toy >= miny) && (toz <= maxz) && (toz >= minz));
-        } catch (Exception e) {
-            return false;
-        }
-    }
-    
-    /**
-     * @return current gadget the player has
-     */
-    public GadgetItem getGadgetItem() {
-        if (player.getInventory().getItem(LobbyInventory.getGadgetSlot()) != null)
-            return GadgetItem.valueOf(GadgetItemBuilder.getName(player.getInventory().getItem(LobbyInventory.getGadgetSlot())));
-        return null;
-    }
-    
-    /**
-     * set the active gadget for the player
-     *
-     * @param item gadget to set
-     */
-    public void setGadgetItem(GadgetItem item) {
-        player.getInventory().setItem(LobbyInventory.getGadgetSlot(), item.getItem());
-        player.updateInventory();
     }
     
 }

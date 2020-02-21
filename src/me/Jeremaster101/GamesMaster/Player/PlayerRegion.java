@@ -68,7 +68,7 @@ public class PlayerRegion {
     /**
      * makes a player's gamemode the current gamemode for the region
      */
-    void fixGamemode() {
+    public void fixGamemode() {
         if (getLoadedRegion() != null && player.getWorld() == LobbyHandler.gamesWorld()) {
             GameMode mode = getLoadedRegion().getGamemode();
             

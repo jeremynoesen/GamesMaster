@@ -2,7 +2,7 @@ name: GamesMaster
 version: 1.4.6
 description: A plugin to make your games world become almost like a complete minigames server!
 author: Jeremaster101
-main: me.Jeremaster101.GamesMaster.GamesMaster
+main: GamesMaster
 depend: [WorldEdit]
 api-version: 1.13
 commands:

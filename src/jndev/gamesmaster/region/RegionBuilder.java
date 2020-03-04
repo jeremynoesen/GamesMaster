@@ -3,6 +3,7 @@ package jndev.gamesmaster.region;
 import jndev.gamesmaster.config.Config;
 import jndev.gamesmaster.config.ConfigManager;
 import jndev.gamesmaster.config.ConfigType;
+import jndev.gamesmaster.region.inventory.inventorytype.InventoryType;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.World;
@@ -45,7 +46,7 @@ public class RegionBuilder {
             region.setBounds(minx, miny, minz, maxx, maxy, maxz, world);
             region.setGamemode(GameMode.valueOf(regionConfig.getConfig().getString(region + ".gamemode")));
             region.setLeave(regionConfig.getConfig().getString(region + ".leave"));
-            region.setInventory(regionConfig.getConfig().getString(region + ".inventory"));
+            region.setInventoryType(InventoryType.getInventoryType(regionConfig.getConfig().getString(region + ".inventory")));
             region.setEnabled(regionConfig.getConfig().getBoolean(region + ".enabled"));
         }
         region.save();

@@ -2,6 +2,8 @@ package jndev.gamesmaster.lobby.gui;
 
 import jndev.gamesmaster.Message;
 import jndev.gamesmaster.player.GMPlayer;
+import jndev.gamesmaster.region.inventory.Inventory;
+import jndev.gamesmaster.region.inventory.inventorytype.InventoryType;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,39 +15,26 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * class used to create the guis
  */
 public class GUIBuilder { //todo gui to customize gui in game
     
-    /**
-     * create the guis based on the config values and save it as the type default
-     *
-     * @param type type of gui to build
-     */
-    public static void buildPublicGUI(GUIType type) {
-        GUI gui = new GUI(type.getSize(), type.getDisplayName());
-        gui.setType(type);
-        build(type, gui, null);
-    }
-    
-    /**
-     * create the guis based on the config values and save it as a separate gui
-     *
-     * @param type type of gui to build
-     */
-    public static GUI buildPrivateGUI(GUIType type, Player player) {
-        GUI gui = new GUI(type.getSize(), type.getDisplayName());
-        build(type, gui, player);
-        return gui;
+    public static void buildAll(Player player) {
+        for(GUIType type : GUIType.values()) {
+            build(type, player);
+        }
     }
     
     /**
      * @param type type to build
-     * @param gui gui object to build it to
+     * @param player player to perform actions
      */
-    private static void build(GUIType type, GUI gui, Player player) {
+    public static void build(GUIType type, Player player) {
+        GUI gui = new GUI(type, type.getSize(), type.getDisplayName(), player);
+        
         ConfigurationSection sec = type.getConfigSection();
         
         for (int i = 0; i < gui.getSize().getInteger() - 1; i++) {
@@ -117,7 +106,6 @@ public class GUIBuilder { //todo gui to customize gui in game
                 continue;
             }
         }
-        gui.save();
     }
     
     /**

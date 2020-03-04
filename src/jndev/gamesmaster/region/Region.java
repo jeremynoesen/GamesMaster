@@ -2,7 +2,7 @@ package jndev.gamesmaster.region;
 
 import jndev.gamesmaster.config.Config;
 import jndev.gamesmaster.config.ConfigType;
-import jndev.gamesmaster.region.inventory.Inventory;
+import jndev.gamesmaster.region.inventory.inventorytype.InventoryType;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import jndev.gamesmaster.config.ConfigManager;
@@ -21,11 +21,9 @@ import java.util.Objects;
  * regions used in the plugin
  */
 public class Region { //todo when using with commands, check for default when running command
-    //todo REDO OTHER CLASSES THIS WAY
-    private static ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
     private static HashMap<String, Region> regions = new HashMap<>();
     private String name;
-    private Inventory inventory;
+    private InventoryType inventoryType;
     private String leave;
     private GameMode mode;
     private boolean enabled;
@@ -58,18 +56,9 @@ public class Region { //todo when using with commands, check for default when ru
     }
     
     /**
-     * save the region to the hashmap
-     */
-    public void save() {
-        regions.put(name, this);
-    }
-    
-    /**
      * remove the region from the hashmap and config
      */
     public void remove() {
-        regionConfig.getConfig().set(name, null);
-        regionConfig.saveConfig();
         regions.remove(name);
     }
     
@@ -122,15 +111,6 @@ public class Region { //todo when using with commands, check for default when ru
      * @param world world region is in
      */
     public void setBounds(double minx, double miny, double minz, double maxx, double maxy, double maxz, World world) {
-        regionConfig.getConfig().set(name + ".location.min.x", minx);
-        regionConfig.getConfig().set(name + ".location.min.y", miny);
-        regionConfig.getConfig().set(name + ".location.min.z", minz);
-        regionConfig.getConfig().set(name + ".location.max.x", maxx);
-        regionConfig.getConfig().set(name + ".location.max.y", maxy);
-        regionConfig.getConfig().set(name + ".location.max.z", maxz);
-        regionConfig.getConfig().set(name + ".location.world", world.getName());
-        regionConfig.saveConfig();
-        
         bounds[0][0] = minx;
         bounds[0][1] = miny;
         bounds[0][2] = minz;
@@ -138,7 +118,6 @@ public class Region { //todo when using with commands, check for default when ru
         bounds[1][1] = maxy;
         bounds[1][2] = maxz;
         this.world = world;
-        save();
     }
     
     /**
@@ -158,20 +137,17 @@ public class Region { //todo when using with commands, check for default when ru
     /**
      * @return name of inventory used
      */
-    public Inventory getInventory() {
-        return inventory;
+    public InventoryType getInventoryType() {
+        return inventoryType;
     }
     
     /**
      * set inventory for region
      *
-     * @param inventory inventory to set
+     * @param inventoryType inventory to set
      */
-    public void setInventory(Inventory inventory) {
-        regionConfig.getConfig().set(name + ".inventory", inventory.getName());
-        regionConfig.saveConfig();
-        this.inventory = inventory;
-        save();
+    public void setInventoryType(InventoryType inventoryType) {
+        this.inventoryType = inventoryType;
     }
     
     /**
@@ -185,10 +161,7 @@ public class Region { //todo when using with commands, check for default when ru
      * @param mode gamemode to set for region
      */
     public void setGamemode(GameMode mode) {
-        regionConfig.getConfig().set(name + ".gamemode", mode.toString());
-        regionConfig.saveConfig();
         this.mode = mode;
-        save();
     }
     
     /**
@@ -204,11 +177,7 @@ public class Region { //todo when using with commands, check for default when ru
      * @param leave string command or location
      */
     public void setLeave(String leave) {
-        if (leave != null) regionConfig.getConfig().set(name + ".leave", leave);
-        else regionConfig.getConfig().set(name + ".leave", "null");
-        regionConfig.saveConfig();
         this.leave = leave;
-        save();
     }
     
     /**
@@ -224,10 +193,8 @@ public class Region { //todo when using with commands, check for default when ru
      * @param enabled boolean to enable region
      */
     public void setEnabled(boolean enabled) {
-        if (getGamemode() != null && getInventory() != null && getBounds() != null && getWorld() != null) {
-            regionConfig.getConfig().set(name + ".enabled", enabled);
+        if (getGamemode() != null && getInventoryType() != null && getBounds() != null && getWorld() != null) {
             this.enabled = enabled;
-            save();
         }
     }
     

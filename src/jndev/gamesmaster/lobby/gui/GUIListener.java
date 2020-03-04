@@ -19,7 +19,8 @@ public class GUIListener implements Listener {
      */
     @EventHandler
     public void onClick(InventoryClickEvent e) {
-        GUI gui = GUI.getGUI(e.getClickedInventory());
+        Player player = (Player) e.getWhoClicked();
+        GUI gui = GUI.getGUI(e.getClickedInventory(), player);
         if (gui != null) {
             gui.onClick(e);
             e.setCancelled(true);
@@ -37,9 +38,9 @@ public class GUIListener implements Listener {
                 e.getSource().getHolder() instanceof Player ||
                 e.getDestination().getHolder() instanceof Player) {
             Player player = (Player) e.getInitiator().getHolder();
-            GUI sourceGUI = GUI.getGUI(e.getSource());
-            GUI destinationGUI = GUI.getGUI(e.getDestination());
-            GUI initiatorGUI = GUI.getGUI(e.getInitiator());
+            GUI sourceGUI = GUI.getGUI(e.getSource(), player);
+            GUI destinationGUI = GUI.getGUI(e.getDestination(), player);
+            GUI initiatorGUI = GUI.getGUI(e.getInitiator(), player);
             if (sourceGUI != null || destinationGUI != null || initiatorGUI != null) {
                 e.setCancelled(true);
                 player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1, 0);

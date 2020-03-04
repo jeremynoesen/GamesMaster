@@ -15,15 +15,15 @@ import java.util.HashSet;
  */
 public class GUI {
     
-    private static HashMap<Inventory, GUI> guis = new HashMap<>();
-    private static HashMap<GUIType, GUI> guiTypes = new HashMap<>();
+    private static HashMap<GUIType, HashMap<Player, GUI>> guis = new HashMap<>();
     private Inventory inventory;
     private HashSet<Integer> decorations = new HashSet<>();
     private HashSet<Integer> toggled = new HashSet<>();
     private HashMap<Integer, HashMap<ItemStack, GUIButton>> buttons = new HashMap<>();
     private GUISize size;
+    private GUIType type;
     private String name;
-    private GUIType type = null;
+    private Player player;
     
     /**
      * create a new GUI of specified size and name
@@ -31,26 +31,54 @@ public class GUI {
      * @param size inventory size
      * @param name name of GUI
      */
-    public GUI(GUISize size, String name) {
+    public GUI(GUIType type, GUISize size, String name, Player player) {
         inventory = Bukkit.getServer().createInventory(null, size.getInteger(), name);
         this.size = size;
         this.name = name;
+        this.type = type;
+        this.player = player;
+        HashMap<Player, GUI> gui = new HashMap<>(guis.get(type));
+        gui.put(player, this);
+        guis.put(type, gui);
     }
     
     /**
-     * @param inventory get GUI by inventory
+     * @param type   get GUI by type
+     * @param player player owner of gui
      * @return GUI if one exists
      */
-    public static GUI getGUI(Inventory inventory) {
-        return guis.get(inventory);
+    public static GUI getGUI(GUIType type, Player player) {
+        return guis.get(type).get(player);
     }
     
     /**
-     * @param type guitype to get
-     * @return gui of desired type
+     * get gui by inventory, used for the inventory click events
+     *
+     * @param inventory inventory to get gui by
+     * @param player    player owner of gui
+     * @return gui that has the same inventory
      */
-    public static GUI getGUI(GUIType type) {
-        return guiTypes.get(type);
+    public static GUI getGUI(Inventory inventory, Player player) {
+        for (GUIType type : GUIType.values()) {
+            if (inventory == GUI.getGUI(type, player).getInventory()) {
+                return GUI.getGUI(type, player);
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * @return all loaded guis
+     */
+    public static HashMap<GUIType, HashMap<Player, GUI>> getGUIs() {
+        return guis;
+    }
+    
+    /**
+     * removes a gui from the saved guis
+     */
+    public void remove() {
+        guis.get(player).remove(inventory);
     }
     
     /**
@@ -89,22 +117,6 @@ public class GUI {
     }
     
     /**
-     * @return type of gui
-     */
-    public GUIType getType() {
-        return type;
-    }
-    
-    /**
-     * assign a type to the gui
-     *
-     * @param type type to set gui to
-     */
-    public void setType(GUIType type) {
-        this.type = type;
-    }
-    
-    /**
      * get gui size
      *
      * @return guisize of the gui
@@ -115,19 +127,9 @@ public class GUI {
     
     /**
      * Open GUI inventory for a player
-     *
-     * @param player player to view GUI
      */
-    public void open(Player player) {
+    public void open() {
         player.openInventory(inventory);
-    }
-    
-    /**
-     * saves a gui and puts it in the guis list
-     */
-    public void save() {
-        guis.put(inventory, this);
-        if (type != null) guiTypes.put(type, this);
     }
     
     /**
@@ -188,7 +190,6 @@ public class GUI {
             for (ItemStack newItem : items.keySet()) {
                 if (!newItem.equals(inventory.getItem(slot))) {
                     inventory.setItem(slot, newItem);
-                    save();
                     if (toggled.contains(slot)) toggled.remove(slot);
                     else toggled.add(slot);
                     break;

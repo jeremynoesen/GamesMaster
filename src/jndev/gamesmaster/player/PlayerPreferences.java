@@ -27,17 +27,8 @@ public class PlayerPreferences {
         players = data.getBoolean("preferences.players-visible");
         gadgets = data.getBoolean("preferences.gadget-interaction");
         effects = data.getBoolean("preferences.effects-visible");
-        gmplayer.savePreferences(this);
     }
-    
-    /**
-     * save player prefs to file and update in GMPlayer
-     */
-    private void save() {
-        gmplayer.getPlayerData().savePlayerData();
-        gmplayer.savePreferences(this);
-    }
-    
+
     /**
      * @return true if music is public
      */
@@ -50,8 +41,6 @@ public class PlayerPreferences {
      */
     public void setMusicPublic(boolean enabled) {
         music = enabled;
-        data.set("preferences.public-music", enabled);
-        save();
     }
     
     /**
@@ -59,8 +48,6 @@ public class PlayerPreferences {
      */
     public void setPlayersVisible(boolean enabled) {
         players = enabled;
-        data.set("preferences.players-visible", enabled);
-        save();
     }
     
     /**
@@ -75,8 +62,6 @@ public class PlayerPreferences {
      */
     public void setEffectsVisible(boolean enabled) {
         effects = enabled;
-        data.set("preferences.effects-visible", enabled);
-        save();
     }
     
     /**
@@ -91,8 +76,6 @@ public class PlayerPreferences {
      */
     public void setGadgetInteraction(boolean enabled) {
         gadgets = enabled;
-        data.set("preferences.gadget-interaction", enabled);
-        save();
     }
     
     /**

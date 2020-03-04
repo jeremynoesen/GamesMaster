@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * player data file management class
  */
-public class PlayerData {
+public class PlayerFile {
     
     private File playerFile;
     private YamlConfiguration playerData;
@@ -21,7 +21,7 @@ public class PlayerData {
      *
      * @param p player to make file for
      */
-    public PlayerData(Player p) {
+    public PlayerFile(Player p) {
         player = p;
         playerFile = new File(GamesMaster.getInstance().getDataFolder() + File.separator + "playerdata",
                 this.player.getUniqueId().toString() + ".yml");

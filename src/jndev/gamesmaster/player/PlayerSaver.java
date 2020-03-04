@@ -1,4 +1,4 @@
 package jndev.gamesmaster.player;
 
-public class PlayerGadgets {
+public class PlayerSaver {
 }

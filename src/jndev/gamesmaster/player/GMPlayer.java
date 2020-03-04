@@ -1,7 +1,16 @@
 package jndev.gamesmaster.player;
 
-import jndev.gamesmaster.region.inventory.Inventory;
+import jndev.gamesmaster.lobby.LobbyInventory;
+import jndev.gamesmaster.lobby.gadget.GadgetItem;
+import jndev.gamesmaster.lobby.gadget.GadgetItemBuilder;
+import jndev.gamesmaster.lobby.gui.GUI;
+import jndev.gamesmaster.lobby.gui.GUIBuilder;
 import jndev.gamesmaster.lobby.gui.GUIType;
+import jndev.gamesmaster.region.Region;
+import jndev.gamesmaster.region.inventory.Inventory;
+import jndev.gamesmaster.region.inventory.InventoryBuilder;
+import jndev.gamesmaster.region.inventory.inventorytype.InventoryType;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -12,10 +21,8 @@ import java.util.HashMap;
 public class GMPlayer {
     
     private static HashMap<Player, GMPlayer> gmplayers = new HashMap<>();
-    private PlayerData data;
+    private PlayerFile data;
     private PlayerPreferences preferences;
-    private PlayerGUI gui;
-    private PlayerInventory inventory;
     private PlayerRegion region;
     private Player player;
     private PlayerLobby lobby;
@@ -27,11 +34,15 @@ public class GMPlayer {
      */
     public GMPlayer(Player player) {
         this.player = player;
-        data = new PlayerData(player);
+        
+        data = new PlayerFile(player);
         preferences = new PlayerPreferences(player);
-        gui = new PlayerGUI(player);
         region = new PlayerRegion(player);
         lobby = new PlayerLobby(player);
+        
+        GUIBuilder.buildAll(player);
+        InventoryBuilder.buildAll(player);
+        
         gmplayers.put(player, this);
     }
     
@@ -46,7 +57,7 @@ public class GMPlayer {
     /**
      * @return instance of PlayerData for the player
      */
-    public PlayerData getPlayerData() {
+    public PlayerFile getPlayerData() {
         return data;
     }
     
@@ -65,21 +76,26 @@ public class GMPlayer {
     }
     
     /**
-     * update the saved player preferences
-     *
-     * @param preferences player preferences
+     * @return true if the player is in the lobby
      */
-    public void savePreferences(PlayerPreferences preferences) {
-        this.preferences = preferences;
-        gmplayers.put(player, this);
+    public boolean isInLobby() {
+        Location l = player.getLocation();
+        return Region.getRegion("lobby").containsLocation(l);
     }
     
     /**
-     * @param inventory inventory to get
+     * @param inventoryType inventory to get
      * @return inventory of specified type
      */
-    public PlayerInventory getInventory(Inventory inventory) {
-        return PlayerInventory.getPlayerInventory(player, inventory);
+    public Inventory getInventory(InventoryType inventoryType) {
+        return Inventory.getInventory(player, inventoryType);
+    }
+    
+    /**
+     * @param inventoryType type to put inventory as
+     */
+    public void addInventory(InventoryType inventoryType) {
+        new Inventory(inventoryType, player);
     }
     
     /**
@@ -90,20 +106,29 @@ public class GMPlayer {
     }
     
     /**
-     * update player region data
-     *
-     * @param region PlayerRegion object
-     */
-    public void updateRegionHandler(PlayerRegion region) {
-        this.region = region;
-        gmplayers.put(player, this);
-    }
-    
-    /**
      * open the gui of specified type
      */
     public void openGUI(GUIType type) {
-        gui.open(type);
+        GUI.getGUI(type, player).open();
+    }
+    
+    /**
+     * @return current gadget the player has
+     */
+    public GadgetItem getGadgetItem() {
+        if (player.getInventory().getItem(LobbyInventory.getGadgetSlot()) != null)
+            return GadgetItem.valueOf(GadgetItemBuilder.getName(player.getInventory().getItem(LobbyInventory.getGadgetSlot())));
+        return null;
+    }
+    
+    /**
+     * set the active gadget for the player
+     *
+     * @param item gadget to set
+     */
+    public void setGadgetItem(GadgetItem item) {
+        player.getInventory().setItem(LobbyInventory.getGadgetSlot(), item.getItem());
+        player.updateInventory();
     }
     
 }

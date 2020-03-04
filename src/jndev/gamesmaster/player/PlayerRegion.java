@@ -1,16 +1,13 @@
 package jndev.gamesmaster.player;
 
-import jndev.gamesmaster.config.Config;
-import jndev.gamesmaster.region.inventory.Inventory;
 import com.sk89q.worldedit.LocalSession;
 import com.sk89q.worldedit.WorldEdit;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.math.BlockVector3;
-import jndev.gamesmaster.config.ConfigManager;
-import jndev.gamesmaster.config.ConfigType;
 import jndev.gamesmaster.GamesMaster;
 import jndev.gamesmaster.lobby.LobbyHandler;
 import jndev.gamesmaster.region.Region;
+import jndev.gamesmaster.region.inventory.inventorytype.InventoryType;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -22,10 +19,7 @@ public class PlayerRegion {
     
     private Player player;
     private Region loadedRegion;
-    private PlayerData data;
-    
-    private ConfigManager regionConfig = Config.getConfig(ConfigType.REGION);
-    private ConfigManager inventoryConfig = Config.getConfig(ConfigType.INVENTORY);
+    private PlayerFile data;
     
     public PlayerRegion(Player player) {
         this.player = player;
@@ -45,9 +39,6 @@ public class PlayerRegion {
      */
     public void setLoadedRegion(Region region) {
         loadedRegion = region;
-        data.getDataFile().set("current-region", region.getName());
-        data.savePlayerData();
-        GMPlayer.getPlayer(player).updateRegionHandler(this);
     }
     
     
@@ -95,16 +86,16 @@ public class PlayerRegion {
         GMPlayer gmplayer = GMPlayer.getPlayer(player);
         
         if (getLoadedRegion() == null || !Region.getRegions().contains(getLoadedRegion())) {
-            if (Inventory.getInventories().contains(region.getInventory())) {
-                gmplayer.getInventory(region.getInventory()).load();
+            if (InventoryType.getInventoryTypes().contains(region.getInventoryType())) {
+                gmplayer.getInventory(region.getInventoryType()).load();
                 player.setGameMode(region.getGamemode());
             }
         } else if (!gmplayer.getRegionHandler().getLoadedRegion().equals(region)) {
-            if (region.getInventory() != null && Inventory.getInventories().contains(region.getInventory()))
-                gmplayer.getInventory(region.getInventory()).save();
+            if (region.getInventoryType() != null && InventoryType.getInventoryTypes().contains(region.getInventoryType()))
+                gmplayer.getInventory(region.getInventoryType()).save();
             
-            if (Inventory.getInventories().contains(region.getInventory())) {
-                gmplayer.getInventory(region.getInventory()).load();
+            if (InventoryType.getInventoryTypes().contains(region.getInventoryType())) {
+                gmplayer.getInventory(region.getInventoryType()).load();
                 player.setGameMode(region.getGamemode());
             }
         }

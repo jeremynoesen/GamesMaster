@@ -4,8 +4,6 @@ import jndev.gamesmaster.config.Config;
 import jndev.gamesmaster.config.ConfigManager;
 import jndev.gamesmaster.config.ConfigType;
 
-import java.util.List;
-
 /**
  * adds inventories for regions to use
  */
@@ -17,7 +15,7 @@ public class InventoryTypeBuilder {
      * builds all inventories from config
      */
     public static void buildAll() {
-        for (String name : inventoryConfig.getConfig().getStringList("inventories")) {
+        for (String name : inventoryConfig.getConfig().getStringList("inventory-types")) {
             build(name);
         }
     }
@@ -28,8 +26,6 @@ public class InventoryTypeBuilder {
      * @param name name of inventory to make
      */
     public static void build(String name) {
-        List<String> invs = inventoryConfig.getConfig().getStringList("inventories");
-        if (invs == null || !invs.contains(name))
-            new InventoryType(name);
+        new InventoryType(name);
     }
 }

@@ -78,7 +78,7 @@ public class GUI {
      * removes a gui from the saved guis
      */
     public void remove() {
-        guis.get(player).remove(inventory);
+        guis.get(type).remove(player);
     }
     
     /**

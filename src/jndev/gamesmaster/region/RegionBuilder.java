@@ -35,13 +35,13 @@ public class RegionBuilder {
         if (name.equals("default")) {
             region.setGamemode(GameMode.valueOf(regionConfig.getConfig().getString(region + ".gamemode")));
         } else {
-            double minx = regionConfig.getConfig().getDouble(region + ".location.min.x");
-            double miny = regionConfig.getConfig().getDouble(region + ".location.min.y");
-            double minz = regionConfig.getConfig().getDouble(region + ".location.min.z");
-            double maxx = regionConfig.getConfig().getDouble(region + ".location.max.x");
-            double maxy = regionConfig.getConfig().getDouble(region + ".location.max.y");
-            double maxz = regionConfig.getConfig().getDouble(region + ".location.max.z");
-            World world = Bukkit.getServer().getWorld(regionConfig.getConfig().getString(region + ".location.world"));
+            double minx = regionConfig.getConfig().getDouble(region + ".bounds.min.x");
+            double miny = regionConfig.getConfig().getDouble(region + ".bounds.min.y");
+            double minz = regionConfig.getConfig().getDouble(region + ".bounds.min.z");
+            double maxx = regionConfig.getConfig().getDouble(region + ".bounds.max.x");
+            double maxy = regionConfig.getConfig().getDouble(region + ".bounds.max.y");
+            double maxz = regionConfig.getConfig().getDouble(region + ".bounds.max.z");
+            World world = Bukkit.getServer().getWorld(regionConfig.getConfig().getString(region + ".bounds.world"));
             
             region.setBounds(minx, miny, minz, maxx, maxy, maxz, world);
             region.setGamemode(GameMode.valueOf(regionConfig.getConfig().getString(region + ".gamemode")));
@@ -49,7 +49,6 @@ public class RegionBuilder {
             region.setInventoryType(InventoryType.getInventoryType(regionConfig.getConfig().getString(region + ".inventory")));
             region.setEnabled(regionConfig.getConfig().getBoolean(region + ".enabled"));
         }
-        region.save();
     }
     
 }

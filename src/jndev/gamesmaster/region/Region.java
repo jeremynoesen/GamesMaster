@@ -1,12 +1,9 @@
 package jndev.gamesmaster.region;
 
-import jndev.gamesmaster.config.Config;
-import jndev.gamesmaster.config.ConfigType;
-import jndev.gamesmaster.region.inventory.inventorytype.InventoryType;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
-import jndev.gamesmaster.config.ConfigManager;
 import jndev.gamesmaster.lobby.LobbyHandler;
+import jndev.gamesmaster.region.inventory.inventorytype.InventoryType;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -27,7 +24,7 @@ public class Region { //todo when using with commands, check for default when ru
     private String leave;
     private GameMode mode;
     private boolean enabled;
-    private double bounds[][];
+    private double[][] bounds = new double[2][3];
     private World world;
     
     /**

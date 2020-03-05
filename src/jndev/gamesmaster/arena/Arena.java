@@ -1,64 +1,28 @@
 package jndev.gamesmaster.arena;
 
-import jndev.gamesmaster.config.Config;
-import jndev.gamesmaster.config.ConfigType;
 import jndev.gamesmaster.Message;
-import jndev.gamesmaster.config.ConfigManager;
 import jndev.gamesmaster.game.Game;
 import jndev.gamesmaster.lobby.LobbyHandler;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 
-public class Arena {//todo finish this class
+public class Arena {
     
-    public static HashMap<String, Arena> arenas = new HashMap<>();
-    private static ConfigManager arenaConfig = Config.getConfig(ConfigType.ARENA);
-    private static ConfigManager gameConfig = Config.getConfig(ConfigType.GAME);
-    private String game;
-    private String arena;
+    public static HashMap<Game, HashMap<String, Arena>> arenas = new HashMap<>();
+    private Game game;
+    private String name;
     
-    public Arena(Game game, String arenaName) {
-    
+    public Arena(Game game, String name) {
+        this.game = game;
+        this.name = name;
     }
     
-    public Arena(Player player, String game, String arena) {
-        this.player = player;
-        if (game != null && arena != null) {
-            this.game = game;
-            this.arena = arena;
-            if (arenaConfig.getConfig().getConfigurationSection(game + "." + arena) == null) {
-                arenaConfig.getConfig().set(game + "." + arena + ".enabled", false);
-                arenaConfig.saveConfig();
-                player.sendMessage(Message.SUCCESS_GAME_ADDED.replace("$GAME$", game));
-            }
-        }
+    public static Arena getArena(Game game, String name) {
+        return arenas.get(game).get(name);
     }
     
-    public static Arena getArena(Player player, String game, String arena) {
-        if (arenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null) {
-            return new Arena(player, game, arena);
-        } else {
-            player.sendMessage(Message.ERROR_UNKNOWN_ARENA);
-            return null;
-        }
-    }
-    
-    boolean exists() {
-        if (arenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null) {
-            if (gameConfig.getConfig().getConfigurationSection("games") == null ||
-                    gameConfig.getConfig().getConfigurationSection("games").getKeys(false).size() == 0) {
-                player.sendMessage(Message.ERROR_NO_GAMES);
-            } else if (!gameConfig.getConfig().getConfigurationSection("games").getKeys(false).contains(game)) {
-                player.sendMessage(Message.ERROR_GAME_LIST);
-            } else {
-                
-                return true;
-            }
-        } else
-            player.sendMessage(Message.ERROR_UNKNOWN_ARENA);
-        return false;
-    }
+
     
     public void addArena(Player p, String game, String arena, String mapname, String join, int priority,
                          boolean enabled, boolean hidden) {
@@ -145,16 +109,6 @@ public class Arena {//todo finish this class
     }
     
     public void remove() {
-        if (arenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null &&
-                arenaConfig.getConfig().getConfigurationSection(game).getKeys(false).size() == 1) {
-            arenaConfig.getConfig().set(game, null);
-            player.sendMessage(Message.SUCCESS_ARENA_REMOVED.replace("$ARENA", game + " " + arena));
-            arenaConfig.saveConfig();
-        } else if (arenaConfig.getConfig().getConfigurationSection(game + "." + arena) != null) {
-            arenaConfig.getConfig().set(game + "." + arena, null);
-            player.sendMessage(Message.SUCCESS_ARENA_REMOVED.replace("$ARENA", game + " " + arena));
-            arenaConfig.saveConfig();
-        } else
-            player.sendMessage(Message.ERROR_UNKNOWN_ARENA);
+        arenas.get(game).remove(name);
     }
 }

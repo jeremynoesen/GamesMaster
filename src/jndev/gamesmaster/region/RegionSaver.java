@@ -3,7 +3,7 @@ package jndev.gamesmaster.region;
 import jndev.gamesmaster.config.Config;
 import jndev.gamesmaster.config.ConfigManager;
 import jndev.gamesmaster.config.ConfigType;
-import jndev.gamesmaster.region.inventory.inventorytype.InventoryType;
+import jndev.gamesmaster.inventorytype.InventoryType;
 import org.bukkit.GameMode;
 import org.bukkit.World;
 

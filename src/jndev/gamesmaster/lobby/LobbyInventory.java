@@ -2,7 +2,7 @@ package jndev.gamesmaster.lobby;
 
 import jndev.gamesmaster.config.Config;
 import jndev.gamesmaster.config.ConfigType;
-import jndev.gamesmaster.lobby.gadget.GadgetItem;
+import jndev.gamesmaster.gadget.GadgetItem;
 import jndev.gamesmaster.player.GMPlayer;
 import org.bukkit.GameMode;
 import org.bukkit.Sound;

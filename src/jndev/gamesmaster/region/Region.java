@@ -3,7 +3,7 @@ package jndev.gamesmaster.region;
 import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
 import jndev.gamesmaster.lobby.LobbyHandler;
-import jndev.gamesmaster.region.inventory.inventorytype.InventoryType;
+import jndev.gamesmaster.inventorytype.InventoryType;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;

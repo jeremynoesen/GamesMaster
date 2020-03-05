@@ -1,6 +1,6 @@
 package jndev.gamesmaster;
 
-import jndev.gamesmaster.lobby.gui.GUIType;
+import jndev.gamesmaster.gui.GUIType;
 import me.Jeremaster101.GamesMaster.Lobby.GUI.*;
 import jndev.gamesmaster.player.PlayerGUI;
 import org.bukkit.event.EventHandler;

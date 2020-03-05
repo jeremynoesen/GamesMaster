@@ -1,15 +1,15 @@
 package jndev.gamesmaster.player;
 
 import jndev.gamesmaster.lobby.LobbyInventory;
-import jndev.gamesmaster.lobby.gadget.GadgetItem;
-import jndev.gamesmaster.lobby.gadget.GadgetItemBuilder;
-import jndev.gamesmaster.lobby.gui.GUI;
-import jndev.gamesmaster.lobby.gui.GUIBuilder;
-import jndev.gamesmaster.lobby.gui.GUIType;
+import jndev.gamesmaster.gadget.GadgetItem;
+import jndev.gamesmaster.gadget.GadgetItemBuilder;
+import jndev.gamesmaster.gui.GUI;
+import jndev.gamesmaster.gui.GUIBuilder;
+import jndev.gamesmaster.gui.GUIType;
 import jndev.gamesmaster.region.Region;
-import jndev.gamesmaster.region.inventory.Inventory;
-import jndev.gamesmaster.region.inventory.InventoryBuilder;
-import jndev.gamesmaster.region.inventory.inventorytype.InventoryType;
+import jndev.gamesmaster.inventory.Inventory;
+import jndev.gamesmaster.inventory.InventoryBuilder;
+import jndev.gamesmaster.inventorytype.InventoryType;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

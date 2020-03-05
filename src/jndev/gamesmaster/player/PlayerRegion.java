@@ -7,7 +7,7 @@ import com.sk89q.worldedit.math.BlockVector3;
 import jndev.gamesmaster.GamesMaster;
 import jndev.gamesmaster.lobby.LobbyHandler;
 import jndev.gamesmaster.region.Region;
-import jndev.gamesmaster.region.inventory.inventorytype.InventoryType;
+import jndev.gamesmaster.inventorytype.InventoryType;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;

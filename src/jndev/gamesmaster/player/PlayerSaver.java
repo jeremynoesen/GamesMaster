@@ -1,6 +1,6 @@
 package jndev.gamesmaster.player;
 
-import jndev.gamesmaster.region.inventory.InventorySaver;
+import jndev.gamesmaster.inventory.InventorySaver;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 /**

@@ -19,7 +19,7 @@ public class InventoryTypeSaver {
      */
     public static void saveAll() {
         List<String> inventoryTypes = new ArrayList<>();
-        for(InventoryType type : InventoryType.getInventoryTypes()) {
+        for (InventoryType type : InventoryType.getInventoryTypes()) {
             inventoryTypes.add(type.getName());
         }
         inventoryConfig.getConfig().set("inventory-types", inventoryTypes);

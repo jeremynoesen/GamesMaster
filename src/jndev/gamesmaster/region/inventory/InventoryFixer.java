@@ -30,7 +30,7 @@ public class InventoryFixer implements Listener {
     @EventHandler
     public void onModeChange(PlayerGameModeChangeEvent e) {
         Player p = e.getPlayer();
-        GMPlayer gmp = GMPlayer.getPlayer(p);
+        GMPlayer gmp = GMPlayer.getGMPlayer(p);
         if (GamesMaster.getInstance().getConfig().getBoolean("pwi-gamemode-inv-fix")) {
             if (LobbyHandler.isGamesWorld(p.getWorld())) {
                 gmp.getInventory(null).reload();

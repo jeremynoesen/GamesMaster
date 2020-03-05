@@ -59,7 +59,7 @@ public class UseGadget implements Listener {
     @EventHandler
     public void onInteract(PlayerInteractEvent e) {//todo configurable items and lockables
         Player p = e.getPlayer();
-        GMPlayer gmp = GMPlayer.getPlayer(p);
+        GMPlayer gmp = GMPlayer.getGMPlayer(p);
         Action a = e.getAction();
         if (gmp.isInLobby()) {
             if (a == Action.RIGHT_CLICK_BLOCK || a == Action.RIGHT_CLICK_AIR) {

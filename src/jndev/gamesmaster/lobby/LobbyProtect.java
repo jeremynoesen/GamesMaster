@@ -58,7 +58,7 @@ public class LobbyProtect implements Listener {
     public void onInteract(PlayerInteractEvent e) {
         Player p = e.getPlayer();
         Action a = e.getAction();
-        GMPlayer gmp = GMPlayer.getPlayer(p);
+        GMPlayer gmp = GMPlayer.getGMPlayer(p);
         if (e.getClickedBlock() != null && gmp.getLobbyHandler().isInLobby()) {
             if (a == Action.RIGHT_CLICK_BLOCK || a == Action.RIGHT_CLICK_AIR) {
                 if (e.getClickedBlock() != null && p.getGameMode() != GameMode.CREATIVE)
@@ -74,7 +74,7 @@ public class LobbyProtect implements Listener {
     @EventHandler
     public void onHandSwap(PlayerSwapHandItemsEvent e) {
         Player p = e.getPlayer();
-        GMPlayer gmp = GMPlayer.getPlayer(p);
+        GMPlayer gmp = GMPlayer.getGMPlayer(p);
         if (gmp.getLobbyHandler().isInLobby()) {
             e.setCancelled(true);
         }
@@ -83,7 +83,7 @@ public class LobbyProtect implements Listener {
     @EventHandler
     public void onDrop(PlayerDropItemEvent e) {
         Player p = e.getPlayer();
-        GMPlayer gmp = GMPlayer.getPlayer(p);
+        GMPlayer gmp = GMPlayer.getGMPlayer(p);
         if (gmp.getLobbyHandler().isInLobby()) {
             e.setCancelled(true);
         }
@@ -93,7 +93,7 @@ public class LobbyProtect implements Listener {
     public void onDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player) {
             Player p = (Player) e.getEntity();
-            GMPlayer gmp = GMPlayer.getPlayer(p);
+            GMPlayer gmp = GMPlayer.getGMPlayer(p);
             if (gmp.getLobbyHandler().isInLobby()) {
                 e.setCancelled(true);
             }

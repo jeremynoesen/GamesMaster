@@ -25,7 +25,7 @@ public class RegionListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onJoin(PlayerJoinEvent e) {
         Player p = e.getPlayer();
-        GMPlayer gmp = GMPlayer.getPlayer(p);
+        GMPlayer gmp = GMPlayer.getGMPlayer(p);
         new BukkitRunnable() {
             public void run() {
                 if (LobbyHandler.isGamesWorld(p.getWorld())) {
@@ -53,7 +53,7 @@ public class RegionListener implements Listener {
         Player p = e.getPlayer();
         Location to = e.getTo();
         Location from = e.getFrom();
-        GMPlayer gmplayer = GMPlayer.getPlayer(p);
+        GMPlayer gmplayer = GMPlayer.getGMPlayer(p);
         Region region = gmplayer.getRegionHandler().getCurrentRegion();
         Region loaded = gmplayer.getRegionHandler().getLoadedRegion();
         

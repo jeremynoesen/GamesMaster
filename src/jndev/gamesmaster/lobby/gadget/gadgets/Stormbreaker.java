@@ -88,7 +88,7 @@ public class Stormbreaker implements Listener {
      * @param p player to use stormbreaker
      */
     public static void use(Player p) {
-        GMPlayer gmp = GMPlayer.getPlayer(p);
+        GMPlayer gmp = GMPlayer.getGMPlayer(p);
         p.setGlowing(true);
         p.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 1000, 3, true, false));
         gmp.setGadgetItem(GadgetItem.STORMBREAKER_RELOAD);
@@ -350,7 +350,7 @@ public class Stormbreaker implements Listener {
             if (e.getPlayer().getInventory().getItem(4) != null && e.getPlayer().getInventory().getItem(4)
                     .equals(GadgetItem.STORMBREAKER_RELOAD.getItem())) {
                 for (Player all : LobbyHandler.getPlayersInLobby()) {
-                    GMPlayer gmp = GMPlayer.getPlayer(all);
+                    GMPlayer gmp = GMPlayer.getGMPlayer(all);
                     if (gmp.isInLobby()) {
                         all.setPlayerWeather(WeatherType.CLEAR);
                     }

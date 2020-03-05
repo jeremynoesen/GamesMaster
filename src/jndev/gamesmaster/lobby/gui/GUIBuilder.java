@@ -2,8 +2,6 @@ package jndev.gamesmaster.lobby.gui;
 
 import jndev.gamesmaster.Message;
 import jndev.gamesmaster.player.GMPlayer;
-import jndev.gamesmaster.region.inventory.Inventory;
-import jndev.gamesmaster.region.inventory.inventorytype.InventoryType;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,12 +13,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * class used to create the guis
  */
 public class GUIBuilder { //todo gui to customize gui in game
+    //todo assign button actions to items in config to simplify config and make customizing easier
     
     public static void buildAll(Player player) {
         for(GUIType type : GUIType.values()) {
@@ -118,7 +116,7 @@ public class GUIBuilder { //todo gui to customize gui in game
         
         if (section == null) return false;
         
-        GMPlayer gmplayer = GMPlayer.getPlayer(player);
+        GMPlayer gmplayer = GMPlayer.getGMPlayer(player);
         
         if (section.getString("command") != null) player.performCommand(section.getString("command"));
         
@@ -157,7 +155,7 @@ public class GUIBuilder { //todo gui to customize gui in game
     private static void updateToggle(ConfigurationSection section, Player player, GUI gui, int slot) {
         ConfigurationSection left = section.getConfigurationSection("left-click");
         ConfigurationSection right = section.getConfigurationSection("right-click");
-        GMPlayer gmplayer = GMPlayer.getPlayer(player);
+        GMPlayer gmplayer = GMPlayer.getGMPlayer(player);
         checkPreferences(gui, slot, left, gmplayer);
         checkPreferences(gui, slot, right, gmplayer);
         //todo add check for locked gadgets and music

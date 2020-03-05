@@ -23,7 +23,7 @@ public class PlayerRegion {
     
     public PlayerRegion(Player player) {
         this.player = player;
-        data = GMPlayer.getPlayer(player).getPlayerData();
+        data = GMPlayer.getGMPlayer(player).getPlayerData();
         loadedRegion = Region.getRegion(data.getDataFile().getString("loaded-region"));
     }
     
@@ -83,7 +83,7 @@ public class PlayerRegion {
      * @param region region to load
      */
     public void loadRegion(Region region) {
-        GMPlayer gmplayer = GMPlayer.getPlayer(player);
+        GMPlayer gmplayer = GMPlayer.getGMPlayer(player);
         
         if (getLoadedRegion() == null || !Region.getRegions().contains(getLoadedRegion())) {
             if (InventoryType.getInventoryTypes().contains(region.getInventoryType())) {

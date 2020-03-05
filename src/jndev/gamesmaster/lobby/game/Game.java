@@ -8,7 +8,7 @@ import org.bukkit.Material;
 
 import java.util.HashMap;
 
-public class Game {
+public class Game { //todo remove icon from here. icon will be chosen with gui builder
     
     public static ConfigManager gameConfig = new ConfigManager(ConfigType.GAME);
     public static HashMap<String, Game> games = new HashMap<>();

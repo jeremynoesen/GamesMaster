@@ -21,7 +21,7 @@ public class PlayerPreferences {
      * @param player player to set preferences for
      */
     public PlayerPreferences(Player player) {
-        gmplayer = GMPlayer.getPlayer(player);
+        gmplayer = GMPlayer.getGMPlayer(player);
         data = gmplayer.getPlayerData().getDataFile();
         music = data.getBoolean("preferences.public-music");
         players = data.getBoolean("preferences.players-visible");

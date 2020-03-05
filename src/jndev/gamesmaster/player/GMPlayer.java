@@ -13,6 +13,7 @@ import jndev.gamesmaster.region.inventory.inventorytype.InventoryType;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -50,8 +51,22 @@ public class GMPlayer {
      * @param player player to get GMPlayer for
      * @return GMPlayer from the player
      */
-    public static GMPlayer getPlayer(Player player) {
+    public static GMPlayer getGMPlayer(Player player) {
         return gmplayers.get(player);
+    }
+    
+    /**
+     * @return all gmplayers
+     */
+    public static Collection<GMPlayer> getGMPlayers() {
+        return gmplayers.values();
+    }
+    
+    /**
+     * @return bukkit player of the gmplayer
+     */
+    public Player getPlayer() {
+        return player;
     }
     
     /**

@@ -39,7 +39,7 @@ public class LobbyInventory {
         
         if (p.getInventory().getItem(4) != null && p.getInventory().getItem(4).equals(GadgetItem.STORMBREAKER_RELOAD.getItem())) {
             for (Player all : LobbyHandler.getPlayersInLobby()) {
-                GMPlayer gmp = GMPlayer.getPlayer(p);
+                GMPlayer gmp = GMPlayer.getGMPlayer(p);
                 if (gmp.isInLobby()) {
                     all.setPlayerWeather(WeatherType.CLEAR);
                 }

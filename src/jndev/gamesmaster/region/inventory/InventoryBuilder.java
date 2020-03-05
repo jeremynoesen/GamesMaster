@@ -24,7 +24,7 @@ public class InventoryBuilder {
      */
     public static void buildAll(Player player) {
         for(InventoryType inventoryType : InventoryType.getInventoryTypes()) {
-            build(player, inventoryType);
+            build(inventoryType, player);
         }
     }
     
@@ -34,16 +34,16 @@ public class InventoryBuilder {
      * @param player player to build for
      * @param inventoryType inventory type to build
      */
-    public static void build(Player player, InventoryType inventoryType) {
-        GMPlayer gmplayer = GMPlayer.getPlayer(player);
+    public static void build(InventoryType inventoryType, Player player) {
+        GMPlayer gmplayer = GMPlayer.getGMPlayer(player);
         PlayerFile data = gmplayer.getPlayerData();
-        String invName = inventoryType.getName();
+        String invName = "inventories." + inventoryType.getName();
         Inventory inventory = new Inventory(inventoryType, player);
         
         if (data.getDataFile().get(invName + ".experience") != null) {
             inventory.setExp(data.getDataFile().getInt(invName + ".experience"));
         } else
-            inventory.setExp(-1000000000);
+            inventory.setExp(0);
         
         if (data.getDataFile().get(invName + ".health") != null) {
             inventory.setHealth(data.getDataFile().getDouble(invName + ".health"));
@@ -51,39 +51,39 @@ public class InventoryBuilder {
             inventory.setHealth(20);
         
         if (data.getDataFile().get(invName + ".hunger.hunger") != null) {
-            inventory.setHunger(data.getDataFile().getInt(invName + ".hunger.hunger"));
+            inventory.setHunger(data.getDataFile().getInt(invName + ".hunger"));
         } else
             inventory.setHunger(20);
         
         if (data.getDataFile().get(invName + ".hunger.saturation") != null) {
-            inventory.setSaturation(Float.parseFloat(data.getDataFile().getString(invName + ".hunger.saturation")));
+            inventory.setSaturation(Float.parseFloat(data.getDataFile().getString(invName + ".saturation")));
         } else
             inventory.setSaturation(5);
         
         if (data.getDataFile().get(invName + ".hunger.exhaustion") != null) {
-            inventory.setExhaustion(Float.parseFloat(data.getDataFile().getString(invName + ".hunger.exhaustion")));
+            inventory.setExhaustion(Float.parseFloat(data.getDataFile().getString(invName + ".exhaustion")));
         } else
             inventory.setExhaustion(0);
         
         if (data.getDataFile().get(invName + ".remaining-air") != null) {
-            inventory.setAir(data.getDataFile().getInt(invName + ".remaining-air"));
+            inventory.setRemainingAir(data.getDataFile().getInt(invName + ".remaining-air"));
         } else
-            inventory.setAir(player.getMaximumAir());
+            inventory.setRemainingAir(player.getMaximumAir());
         
         if (data.getDataFile().get(invName + ".fall-distance") != null) {
-            inventory.setFall(Float.parseFloat(data.getDataFile().get(invName + ".fall-distance").toString()));
+            inventory.setFallDistance(Float.parseFloat(data.getDataFile().get(invName + ".fall-distance").toString()));
         } else
-            inventory.setFall(0);
+            inventory.setFallDistance(0);
         
         if (data.getDataFile().get(invName + ".fire-ticks") != null) {
-            inventory.setFire(data.getDataFile().getInt(invName + ".fire-ticks"));
+            inventory.setFireTicks(data.getDataFile().getInt(invName + ".fire-ticks"));
         } else
-            inventory.setFire(0);
+            inventory.setFireTicks(0);
         
         if (data.getDataFile().get(invName + ".selected-slot") != null) {
-            inventory.setSlot(data.getDataFile().getInt(invName + ".selected-slot"));
+            inventory.setSelectedSlot(data.getDataFile().getInt(invName + ".selected-slot"));
         } else
-            inventory.setSlot(0);
+            inventory.setSelectedSlot(0);
         
         Collection<PotionEffect> effects = new ArrayList<>();
         if (data.getDataFile().get(invName + ".effects", null) != null) {

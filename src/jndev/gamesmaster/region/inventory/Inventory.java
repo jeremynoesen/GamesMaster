@@ -32,6 +32,12 @@ public class Inventory {
     private HashMap<Integer, ItemStack> contents = new HashMap<>();
     private InventoryType inventoryType;
     
+    /**
+     * creates a new inventory save
+     *
+     * @param inventoryType inventory type to make
+     * @param player owner of inventory
+     */
     public Inventory(InventoryType inventoryType, Player player) {
         this.player = player;
         this.inventoryType = inventoryType;
@@ -49,52 +55,99 @@ public class Inventory {
         return inventories.get(inventoryType).get(player);
     }
     
+    /**
+     * @return all inventories
+     */
     public static HashMap<InventoryType, HashMap<Player, Inventory>> getInventories() {
         return inventories;
     }
     
-    void setAir(int air) {
+    void setRemainingAir(int air) {
         this.air = air;
+    }
+    
+    int getRemainingAir() {
+        return air;
     }
     
     void setExhaustion(float exhaustion) {
         this.exhaustion = exhaustion;
     }
     
+    float getExhaustion() {
+        return exhaustion;
+    }
+    
     void setExp(int exp) {
         this.exp = exp;
+    }
+    
+    int getExp() {
+        return exp;
     }
     
     void setContents(HashMap<Integer, ItemStack> contents) {
         this.contents = contents;
     }
     
+    HashMap<Integer, ItemStack> getContents() {
+        return contents;
+    }
+    
     void setEffects(Collection<PotionEffect> effects) {
         this.effects = effects;
     }
     
-    void setFall(float fall) {
+    Collection<PotionEffect> getEffects() {
+        return effects;
+    }
+    
+    void setFallDistance(float fall) {
         this.fall = fall;
     }
     
-    void setFire(int fire) {
+    float getFallDistance() {
+        return fall;
+    }
+    
+    void setFireTicks(int fire) {
         this.fire = fire;
+    }
+    
+    int getFireTicks() {
+        return fire;
     }
     
     void setHealth(double health) {
         this.health = health;
     }
     
+    double getHealth() {
+        return health;
+    }
+    
     void setHunger(int hunger) {
         this.hunger = hunger;
+    }
+    
+    int getHunger() {
+        return hunger;
     }
     
     void setSaturation(float saturation) {
         this.saturation = saturation;
     }
     
-    void setSlot(int slot) {
+    float getSaturation() {
+        return saturation;
+    }
+    
+    void setSelectedSlot(int slot) {
         this.slot = slot;
+    }
+    
+    int getSelectedSlot() {
+        return slot;
     }
     
     /**

@@ -18,7 +18,7 @@ public class DoubleJump implements Listener {
     @EventHandler
     public void onPlayerToggleFlight(PlayerToggleFlightEvent e) {
         Player p = e.getPlayer();
-        GMPlayer gmp = GMPlayer.getPlayer(p);
+        GMPlayer gmp = GMPlayer.getGMPlayer(p);
         if (gmp.isInLobby()) {
             if (p.getGameMode() == GameMode.SURVIVAL) {
                 e.setCancelled(true);
@@ -36,7 +36,7 @@ public class DoubleJump implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         Player p = e.getPlayer();
-        GMPlayer gmp = GMPlayer.getPlayer(p);
+        GMPlayer gmp = GMPlayer.getGMPlayer(p);
         if (gmp.isInLobby()) {
             p.setFallDistance(0);
             if (p.isOnGround()) {

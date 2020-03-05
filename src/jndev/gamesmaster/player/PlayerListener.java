@@ -8,7 +8,7 @@ public class PlayerListener implements Listener {
     
     @EventHandler
     public void onJoin(PlayerJoinEvent e) {
-        if (GMPlayer.getPlayer(e.getPlayer()) == null)
+        if (GMPlayer.getGMPlayer(e.getPlayer()) == null)
             new GMPlayer(e.getPlayer());
     }
     

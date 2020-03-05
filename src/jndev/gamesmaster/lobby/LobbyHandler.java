@@ -13,7 +13,7 @@ public class LobbyHandler {//todo move some of these to other classes
     public static ArrayList<Player> getPlayersInLobby() {
         ArrayList<Player> playerArrayList = new ArrayList<>();
         for (Player all : gamesWorld().getPlayers()) {
-            GMPlayer gmp = GMPlayer.getPlayer(all);
+            GMPlayer gmp = GMPlayer.getGMPlayer(all);
             if (gmp.getLobbyHandler().isInLobby()) {
                 playerArrayList.add(all);
             }

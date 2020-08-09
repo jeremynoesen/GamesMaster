@@ -185,7 +185,7 @@ public class Message {
             ChatColor.DARK_GRAY + "╚══╝" + ChatColor.BLUE + " ╚═════╝ " + ChatColor.DARK_BLUE + "╚═╝     ╚═╝" + ChatColor.DARK_GRAY +
             "╚══╝" + ChatColor.WHITE + "  Thank you for choosing GamesMaster!\n";
 
-    public String[] HELP_MAIN = new String[]{
+    public String[] HELP_MAIN = {
             "",
             ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "-----------[" + ChatColor.BLUE +
                     "" + ChatColor.BOLD + "Games" + ChatColor.DARK_BLUE +
@@ -204,7 +204,7 @@ public class Message {
             ""
     };
 
-    public String[] HELP_ARENA = new String[]{
+    public String[] HELP_ARENA = {
             "",
             ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "---------[" + ChatColor.BLUE +
                     "" + ChatColor.BOLD + "Games" + ChatColor.DARK_BLUE +
@@ -225,7 +225,7 @@ public class Message {
             ""
     };
 
-    public String[] HELP_ARENA_UPDATE = new String[]{
+    public String[] HELP_ARENA_UPDATE = {
             "",
             ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "------[" + ChatColor.BLUE +
                     "" + ChatColor.BOLD + "Games" + ChatColor.DARK_BLUE +
@@ -239,7 +239,7 @@ public class Message {
             ""
     };
 
-    public String[] HELP_COMMAND = new String[]{
+    public String[] HELP_COMMAND = {
             "",
             ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "--------[" + ChatColor.BLUE +
                     "" + ChatColor.BOLD + "Games" + ChatColor.DARK_BLUE +
@@ -254,21 +254,21 @@ public class Message {
             ""
     };
 
-    public String[] HELP_CONFIG = new String[]{
-            "",
-            ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "--------[" + ChatColor.BLUE +
-                    "" + ChatColor.BOLD + "Games" + ChatColor.DARK_BLUE +
-                    "" + ChatColor.BOLD + "Master " + ChatColor.GRAY +
-                    "" + ChatColor.BOLD + "Config Help"
-                    + ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "]--------",
-            ChatColor.GRAY + "/gamesmaster config set <key> <value>" + ChatColor.WHITE + ": Block command in games " +
-                    "world",
-            ChatColor.GRAY + "/gamesmaster config get <key>" + ChatColor.WHITE + ": List blocked commands",
-            ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "---------------------------------------",
-            ""
+    public String[] HELP_CONFIG = {
+        "",
+                ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "--------[" + ChatColor.BLUE +
+                        "" + ChatColor.BOLD + "Games" + ChatColor.DARK_BLUE +
+                        "" + ChatColor.BOLD + "Master " + ChatColor.GRAY +
+                        "" + ChatColor.BOLD + "Config Help"
+                        + ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "]--------",
+                ChatColor.GRAY + "/gamesmaster config set <key> <value>" + ChatColor.WHITE + ": Block command in games " +
+                        "world",
+                ChatColor.GRAY + "/gamesmaster config get <key>" + ChatColor.WHITE + ": List blocked commands",
+                ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "---------------------------------------",
+                ""
     };
 
-    public String[] HELP_INVENTORY = new String[]{
+    public String[] HELP_INVENTORY = {
             "",
             ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "-------[" + ChatColor.BLUE +
                     "" + ChatColor.BOLD + "Games" + ChatColor.DARK_BLUE +
@@ -283,7 +283,7 @@ public class Message {
             ""
     };
 
-    public String[] HELP_MESSAGE = new String[]{
+    public String[] HELP_MESSAGE = {
             "",
             ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "--------[" + ChatColor.BLUE +
                     "" + ChatColor.BOLD + "Games" + ChatColor.DARK_BLUE +
@@ -296,7 +296,7 @@ public class Message {
             ""
     };
 
-    public String[] HELP_REGION = new String[]{
+    public String[] HELP_REGION = {
             "",
             ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "--------[" + ChatColor.BLUE +
                     "" + ChatColor.BOLD + "Games" + ChatColor.DARK_BLUE +
@@ -318,7 +318,7 @@ public class Message {
             ""
     };
 
-    public String[] HELP_REGION_UPDATE = new String[]{
+    public String[] HELP_REGION_UPDATE = {
             "",
             ChatColor.DARK_GRAY + "" + ChatColor.BOLD + "-----[" + ChatColor.BLUE +
                     "" + ChatColor.BOLD + "Games" + ChatColor.DARK_BLUE +

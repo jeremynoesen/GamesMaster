@@ -18,8 +18,7 @@ import java.util.ArrayList;
 /**
  * class used to create the guis
  */
-public class GUIBuilder { //todo gui to customize gui in game
-    //todo assign button actions to items in config to simplify config and make customizing easier
+public class GUIBuilder { //todo limit gui customization, make algorithms for object placement
     
     public static void buildAll(Player player) {
         for(GUIType type : GUIType.values()) {

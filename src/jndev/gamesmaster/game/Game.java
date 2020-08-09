@@ -6,10 +6,13 @@ import java.util.HashMap;
 /**
  * game to organize gui with
  */
-public class Game {
+public class Game { //todo add back icon and stuff
     
     public static HashMap<String, Game> games = new HashMap<>();
     private String name;
+    private String displayName;
+    private boolean enabled;
+    
     
     /**
      * creates a new game

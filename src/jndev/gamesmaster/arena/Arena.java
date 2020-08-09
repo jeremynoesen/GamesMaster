@@ -68,44 +68,16 @@ public class Arena {
         }
     }
     
-    public void setName(Player p, String game, String arena, String mapname) {
-        
-        if (exists()) {
-            //finish
-            p.sendMessage(Message.SUCCESS_SET_ARENA_NAME.replace("$NAME$", mapname));
-        }
+    public void setMapName(String mapname) {
+    
     }
     
     public void setJoin(String join) {
-        
-        if (exists()) {
-            //finish
-            player.sendMessage(Message.SUCCESS_SET_ARENA_JOIN.replace("$JOIN$", join));
-        }
-    }
-    
-    public void setPriority(int priority) {
-        
-        if (exists()) {
-            //finish
-            player.sendMessage(Message.SUCCESS_SET_ARENA_PRIORITY.replace("$PRIORITY$", Integer.toString(priority)));
-        }
+
     }
     
     public void setEnabled(boolean enabled) { //todo only when all conditions are met
-        
-        if (exists()) {
-            //finish
-            player.sendMessage(Message.SUCCESS_SET_ARENA_ENABLED.replace("$ENABLED$", Boolean.toString(enabled)));
-        }
-    }
     
-    public void setHidden(boolean hidden) {
-        
-        if (exists()) {
-            //finish
-            player.sendMessage(Message.SUCCESS_SET_ARENA_HIDDEN.replace("$HIDDEN$", Boolean.toString(hidden)));
-        }
     }
     
     public void remove() {

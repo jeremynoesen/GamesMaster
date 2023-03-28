@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg242"
+   width="370.66666"
+   height="381.33334"
+   viewBox="0 0 370.66666 381.33334"
+   sodipodi:docname="GamesMaster.svg"
+   inkscape:version="1.2 (dc2aeda, 2022-05-15)"
+   inkscape:export-filename="GamesMaster2.png"
+   inkscape:export-xdpi="258.9928"
+   inkscape:export-ydpi="258.9928"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs246" />
+  <sodipodi:namedview
+     id="namedview244"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="78.842406"
+     inkscape:cy="154.50283"
+     inkscape:window-width="2505"
+     inkscape:window-height="1027"
+     inkscape:window-x="55"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="g360" />
+  <g
+     inkscape:groupmode="layer"
+     inkscape:label="Image"
+     id="g248">
+    <g
+       id="g360">
+      <path
+         style="fill:#5555ff;stroke-width:1.33333;fill-opacity:1"
+         d="m 57.318618,324.00574 0.01322,-266.676595 c 33.060155,0 96.445913,0.0042 133.334783,0.0042 V 173.33334 h -52 V 146 118.66667 H 109.3333 v 144 h 29.33333 V 232 H 125.3333 v -32 h 65.33333 v 124.00001 c -44.44538,-4.5e-4 -88.90312,0.006 -133.348012,0.006 z"
+         id="path366"
+         sodipodi:nodetypes="cccccccccccccccc" />
+      <path
+         style="fill:#0000aa;stroke-width:1.33333;fill-opacity:1"
+         d="M 190.66666,323.99999 V 57.333334 h 43.89722 c 5.5437,20.255142 11.63807,40.451432 17.32535,60.666666 6.34138,-20.830793 12.05523,-39.747011 17.62381,-60.666666 h 43.82029 V 324.00001 h -44 c -0.0565,-33.55556 -0.11307,-67.11111 -0.1696,-100.66667 -5.7363,19.58844 -11.33879,39.14846 -17.30885,58.66666 -5.58571,-19.55555 -11.39601,-39.11111 -16.98172,-58.66666 -0.0688,33.55556 -0.13763,67.11111 -0.2065,100.66667 -14.66667,-2e-5 -29.33333,-2e-5 -44,-2e-5 z"
+         id="path364"
+         sodipodi:nodetypes="ccccccccccccc" />
+      <path
+         style="fill:#555555;stroke-width:1.33333;fill-opacity:1"
+         d="M 20,361.33334 C 20,247.55556 20,133.77778 20,20 c 24.888888,0 49.777777,0 74.666665,0 0,12.444445 0,24.888889 0,37.333334 -12.444444,0 -24.888889,0 -37.333333,0 0,88.888896 0,177.777786 0,266.666676 12.444444,0 24.888889,0 37.333333,0 0,12.44444 0,24.88889 0,37.33333 -24.888888,0 -49.777777,0 -74.666665,0 z m 256,0 c 0,-12.44444 0,-24.88889 0,-37.33333 12.44444,0 24.88889,0 37.33333,0 0,-88.88889 0,-177.77778 0,-266.666676 -12.44444,0 -24.88889,0 -37.33333,0 0,-12.444445 0,-24.888889 0,-37.333334 24.88889,0 49.77777,0 74.66666,0 0,113.77778 0,227.55556 0,341.33334 -24.88889,0 -49.77777,0 -74.66666,0 z"
+         id="path362"
+         sodipodi:nodetypes="cccccccccccccccccc" />
+    </g>
+  </g>
+</svg>
